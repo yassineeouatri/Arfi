@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_product_appareil_order_operation_wizard_form" model="ir.ui.view">
+            <field name="name">product.appareil.order.operation.wizard.form</field>
+            <field name="model">product.appareil.order.operation.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="reporting">
+                     
+                	<group col="4" colspan="2">
+						<field name="order_id" required="1" invisible="1"/>
+						<field name="appareil_id" required="1" invisible="1"/>
+						<field name="operation_ids" nolabel="1" domain="[('variant', '=', True),
+																		('application','=','appareil')]"  
+						options="{'no_create': True}"  widget="many2many_checkboxes" colspan="4"/>	     
+	                 </group>
+	                 <footer>
+                    	<button name="action_execute" string="Valider" type="object" class="oe_highlight"/>
+                    	ou
+                    	<button string="Annuler" class="btn-default" special="cancel"/>  	
+                	</footer>
+               </form>
+            </field>
+        </record> 
+        <record id="open_product_appareil_order_operation_wizard" model="ir.actions.act_window">
+            <field name="name">Opérations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.appareil.order.operation.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>  
+        
+		<!-- Pièces -->
+		<record id="view_product_piece_order_operation_wizard_form" model="ir.ui.view">
+            <field name="name">product.piece.order.operation.wizard.form</field>
+            <field name="model">product.piece.order.operation.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="reporting">
+                     
+                	<group col="4" colspan="2">
+						<field name="order_id" required="1" invisible="1"/>
+						<field name="appareil_id" required="1" invisible="1"/>
+						<field name="piece_id" required="1" invisible="1"/>
+						<field name="operation_ids" nolabel="1" domain="[('variant', '=', True),
+																		('application','=','piece')]"  
+						options="{'no_create': True}"  widget="many2many_checkboxes" colspan="4"/>	     
+	                 </group>
+	                 <footer>
+                    	<button name="action_execute" string="Valider" type="object" class="oe_highlight"/>
+                    	ou
+                    	<button string="Annuler" class="btn-default" special="cancel"/>  	
+                	</footer>
+               </form>
+            </field>
+        </record> 
+        <record id="open_product_piece_order_operation_wizard" model="ir.actions.act_window">
+            <field name="name">Opérations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.piece.order.operation.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>  
+    </data>
+</openerp>

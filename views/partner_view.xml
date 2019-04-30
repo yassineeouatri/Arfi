@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data> 
+    	 <!-- Clients -->
+        <record id="arfi_customer_search_view" model="ir.ui.view">
+            <field name="name">res.partner.customer.search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Clients">
+                	 <field name="code"/>
+                    <field name="name" string="Société"/>
+                	<filter string="Clients" name="customer" domain="[('customer','=',1), ('parent_id', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="arfi_customer_tree_view" model="ir.ui.view">
+            <field name="name">res.partner.customer.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml" >
+                <tree string="Product">
+                    <field name="code"/>
+                    <field name="name" string="Société"/>
+		         </tree>
+            </field>
+        </record>
+        <record id="arfi_customer_form_view" model="ir.ui.view">
+            <field name="name">res.partner.customer.form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Clients">
+                    <sheet>
+                        <field name="id" invisible="True"/>
+                        <field name="customer" invisible="True"/>
+                        <field name="supplier" invisible="True"/> 
+                         <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" /></h1>
+                        </div>
+                        <group col="6" colspan="2">
+                       		<field name="code" />
+                       		<field name="city" string="Ville"/>   
+                       		<field name="barcode" string="I.C.E"/>	  
+                        </group> 
+                        <group >
+                        	<group >
+	                            <field name="contact" string="Contact"/>
+	                            <field name="street" string="Adresse"/>
+			                    <field name="phone" string="Tél"/>
+			                </group>
+			                <group >
+			                    <field name="fax" string="Fax"/>
+			                    <field name="email" string="Email"/>
+			                    <field name="price" string="Prix" invisible="1"/>
+			                </group>    
+                        </group>         
+                        <group col="6">
+                            <group colspan="4">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Contacts :</legend> 
+										<field name="person_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_partner_id': active_id,}">
+			                            	<tree string="Contacts" editable="bottom">
+							                    <field name="partner_id" invisible="1"/>
+							                    <field name="title_id" widget="selection"/>
+							                    <field name="name"/>
+							                    <field name="street"/>
+							                    <field name="phone"/>
+							                    <field name="fax"/>
+							                    <field name="email"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                            <group colspan="2">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Lieux :</legend> 
+										<field name="place_ids" colspan="2" nolabel="1" mode="tree" context="{'default_partner_id': active_id,}">	
+		                            		<tree string="Lieux" editable="bottom">
+		                            			<field name="partner_id" invisible="1"/>
+							                    <field name="code"/>
+							                    <field name="description"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                        </group>
+                         <group colspan="4">
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des affaires :</legend> 
+								<field name="affaire_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_supplier_id': active_id,}">
+	                            	<tree string="Listes des affaires" editable="bottom"  create="false" delete="false" limit="1000">
+					                    <field name="name"/>
+					                    <field name="date_affaire"/>
+					                    <field name="no_parent"/>
+					                    <field name="travaux_plan"/>
+					                    <field name="date_prevu"/>
+			                 		</tree>
+					     		</field>
+					     	</fieldset>
+					     </group>
+                         <group colspan="4">
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des commandes :</legend> 
+								<field name="order_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_supplier_id': active_id,}">
+	                            	<tree string="Listes des commandes" editable="bottom"  create="false" delete="false" limit="1000">
+					                    <field name="date_order"/>
+					                    <field name="no_order"/>
+					                    <field name="code_order"/>
+					                    <field name="no_arfi"/>
+					                    <field name="type_appareil_id"/>
+					                    <field name="appareil_id"/>
+					                    <field name="no_serie"/>
+			                 		</tree>
+					     		</field>
+					     	</fieldset>
+					     </group>
+					      <group colspan="4">
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des achats :</legend> 
+								<field name="purchase_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_customer_id': active_id,}">
+	                            	<tree string="Listes des achats" editable="bottom"  create="false" delete="false" limit="1000">
+					                    <field name="customer_id" invisible="1"/>
+					                    <field name="create_date"/>
+								        <field name="date_purchase"/>
+					                	<field name="date_reception"/>
+					                    <field name="supplier_id"/>
+			                 		</tree>
+					     		</field>
+					     	</fieldset>
+					     </group>
+					     <group colspan="4">
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des contrats :</legend> 
+								<field name="contrat_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_customer_id': active_id,}">
+	                            	<tree string="Listes des contrats" editable="bottom"  create="false" delete="false" limit="1000">
+					                    <field name="customer_id" invisible="1"/>
+					                    <field name="item"/>
+								        <field name="kks_id"/>
+					                	<field name="appareil_id"/>
+					                    <field name="nature_id"/>
+					                    <field name="choice"/>
+										<field name="fact"/>
+										<field name="montant"/>
+			                 		</tree>
+					     		</field>
+					     	</fieldset>
+					     </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		<record id="res_partner_contract_form_view" model="ir.ui.view">
+            <field name="name">res.partner.contract.form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Clients">
+                    <sheet>
+                        <field name="id" invisible="True"/>
+                        <field name="customer" invisible="True"/>
+                        <field name="supplier" invisible="True"/> 
+                         <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" /></h1>
+                        </div>
+                        <group col="6" colspan="2">
+                       		<field name="code" />
+                       		<field name="city" string="Ville"/>   
+                       		<field name="barcode" string="I.C.E"/>	  
+                        </group> 
+                        <group >
+                        	<group >
+	                            <field name="contact" string="Contact"/>
+	                            <field name="street" string="Adresse"/>
+			                    <field name="phone" string="Tél"/>
+			                </group>
+			                <group >
+			                    <field name="fax" string="Fax"/>
+			                    <field name="email" string="Email"/>
+			                    <field name="price" string="Prix" invisible="1"/>
+			                </group>    
+                        </group>         
+                        <group col="6">
+                            <group colspan="4">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Contacts :</legend> 
+										<field name="person_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_partner_id': active_id,}">
+			                            	<tree string="Contacts" editable="bottom">
+							                    <field name="partner_id" invisible="1"/>
+							                    <field name="title_id" widget="selection"/>
+							                    <field name="name"/>
+							                    <field name="street"/>
+							                    <field name="phone"/>
+							                    <field name="fax"/>
+							                    <field name="email"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                            <group colspan="2">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Lieux :</legend> 
+										<field name="place_ids" colspan="2" nolabel="1" mode="tree" context="{'default_partner_id': active_id,}">	
+		                            		<tree string="Lieux" editable="bottom">
+		                            			<field name="partner_id" invisible="1"/>
+							                    <field name="code"/>
+							                    <field name="description"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                         </group>
+						 <group colspan="4">
+						 	<!--<button class="btn btn-primary" string="Imprimer la liste des contrats" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" name="print_contracts" colspan="4"/>-->
+                					
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des contrats appareils:</legend>
+								<field name="contract_appareil_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_customer_id': active_id,}">
+	                            	<tree string="Listes des contrats appareils" editable="bottom"  create="false" delete="false" limit="1000">
+					                    <field name="customer_id" invisible="1"/>
+					                    <field name="item"/>
+								        <field name="kks_id"/>
+					                	<field name="appareil_id"/>
+					                    <field name="nature_id"/>
+					                    <field name="magasin_id"/>
+										<field name="fact"/>
+										<field name="montant"/>
+			                 		</tree>
+					     		</field>
+					     	</fieldset>
+					     </group>
+						<group colspan="4">
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des contrats pièces:</legend>
+								<field name="contract_piece_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_customer_id': active_id,}">
+	                            	<tree string="Listes des contrats pieces" editable="bottom"  create="false" delete="false" limit="1000">
+					                    <field name="customer_id" invisible="1"/>
+					                    <field name="item"/>
+								        <field name="kks_id"/>
+					                	<field name="piece_id"/>
+					                    <field name="nature_id"/>
+					                    <field name="magasin_id"/>
+										<field name="fact"/>
+										<field name="montant"/>
+			                 		</tree>
+					     		</field>
+					     	</fieldset>
+					     </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		<record id="res_partner_purchase_form_view" model="ir.ui.view">
+            <field name="name">res.partner.purchase.form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Clients">
+                    <sheet>
+                        <field name="id" invisible="True"/>
+                        <field name="customer" invisible="True"/>
+                        <field name="supplier" invisible="True"/> 
+                         <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" /></h1>
+                        </div>
+                        <group col="6" colspan="2">
+                       		<field name="code" />
+                       		<field name="city" string="Ville"/>   
+                       		<field name="barcode" string="I.C.E"/>	  
+                        </group> 
+                        <group >
+                        	<group >
+	                            <field name="contact" string="Contact"/>
+	                            <field name="street" string="Adresse"/>
+			                    <field name="phone" string="Tél"/>
+			                </group>
+			                <group >
+			                    <field name="fax" string="Fax"/>
+			                    <field name="email" string="Email"/>
+			                    <field name="price" string="Prix" invisible="1"/>
+			                </group>    
+                        </group>         
+                        <group col="6">
+                            <group colspan="4">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Contacts :</legend> 
+										<field name="person_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_partner_id': active_id,}">
+			                            	<tree string="Contacts" editable="bottom">
+							                    <field name="partner_id" invisible="1"/>
+							                    <field name="title_id" widget="selection"/>
+							                    <field name="name"/>
+							                    <field name="street"/>
+							                    <field name="phone"/>
+							                    <field name="fax"/>
+							                    <field name="email"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                            <group colspan="2">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Lieux :</legend> 
+										<field name="place_ids" colspan="2" nolabel="1" mode="tree" context="{'default_partner_id': active_id,}">	
+		                            		<tree string="Lieux" editable="bottom">
+		                            			<field name="partner_id" invisible="1"/>
+							                    <field name="code"/>
+							                    <field name="description"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                        </group>
+					      <group colspan="4">
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des achats :</legend> 
+								<field name="purchase_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_customer_id': active_id,}">
+	                            	<tree string="Listes des achats" editable="bottom"  create="false" delete="false" limit="1000">
+					                    <field name="customer_id" invisible="1"/>
+					                    <field name="create_date"/>
+								        <field name="date_purchase"/>
+					                	<field name="date_reception"/>
+					                    <field name="supplier_id"/>
+			                 		</tree>
+					     		</field>
+					     	</fieldset>
+					     </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		<record id="res_partner_invoice_form_view" model="ir.ui.view">
+            <field name="name">res.partner.invoice.form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Clients">
+                    <sheet>
+                        <field name="id" invisible="True"/>
+                        <field name="customer" invisible="True"/>
+                        <field name="supplier" invisible="True"/> 
+                         <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" /></h1>
+                        </div>
+                        <group col="6" colspan="2">
+                       		<field name="code" />
+                       		<field name="city" string="Ville"/>   
+                       		<field name="barcode" string="I.C.E"/>	  
+                        </group> 
+                        <group >
+                        	<group >
+	                            <field name="contact" string="Contact"/>
+	                            <field name="street" string="Adresse"/>
+			                    <field name="phone" string="Tél"/>
+			                </group>
+			                <group >
+			                    <field name="fax" string="Fax"/>
+			                    <field name="email" string="Email"/>
+			                    <field name="price" string="Prix" invisible="1"/>
+			                </group>    
+                        </group>         
+                        <group col="6">
+                            <group colspan="4">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Contacts :</legend> 
+										<field name="person_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_partner_id': active_id,}">
+			                            	<tree string="Contacts" editable="bottom">
+							                    <field name="partner_id" invisible="1"/>
+							                    <field name="title_id" widget="selection"/>
+							                    <field name="name"/>
+							                    <field name="street"/>
+							                    <field name="phone"/>
+							                    <field name="fax"/>
+							                    <field name="email"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                            <group colspan="2">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Lieux :</legend> 
+										<field name="place_ids" colspan="2" nolabel="1" mode="tree" context="{'default_partner_id': active_id,}">	
+		                            		<tree string="Lieux" editable="bottom">
+		                            			<field name="partner_id" invisible="1"/>
+							                    <field name="code"/>
+							                    <field name="description"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		<record id="res_partner_affaire_form_view" model="ir.ui.view">
+            <field name="name">res.partner.affaire.form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Clients">
+                    <sheet>
+                        <field name="id" invisible="True"/>
+                        <field name="customer" invisible="True"/>
+                        <field name="supplier" invisible="True"/> 
+                         <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" /></h1>
+                        </div>
+                        <group col="6" colspan="2">
+                       		<field name="code" />
+                       		<field name="city" string="Ville"/>   
+                       		<field name="barcode" string="I.C.E"/>	  
+                        </group> 
+                        <group >
+                        	<group >
+	                            <field name="contact" string="Contact"/>
+	                            <field name="street" string="Adresse"/>
+			                    <field name="phone" string="Tél"/>
+			                </group>
+			                <group >
+			                    <field name="fax" string="Fax"/>
+			                    <field name="email" string="Email"/>
+			                    <field name="price" string="Prix" invisible="1"/>
+			                </group>    
+                        </group>         
+                        <group col="6">
+                            <group colspan="4">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Contacts :</legend> 
+										<field name="person_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_partner_id': active_id,}">
+			                            	<tree string="Contacts" editable="bottom">
+							                    <field name="partner_id" invisible="1"/>
+							                    <field name="title_id" widget="selection"/>
+							                    <field name="name"/>
+							                    <field name="street"/>
+							                    <field name="phone"/>
+							                    <field name="fax"/>
+							                    <field name="email"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                            <group colspan="2">
+                            	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Lieux :</legend> 
+										<field name="place_ids" colspan="2" nolabel="1" mode="tree" context="{'default_partner_id': active_id,}">	
+		                            		<tree string="Lieux" editable="bottom">
+		                            			<field name="partner_id" invisible="1"/>
+							                    <field name="code"/>
+							                    <field name="description"/>
+							                 </tree>
+									     </field>
+                            	</fieldset>
+                    		</group>
+                        </group>
+                         <group colspan="4">
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des affaires :</legend> 
+								<field name="affaire_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_supplier_id': active_id,}">
+	                            	<tree string="Listes des affaires" editable="bottom"  create="false" delete="false" limit="1000">
+					                    <field name="name"/>
+					                    <field name="date_affaire"/>
+					                    <field name="no_parent"/>
+					                    <field name="travaux_plan"/>
+					                    <field name="date_prevu"/>
+			                 		</tree>
+					     		</field>
+					     	</fieldset>
+					     </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		<record id="arfi_customer_ice_form_view" model="ir.ui.view">
+            <field name="name">res.partner.customer.ice.form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Clients">
+                    <sheet>
+                        <field name="id" invisible="True"/>
+                        <field name="customer" invisible="True"/>
+                        <field name="supplier" invisible="True"/> 
+                         <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group col="4" colspan="2">
+                       		<field name="city" string="Ville"/>   
+                       		<field name="barcode" string="I.C.E"/>	  
+                        </group>         
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="arfi_customer_action" model="ir.actions.act_window">
+            <field name="name">Clients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="context">{"search_default_customer":1,"default_customer":1,"default_supplier":0}</field>
+            <field name="domain">[]</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau client.
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window.view" id="arfi_customer_action_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="act_window_id" ref="arfi_customer_action"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="arfi_customer_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="arfi_customer_form_view"/>
+            <field name="act_window_id" ref="arfi_customer_action"/>
+        </record>
+        <record id="res_partner_affaire_action" model="ir.actions.act_window">
+            <field name="name">Clients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="context">{"search_default_customer":1,"default_customer":1,"default_supplier":0}</field>
+            <field name="domain">[]</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau client.
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window.view" id="res_partner_affaire_action_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="act_window_id" ref="res_partner_affaire_action"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="res_partner_affaire_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="res_partner_affaire_form_view"/>
+            <field name="act_window_id" ref="res_partner_affaire_action"/>
+        </record>
+        <record id="res_partner_purchase_action" model="ir.actions.act_window">
+            <field name="name">Clients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="context">{"search_default_customer":1,"default_customer":1,"default_supplier":0}</field>
+            <field name="domain">[]</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau client.
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window.view" id="res_partner_purchase_action_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="act_window_id" ref="res_partner_purchase_action"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="res_partner_purchase_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="res_partner_purchase_form_view"/>
+            <field name="act_window_id" ref="res_partner_purchase_action"/>
+        </record>
+        <record id="res_partner_invoice_action" model="ir.actions.act_window">
+            <field name="name">Clients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="context">{"search_default_customer":1,"default_customer":1,"default_supplier":0}</field>
+            <field name="domain">[]</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau client.
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window.view" id="res_partner_invoice_action_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="act_window_id" ref="res_partner_invoice_action"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="res_partner_invoice_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="res_partner_invoice_form_view"/>
+            <field name="act_window_id" ref="res_partner_invoice_action"/>
+        </record>
+         <record id="res_partner_contract_action" model="ir.actions.act_window">
+            <field name="name">Clients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="context">{"search_default_customer":1,"default_customer":1,"default_supplier":0}</field>
+            <field name="domain">[]</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau client.
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window.view" id="res_partner_contract_action_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="arfi_customer_tree_view"/>
+            <field name="act_window_id" ref="res_partner_contract_action"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="res_partner_contract_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="res_partner_contract_form_view"/>
+            <field name="act_window_id" ref="res_partner_contract_action"/>
+        </record>
+         <!-- Contact Fournisseurs -->
+
+        <record id="res_contact_tree_view" model="ir.ui.view">
+            <field name="name">res.contact.tree</field>
+            <field name="model">res.contact</field>
+            <field name="arch" type="xml">
+                <tree string="Fournisseurs" editable="top">
+                    <field name="code"/>
+                    <field name="supplier_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="contact" string="Contact"/>
+                    <field name="street" string="Adresse"/>
+                    <field name="phone" string="Tél"/>
+                    <field name="fax" string="Fax"/>
+                    <field name="mobile" string="GSM"/>
+                    <field name="email" string="Email"/>
+		         </tree>
+            </field>
+        </record>
+       <record id="res_contact_action" model="ir.actions.act_window">
+            <field name="name">Contact Fournisseurs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.contact</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="res_contact_tree_view"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau contact.
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window.view" id="res_contact_action_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="res_contact_tree_view"/>
+            <field name="act_window_id" ref="res_contact_action"/>
+        </record>
+		    <!-- Fournisseurs -->
+		<record id="res_supplier_search_view" model="ir.ui.view">
+            <field name="name">res.supplier.search</field>
+            <field name="model">res.supplier</field>
+            <field name="arch" type="xml">
+                <search string="Fournisseur">
+                	<field name="code"/>
+                    <field name="name"/>
+                    <field name="activity_id"/>
+                    <group expand="0" string="Group By">
+                    	<filter string="Activité" domain="[]" context="{'group_by':'activity_id'}"/>
+                    </group>	
+                </search>
+            </field>
+        </record>
+        <record id="res_supplier_tree_view" model="ir.ui.view">
+            <field name="name">res.supplier.tree</field>
+            <field name="model">res.supplier</field>
+            <field name="arch" type="xml">
+                <tree string="Fournisseurs">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="activity_id" widget="selection"/>
+		         </tree>
+            </field>
+        </record>
+        <record id="res_supplier_form_view" model="ir.ui.view">
+            <field name="name">res.supplier.form</field>
+            <field name="model">res.supplier</field>
+            <field name="arch" type="xml">
+                <form string="Fournisseurs">
+                	 <sheet>
+                        <group >
+                        	<group >
+	                            <field name="code"/>
+			                </group>
+			                <group >
+			                    <field name="name"/>
+			                </group>    
+                        </group>         
+                        <group colspan="4">
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Contacts :</legend> 
+									<field name="person_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_supplier_id': active_id,}">
+		                            	<tree string="Contacts" editable="bottom">
+						                    <field name="supplier_id" invisible="1"/>
+						                    <field name="code"/>
+						                    <field name="contact" string="Contact"/>
+						                    <field name="street" string="Adresse"/>
+						                    <field name="phone" string="Tél"/>
+						                    <field name="fax" string="Fax"/>
+						                    <field name="mobile" string="GSM"/>
+						                    <field name="email" string="Email"/>
+						                 </tree>
+								     </field>
+                        	</fieldset>
+                		</group>
+                		 <group colspan="4">
+                        	<fieldset style="width: 100%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Listes des achats :</legend> 
+									<field name="purchase_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" mode="tree" colspan="4"  context="{'default_supplier_id': active_id,}">
+		                            	<tree string="Listes des achats" editable="bottom"  create="false" delete="false" limit="1000">
+						                    <field name="supplier_id" invisible="1"/>
+						                    <field name="create_date"/>
+									        <field name="date_purchase"/>
+						                	<field name="date_reception"/>
+						                    <field name="customer_id"/>
+						                 </tree>
+								     </field>
+                        	</fieldset>
+                		</group>
+                	</sheet>
+		         </form>
+            </field>
+        </record>
+       <record id="res_supplier_action" model="ir.actions.act_window">
+            <field name="name">Fournisseurs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.supplier</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="res_supplier_tree_view"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau fournisseur.
+                </p>
+            </field>
+        </record>
+        <!-- Lieux -->
+        <record id="arfi_customer_place_tree_view" model="ir.ui.view">
+            <field name="name">res.partner.customer.place.tree</field>
+            <field name="model">res.partner.place</field>
+            <field name="arch" type="xml">
+                <tree string="Product" editable="top">
+                    <field name="code" />
+                    <field name="description"/>
+		         </tree>
+            </field>
+        </record>
+        <record id="arfi_customer_place_action" model="ir.actions.act_window">
+            <field name="name">Lieux</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.place</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="arfi_customer_place_tree_view"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle place.
+                </p>
+            </field>
+        </record>
+         <!-- Personnes -->
+        <record id="res_partner_person_tree_view" model="ir.ui.view">
+            <field name="name">res.partner.person.tree</field>
+            <field name="model">res.partner.person</field>
+            <field name="arch" type="xml">
+                <tree string="Product" editable="top">
+                    <field name="partner_id"   options="{'no_create': True,'no_open': True}"/>
+                    <field name="title_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="name"/>
+                    <field name="street"/>
+                    <field name="phone"/>
+                    <field name="mobile"/>
+                    <field name="fax"/>
+                    <field name="email"/>
+                    <field name="standard"/>
+		         </tree>
+            </field>
+        </record>
+        <record id="action_res_partner_person" model="ir.actions.act_window">
+            <field name="name">Contacts Clients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner.person</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="res_partner_person_tree_view"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau contact.
+                </p>
+            </field>
+        </record>
+   </data>
+</openerp>

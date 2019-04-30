@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="0">
+		<!--  <record model="muk_dms.directory" id="database_directory_root">
+			<field name="name">Documents</field>
+		</record>
+		<record model="muk_dms.directory" id="database_directory_it">
+			<field name="name">Instructions de Travail</field>
+			<field name="parent_id" ref="database_directory_root"></field>
+		</record>
+		<record model="muk_dms.directory" id="database_directory_mm">
+			<field name="name">Manuel de maintenance</field>
+			<field name="parent_id" ref="database_directory_root"></field>
+		</record>
+		<record model="muk_dms.directory" id="database_directory_mo">
+			<field name="name">Mode Operatoire</field>
+			<field name="parent_id" ref="database_directory_root"></field>
+		</record>
+		<record model="muk_dms.directory" id="database_directory_plan_prevention">
+			<field name="name">Plan Prevention</field>
+			<field name="parent_id" ref="database_directory_root"></field>
+		</record>
+		<record model="muk_dms.directory" id="database_directory_plan_echaffaudage">
+			<field name="name">Plan Echaffaudage</field>
+			<field name="parent_id" ref="database_directory_root"></field>
+		</record>-->
+	</data>
+</odoo>

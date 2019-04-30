@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="product_kks_pps_layout">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.product_kks_pps_report_header" />
+    <t t-raw="0" />
+    <t t-call="report.external_layout_footer" />
+</template>
+
+<template id="product_kks_pps_report_header">
+    <div class="header">
+         <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+            </div>
+            <div class="col-xs-6 text-center" style="padding-top: 20px;">
+            	<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste d'analyse des risques</h2> 
+            </div>
+            <div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+            
+        </div>
+        <div class="row zero_min_height" style="padding-top: 5px;">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>    
+    </div>
+</template>		
+<template id="report_productkkspps">
+    <t t-call="arfi.product_kks_pps_layout">
+    	<t t-call="report.html_container">
+	        <div class="page">
+	        	<t t-foreach="docs" t-as="o">   
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>KKS : </strong><span t-field="o.name"/></p>
+				            <p><strong>Référence Appareil   : </strong><span t-field="o.reference"/></p>
+				        </div> 
+		       		</div>
+		       		<div class="row" style="padding-top:15px;">
+		       			<div class="col-xs-12"  >		
+		        			 <table class="table table-condensed  table table-bordered" style="font-size :14px;width:100%">
+				                <thead >
+				                    <tr>
+				                        <th class="text-center" colspan="6">Désignation</th>
+				                        <th class="text-center" colspan="2">Date</th>
+				                    </tr>
+				                </thead>
+				                <tbody class="invoice_tbody">
+					                <tr t-foreach="o.pps_ids" t-as="l">
+									  	<td class="text-center" colspan="6"><span t-field="l.file_id.filename"/></td>
+				                        <td class="text-center" colspan="2"><span t-field="l.file_id.write_date" t-options ='{"widget": "datetime","format": "d/M/Y"}'/></td>
+				                  	</tr>
+								</tbody>
+				            </table>
+				        </div> 
+		       		</div>	   
+		       		
+		       	</t>	
+        	</div>
+        </t>
+    </t>
+</template>
+</odoo>

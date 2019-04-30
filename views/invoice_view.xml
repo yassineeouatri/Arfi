@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!-- Factures -->
+        <record id="product_invoice_search_view" model="ir.ui.view">
+            <field name="name">product.invoice.search</field>
+            <field name="model">product.invoice</field>
+            <field name="arch" type="xml">
+                <search string="Dégat">
+                	<field name="name"/>
+                	<field name="date_invoice"/>
+                    <field name="no_order"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                    <filter name="invoice_paied" string="Payée" domain="[('state','=','open')]"/>
+                    <filter name="invoice_not_paied" string="Non Payée" domain="[('state','=','draft')]"/>
+                    <group expand="0" string="Group By"/>
+
+                </search>
+            </field>
+        </record>
+		<record id="product_devis_search_view" model="ir.ui.view">
+            <field name="name">product.devis.search</field>
+            <field name="model">product.devis</field>
+            <field name="arch" type="xml">
+                <search string="Dégat">
+                	<field name="name"/>
+                	<field name="date_devis"/>
+                    <field name="no_order"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                    <group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+        <record id="product_invoice_tree_view" model="ir.ui.view">
+            <field name="name">product.invoice.tree</field>
+            <field name="model">product.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Facture">
+                    <field name="type"/>
+                    <field name="date_invoice"/>
+                    <field name="name"/>
+                    <field name="no_order"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_invoice_payed_tree_view" model="ir.ui.view">
+            <field name="name">product.invoice.tree</field>
+            <field name="model">product.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Facture">
+                    <field name="date_invoice"/>
+                    <field name="name"/>
+                    <field name="no_order"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                    <field name="date_paiement"/>
+                    <field name="mode_paiement"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_invoice_topaye_tree_view" model="ir.ui.view">
+            <field name="name">product.invoice.tree</field>
+            <field name="model">product.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Facture">
+                    <field name="date_invoice"/>
+                    <field name="name"/>
+                    <field name="no_order"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                    <field name="date_echeance"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_invoice_form_view" model="ir.ui.view">
+            <field name="name">product.invoice.form</field>
+            <field name="model">product.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Facture">
+                    <header>
+                        <button name="action_invoice_open" string="Payée" states="draft" type="object" class="oe_highlight" icon="fa-check-square"/>
+                        <button name="action_invoice_draft" string="Non Payée" states="open" type="object" />
+                        <field name="state" widget="statusbar" status_visible="draft"/>
+                    </header>
+                	<sheet>
+                        <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="company_id" widget="selection"/></h1>
+                        </div>
+                        <group attrs="{'invisible' : [('state','!=','open')]}">
+		                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations sur le paiement:</legend>
+					  			<group style="width : 50%">
+			                		 <field name="date_paiement"/>
+                                     <field name="no_cheque" attrs="{'invisible' : [('mode_paiement','!=','Cheque')]}"/>
+                                     <field name="no_virement" attrs="{'invisible' : [('mode_paiement','!=','Virement')]}"/>
+			                	</group>
+			                	<group style="width : 50%">
+			                		<field name="mode_paiement"/>
+			                	</group>
+			               </fieldset>
+		                </group>
+                    	<group>
+		                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations :</legend> 
+					  			<group style="width : 50%">	
+			                		 <field name="name"/>
+			                		 <field name="no_order" options="{'no_create': True,'no_open': True}"/>
+                    				 <field name="bl"/>
+			                		 <field name="bc"/>
+			                		 <field name="designation"/>
+			                	</group>
+			                	<group style="width : 50%"> 
+			                		<field name="date_invoice"/>
+                                    <field name="date_echeance" invisible="1"/>
+			                		<field name="customer_id"   options="{'no_create': True}" context="{'form_view_ref': 'arfi.arfi_customer_ice_form_view'}"/>
+			                		<field name="ice"/>
+			                		<field name="city" />
+		                		 	 <field name="type" invisible="1"/>
+			                	</group>
+			               </fieldset> 	
+		                </group>
+
+		                <group>	
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Détail facture :</legend> 
+					  			<field name="invoice_line_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_invoice_id': active_id}">  
+		            		 		<tree string="Lignes de facture" limit="10000" editable="bottom">
+		            		 			<field name="invoice_id" invisible="1"/>
+		            		 			<field name="kks"/>
+				                		<field name="designation"/>
+				                		<field name="price_unit"/>
+				                		<field name="qte"/>
+				                		<field name="montant"/>
+		            		 		</tree>
+	                		 	</field>
+	                		</fieldset> 			
+	                	</group>
+	                	<group>
+		                	<group>
+		                		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+									<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Arrêtée la présente facture à la somme de :</legend> 
+						  			<field name="montant_text" readonly="1" nolabel="1"/>
+			                    </fieldset>
+			                    <newline/>
+			                    <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+									<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Coordonnées Bancaires :</legend> 
+						  			<group> 
+						  				<field name="rib"/>
+						  				<field name="swift"/>
+						  			</group>
+			                    </fieldset>
+		                    </group>
+		                	
+		                	<group class="oe_subtotal_footer oe_right" name="total">
+		                        <field name="montant"/>
+		                        <field name="retenue_pourcentage"/>
+		                        <field name="tva_transport_pourcentage"/>
+		                        <field name="remise_pourcentage"/>
+		                        <field name="montant_ht"/>
+		                        <field name="tva"/>
+		                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+		                            <label for="montant_ttc" />
+		                        </div>
+		                        <field name="montant_ttc" nolabel="1" class="oe_subtotal_footer_separator"/>
+		                    </group>
+	                    </group>
+                    </sheet>	
+                </form>
+            </field>
+        </record>
+        <record id="product_devis_tree_view" model="ir.ui.view">
+            <field name="name">product.devis.tree</field>
+            <field name="model">product.devis</field>
+            <field name="arch" type="xml">
+                <tree string="Facture">
+                    <field name="type"/>
+                    <field name="date_devis"/>
+                    <field name="name" string="Devis N°"/>
+                    <field name="no_order"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                </tree>
+            </field>
+        </record>
+         <record id="product_devis_form_view" model="ir.ui.view">
+            <field name="name">product.devis.form</field>
+            <field name="model">product.devis</field>
+            <field name="arch" type="xml">
+                <form string="Facture">
+                	<header> 
+                		<button class="btn btn-primary" string="Convertir en facture"  type="object" name="action_convert_to_invoice"/>
+                	</header> 
+                	<sheet>
+                        <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="company_id" widget="selection"/></h1>
+                        </div>
+                    	<group>
+		                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations :</legend> 
+					  			<group style="width : 50%">	
+			                		 <field name="name" string="Devis N°"/>
+			                		 <field name="no_order" options="{'no_create': True,'no_open': True}"/>
+                    				 <field name="da"/>
+			                		 <field name="ao"/>
+			                		 <field name="designation"/>
+			                	</group>
+			                	<group style="width : 50%"> 
+			                		<field name="date_devis"/>
+			                		<field name="customer_id"   options="{'no_create': True}" context="{'form_view_ref': 'arfi.arfi_customer_ice_form_view'}"/>
+			                		<field name="ice"/>
+			                		<field name="city" />
+		                		 	 <field name="type" invisible="1"/>
+			                	</group>
+			               </fieldset> 	
+		                </group>
+		                <group>	
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Détail facture :</legend> 
+					  			<field name="devis_line_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_devis_id': active_id}">  
+		            		 		<tree string="Lignes de facture" limit="10000" editable="bottom">
+		            		 			<field name="devis_id" invisible="1"/>
+		            		 			<field name="kks"/>
+				                		<field name="designation"/>
+				                		<field name="price_unit"/>
+				                		<field name="qte"/>
+				                		<field name="montant"/>
+		            		 		</tree>
+	                		 	</field>
+	                		</fieldset> 			
+	                	</group>
+	                	<group>
+		                	<group>
+		                		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+									<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Arrêtée la présente facture à la somme de :</legend> 
+						  			<field name="montant_text" readonly="1" nolabel="1"/>
+			                    </fieldset>
+			                    <newline/>
+			                    <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+									<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Coordonnées Bancaires :</legend> 
+						  			<group> 
+						  				<field name="rib"/>
+						  				<field name="swift"/>
+						  			</group>
+			                    </fieldset>
+		                    </group>
+		                	
+		                	<group class="oe_subtotal_footer oe_right" name="total">
+		                        <field name="montant"/>
+		                        <field name="retenue_pourcentage"/>
+		                        <field name="tva_transport_pourcentage"/>
+		                        <field name="remise_pourcentage"/>
+		                        <field name="montant_ht"/>
+		                        <field name="tva"/>
+		                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+		                            <label for="montant_ttc" />
+		                        </div>
+		                        <field name="montant_ttc" nolabel="1" class="oe_subtotal_footer_separator"/>
+		                    </group>
+	                    </group>
+                    </sheet>	
+                </form>
+            </field>
+        </record>
+         <record id="product_avoir_tree_view" model="ir.ui.view">
+            <field name="name">product.invoice.tree</field>
+            <field name="model">product.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Facture">
+                    <field name="type"/>
+                    <field name="date_invoice"/>
+                    <field name="name" string="Avoir N°"/>
+                    <field name="no_order"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                </tree>
+            </field>
+        </record>
+         <record id="product_avoir_form_view" model="ir.ui.view">
+            <field name="name">product.invoice.form</field>
+            <field name="model">product.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Facture">
+                	<sheet> 
+                    	<group>
+		                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations :</legend> 
+					  			<group style="width : 50%">	
+		                		 	 <field name="name" string="Avoir N°"/>
+			                		 <field name="company_id" widget="selection"/>
+			                		 <field name="no_order" options="{'no_create': True,'no_open': True}"/>
+                    				 <field name="bl"/>
+			                		 <field name="bc"/>
+			                		 <field name="designation"/>
+			                	</group>
+			                	<group style="width : 50%"> 
+			                		<field name="date_invoice"/>
+			                		<field name="customer_id"   options="{'no_create': True}" context="{'form_view_ref': 'arfi.arfi_customer_ice_form_view'}"/>
+			                		<field name="ice"/>
+			                		<field name="city" />
+			                		<field name="type" invisible="1"/>
+			                	</group>
+			               </fieldset> 	
+		                </group>
+		                <group>	
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Détail facture :</legend> 
+					  			<field name="invoice_line_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_invoice_id': active_id}">  
+		            		 		<tree string="Lignes de facture" limit="10000" editable="bottom">
+		            		 			<field name="invoice_id" invisible="1"/>
+		            		 			<field name="kks"/>
+				                		<field name="designation"/>
+				                		<field name="price_unit"/>
+				                		<field name="qte"/>
+				                		<field name="montant"/>
+		            		 		</tree>
+	                		 	</field>
+	                		</fieldset> 			
+	                	</group>
+	                	<group>
+		                	<group>
+		                		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+									<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Arrêtée la présente facture à la somme de :</legend> 
+						  			<field name="montant_text" readonly="1" nolabel="1"/>
+			                    </fieldset>
+			                    <newline/>
+			                    <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+									<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Coordonnées Bancaires :</legend> 
+						  			<group> 
+						  				<field name="rib"/>
+						  				<field name="swift"/>
+						  			</group>
+			                    </fieldset>
+		                    </group>
+		                	
+		                	<group class="oe_subtotal_footer oe_right" name="total">
+		                        <field name="montant"/>
+		                        <field name="retenue_pourcentage"/>
+		                        <field name="tva_transport_pourcentage"/>
+		                        <field name="remise_pourcentage"/>
+		                        <field name="montant_ht"/>
+		                        <field name="tva"/>
+		                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+		                            <label for="montant_ttc" />
+		                        </div>
+		                        <field name="montant_ttc" nolabel="1" class="oe_subtotal_footer_separator"/>
+		                    </group>
+	                    </group>
+                    </sheet>	
+                </form>
+            </field>
+        </record>
+         <record id="action_product_invoice" model="ir.actions.act_window">
+            <field name="name">Factures</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'invoice',"search_default_invoice_not_paied": 1}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','invoice')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle facture
+                </p>
+            </field>
+        </record>  
+         <record model="ir.actions.act_window.view" id="action_product_invoice_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_invoice_tree_view"/>
+            <field name="act_window_id" ref="action_product_invoice"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="action_product_invoice_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_invoice_form_view"/>
+            <field name="act_window_id" ref="action_product_invoice"/>
+        </record>
+        <record id="action_product_invoice_payed" model="ir.actions.act_window">
+            <field name="name">Factures Payée</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'invoice'}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','invoice'),('state','=','open')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle facture
+                </p>
+            </field>
+        </record>
+         <record model="ir.actions.act_window.view" id="action_product_invoice_payed_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_invoice_payed_tree_view"/>
+            <field name="act_window_id" ref="action_product_invoice_payed"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="action_product_invoice_payed_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_invoice_form_view"/>
+            <field name="act_window_id" ref="action_product_invoice_payed"/>
+        </record>
+        <record id="action_product_invoice_topaye" model="ir.actions.act_window">
+            <field name="name">Factures A Payer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'invoice'}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','invoice'),('state','=','new'),('date_echeance','&lt;=',time.strftime('%Y-%m-%d'))]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle facture
+                </p>
+            </field>
+        </record>
+         <record model="ir.actions.act_window.view" id="action_product_invoice_topaye_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_invoice_topaye_tree_view"/>
+            <field name="act_window_id" ref="action_product_invoice_topaye"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="action_product_invoice_topaye_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_invoice_form_view"/>
+            <field name="act_window_id" ref="action_product_invoice_topaye"/>
+        </record>
+         <record id="action_product_devis" model="ir.actions.act_window">
+            <field name="name">Devis</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.devis</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'devis'}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','devis')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau devis
+                </p>
+            </field>
+        </record>  
+         <record model="ir.actions.act_window.view" id="action_product_devis_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_devis_tree_view"/>
+            <field name="act_window_id" ref="action_product_devis"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="action_product_devis_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_devis_form_view"/>
+            <field name="act_window_id" ref="action_product_devis"/>
+        </record>
+         <record id="action_product_avoir" model="ir.actions.act_window">
+            <field name="name">Avoirs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'avoir'}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','avoir')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvel avoir
+                </p>
+            </field>
+        </record>  
+         <record model="ir.actions.act_window.view" id="action_product_avoir_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_avoir_tree_view"/>
+            <field name="act_window_id" ref="action_product_avoir"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="action_product_avoir_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_avoir_form_view"/>
+            <field name="act_window_id" ref="action_product_avoir"/>
+        </record>
+      <!-- Liste des Banques -->
+ 	     <record id="product_bank_search_view" model="ir.ui.view">
+            <field name="name">product.bank.search</field>
+            <field name="model">product.bank</field>
+            <field name="arch" type="xml">
+                <search string="Dégat">
+                	<field name="name"/>
+                	<field name="code"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_bank_tree_view" model="ir.ui.view">
+            <field name="name">product.bank.tree</field>
+            <field name="model">product.bank</field>
+            <field name="arch" type="xml">
+                <tree string="Banques" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="code_bank"/>
+                    <field name="code_country"/>
+                    <field name="code_emplacement" string="Code Emplacement"/>
+                    <field name="code_branche"/>
+                </tree>
+            </field>
+        </record>
+         <record id="action_product_bank" model="ir.actions.act_window">
+            <field name="name">Banques</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.bank</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle banque
+                </p>
+            </field>
+        </record>   
+        <!-- Liste des Villes -->
+ 	     <record id="product_city_search_view" model="ir.ui.view">
+            <field name="name">product.city.search</field>
+            <field name="model">product.city</field>
+            <field name="arch" type="xml">
+                <search string="Villes">
+                	<field name="name"/>
+                	<field name="code"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_city_tree_view" model="ir.ui.view">
+            <field name="name">product.city.tree</field>
+            <field name="model">product.city</field>
+            <field name="arch" type="xml">
+                <tree string="Villes" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="province"/>
+                </tree>
+            </field>
+        </record>
+         <record id="action_product_city" model="ir.actions.act_window">
+            <field name="name">Villes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.city</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle ville
+                </p>
+            </field>
+        </record>   
+         <!-- Liste des sociétés -->
+ 	     <record id="product_company_search_view" model="ir.ui.view">
+            <field name="name">res.company.search</field>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <search string="Sociétes">
+                	<field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_company_tree_view" model="ir.ui.view">
+            <field name="name">res.company.tree</field>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <tree string="Company">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_company_form_view" model="ir.ui.view">
+            <field name="name">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <form string="Company">
+                  <sheet>
+                    <field name="logo" widget="image"  class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+                    <notebook colspan="4">
+                        <page string="Informations Bancaires">
+                        	<group>
+                        		<group>
+	                        		<field name="bank_id"/>
+	                        		<field name="city_id"/>
+                        		</group>
+                        		<group>
+	                        		<field name="no_compte"/>
+	                        		<field name="cle_rib"/>
+                        		</group>
+                        	</group>
+                        	<group>
+                        		<group>
+	                        		<field name="rib"/>
+                        		</group>
+                        		<group>
+	                        		<field name="swift"/>
+                        		</group>
+                        	</group>
+                        </page>
+                    </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+         <record id="action_product_company" model="ir.actions.act_window">
+            <field name="name">Sociétes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.company</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle société
+                </p>
+            </field>
+        </record>   
+         <record model="ir.actions.act_window.view" id="action_product_company_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_company_tree_view"/>
+            <field name="act_window_id" ref="action_product_company"/>
+        </record>
+         <record model="ir.actions.act_window.view" id="action_product_company_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_company_form_view"/>
+            <field name="act_window_id" ref="action_product_company"/>
+        </record>
+        <record id="board_sale_form_view" model="ir.ui.view">
+            <field name="name">board.sale.form</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="Company">
+                    <board string="Company">
+                        <column>
+                            <action name="%(action_product_invoice_payed)d" string="Factures Payées Mois en cours"/>
+                        </column>
+                        <column>
+                            <action name="%(action_product_invoice_topaye)d" string="Factures A Payer"/>
+                        </column>
+
+                    </board>
+                </form>
+            </field>
+        </record>
+        <record id="action_board_sale" model="ir.actions.act_window">
+            <field name="name">Achats</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="usage">menu</field>
+            <field name="limit">500</field>
+            <field name="view_id" ref="board_sale_form_view"/>
+            <field name="helps" type="html">
+                <p class="oe_empty_custom_dashboard">
+                    Tableau de bord
+                </p>
+            </field>
+        </record>
+    </data>
+</openerp>

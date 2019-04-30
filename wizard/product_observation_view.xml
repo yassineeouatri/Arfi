@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="view_product_observation_form" model="ir.ui.view">
+            <field name="name">product.observation.form</field>
+            <field name="model">product.observation</field>
+            <field name="arch" type="xml">
+                <form string="Observations">
+                    <sheet>
+                    	<field name='order_id' options="{'no_create': True,'no_open': True}"/>
+                    	<group col="4" colspan="4">
+                    		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Observations à imprimer sur l'état des opérations :</legend> 
+					  			<field name='obs_atelier' widget="html" colspan="4" nolabel="1"/>
+                             </fieldset>
+					  		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Observations à imprimer sur le devis :</legend> 
+					  			<field name='obs_devis' widget="html" colspan="4" nolabel="1"/>
+                             </fieldset>
+					  		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Observations à imprimer sur l'état récapitulatif :</legend> 
+					  			<field name='obs_recap' widget="html" colspan="4" nolabel="1"/>
+					  		</fieldset>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="case_execute" string="Valider" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Annuler" class="oe_link" special="cancel" />
+                   </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_product_observation" model="ir.actions.act_window">
+            <field name="name">Observations</field>
+            <field name="res_model">product.observation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_product_observation_form"/>
+            <field name="target">new</field>
+        </record>
+	</data>
+</openerp>
+
+<!--Done BY Addition IT Solutions: END -->

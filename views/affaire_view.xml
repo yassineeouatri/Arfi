@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!-- Affaires -->
+ 	     <record id="product_affaire_search_view" model="ir.ui.view">
+            <field name="name">product.affaire.search</field>
+            <field name="model">product.affaire</field>
+            <field name="arch" type="xml">
+                <search string="Dégat">
+                	<field name="name"/>
+                	<field name="type"/>
+                	<field name="customer_id"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_affaire_tree_view" model="ir.ui.view">
+            <field name="name">product.affaire.tree</field>
+            <field name="model">product.affaire</field>
+            <field name="arch" type="xml">
+                <tree string="Facture">
+                    <field name="type"/>
+                    <field name="name"/>
+                    <field name="customer_id"/>
+                    <field name="date_prevu"/>
+                    <field name="no_parent"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_affaire_form_view" model="ir.ui.view">
+            <field name="name">product.affaire.form</field>
+            <field name="model">product.affaire</field>
+            <field name="arch" type="xml">
+                <form string="Facture">
+                	<sheet> 
+                    	<group>
+		                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations dossier:</legend> 
+					  			<group col="6" colspan="2">	
+					  				<field name="name"/>
+					  				<field name="date_affaire"/>
+					  				<field name="no_parent"/>
+			                	</group>
+			               </fieldset> 	
+		                </group>
+		                <group>	
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations client :</legend> 
+					  			<group>	
+					  				<group>
+						  				<field name="customer_id" options="{'no_create': True,'no_open': True}"/>
+						  				<label for="person_id" string="Demandeur"/>
+                            			<div class="o_address_format">
+                            				<div class="col-xs-4" style="padding: 0px;">
+						  						<field name="title_id" width="60%" options="{'no_create': True,'no_open': True}"/>
+						  					</div>
+                            				<div class="col-xs-8" style="padding: 0px;">
+						  						<field name="person_id" domain="[('partner_id','=',customer_id)]" width="60%" options="{'no_create': True,'no_open': True}"/>
+						  					</div>
+						  				</div>
+						  				<field name="city_id" options="{'no_create': True,'no_open': True}"/>
+					  				</group>
+					  				<group>
+						  				<field name="mobile"/>
+						  				<field name="phone"/>
+						  				<field name="fax"/>
+						  				<field name="standard"/>
+					  				</group>
+			                	</group>
+	                		</fieldset> 			
+	                	</group>
+	                	 <group>	
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Affaires :</legend> 
+					  			<group>	
+					  				<group>
+						  				<field name="type"/>
+						  				<field name="distance_km"/>
+						  				<field name="date_prevu"/>
+					  				</group>
+					  				<group>
+						  				<field name="travaux_plan"/>
+						  				<field name="distance_temps"/>
+					  				</group>
+			                	</group>
+	                		</fieldset> 			
+	                	</group>
+                    </sheet>	
+                </form>
+            </field>
+        </record>
+    
+        <record id="action_product_affaire_colmatage" model="ir.actions.act_window">
+            <field name="name">Colmatage</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.affaire</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'colmatage'}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','colmatage')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle affaire
+                </p>
+            </field>
+        </record>  
+         <record id="action_product_affaire_ree" model="ir.actions.act_window">
+            <field name="name">Remise en état (REE)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.affaire</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'Remise en etat (REE)'}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','Remise en etat (REE)')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle affaire
+                </p>
+            </field>
+        </record> 
+         <record id="action_product_affaire_gppm" model="ir.actions.act_window">
+            <field name="name">GPPM</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.affaire</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'GPPM'}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','GPPM')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle affaire
+                </p>
+            </field>
+        </record> 
+        <record id="action_product_affaire_essai" model="ir.actions.act_window">
+            <field name="name">Essai sur site</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.affaire</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'Essai sur site'}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','Essai sur site')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle affaire
+                </p>
+            </field>
+        </record>
+        <record id="action_product_affaire_fr" model="ir.actions.act_window">
+            <field name="name">Fabrication/Revente</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.affaire</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{"default_type":'Fabrication/Revente'}</field>
+            <field name="limit">500</field>
+            <field name="domain">[('type','=','Fabrication/Revente')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle affaire
+                </p>
+            </field>
+        </record>
+    </data>
+</openerp>

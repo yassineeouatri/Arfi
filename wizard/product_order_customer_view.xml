@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+      
+
+        	<!-- wizard view-->
+        <record id="view_product_order_customer_wizard_form" model="ir.ui.view">
+            <field name="name">Liste des commandes par client</field>
+            <field name="model">product.order.customer.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Liste des commandes par client">
+                	 <group>
+                            <field name="customer_id" options="{'no_create': True,'no_open': True}"/>
+                            <field name="year"/>
+                      </group>
+                    <footer>
+                        <button string="Valider" name="print_report" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+         <record id="action_product_order_customer_wizard" model="ir.actions.act_window">
+            <field name="name">Liste des commandes par client</field>
+            <field name="res_model">product.order.customer.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_product_order_customer_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

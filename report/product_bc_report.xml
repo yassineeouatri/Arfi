@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_bc_layout">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.report_bc_document_header" />
+    <t t-raw="0" />
+    <t t-call="arfi.report_bc_document_footer" />
+</template>
+    <template id="report_bc_document_header">
+     <div class="header"  >
+		<div class="row">
+			<div class="col-xs-12">
+                <ul class="text-right list-inline" style="font-size :8px">
+	                <li>Page:</li>
+	                <li><span class="page"/></li>
+	                <li>/</li>
+	                <li><span class="topage"/></li>
+	            </ul>
+            </div>
+        </div>
+	</div>
+</template>
+    <template id="report_bc_document_footer">
+     <div class="footer"  >
+	</div>
+</template>	
+	<template id="report_bc_document">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="arfi.product_bc_layout">
+				<div class="page">
+					<div class="row">
+					  <div class="col-xs-6">
+						  <p><strong>BC N° : </strong><span t-field="o.name"/></p>
+						  <p><strong>Commande N° : </strong><span t-field="o.no_commande"/></p>
+						  <p><strong>Date : </strong><span t-field="o.date_bc"/> </p>
+						  <p><strong>Unité : </strong><span t-field="o.unite_id.name"/></p>
+						</div>
+						<div class="col-xs-6">
+							<p><strong>Fournisseur : </strong><span t-field="o.supplier_id.name"/></p>
+							<p><strong>Arrêt : </strong><span t-field="o.arret_id.name"/></p>
+							<p><strong>Travaux : </strong><span t-field="o.travaux_id.name"/></p>
+						</div>
+					</div>
+					<div class="row">
+						<table class="table table-condensed table table-bordered"  style="padding-top: 5px">
+						<thead>
+							<tr style="background-color : #ddd">
+								<th class="text-center" style="width: 10%;">Item</th>
+								<th class="text-center" style="width: 20%;">KKS</th>
+								<th class="text-center" style="width: 20%;">Marque</th>
+								<th class="text-center" style="width: 30%;">Appareil</th>
+								<th class="text-center" style="width: 10%;">Action</th>
+								<th class="text-center" style="width: 10%;">Prix</th>
+							</tr>
+						</thead>
+						<tbody class="invoice_tbody">
+							<tr t-foreach="o.bc_line_ids" t-as="l">
+								<td class="text-center"><span t-field="l.item"/></td>
+								<td class="text-left"><span t-field="l.kks_id.name"/></td>
+								<td class="text-left"><span t-field="l.maker_id.name"/></td>
+								<td class="text-left"><span t-field="l.appareil_id.name"/></td>
+								<td class="text-left"><span t-field="l.nature_id.name"/></td>
+								<td class="text-right"><t t-esc="'{0:,.2f}'.format((l.sale_price)).replace(',', ' ')" /></td>
+							</tr>
+						</tbody>
+					 </table>
+					</div>
+					<div class="row" style="padding-top: 20px">
+						<div class="col-xs-5 pull-left">
+							<p></p>
+						</div>
+						<div class="col-xs-5 pull-right">
+							<table class="table table-condensed table table-bordered">
+								<tr><td><strong>Total Prix (DHs)</strong></td>
+									<t t-set="total_sale_price" t-value="sum(l.sale_price for l in o.bc_line_ids)"/>
+									<td class="text-right">
+										<t t-esc="'{0:,.2f}'.format((total_sale_price)).replace(',', ' ')" />
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+			</div>
+			</t>
+			</t>
+		</t>
+	</template>
+	<template id="report_productbc">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="arfi.report_bc_document"/>
+			</t>
+		</t>
+	</template>
+	<!-- BC Pièces-->
+	<template id="product_bc_piece_layout_arfi">
+		<t t-if="o and 'company_id' in o">
+			<t t-set="company" t-value="o.company_id"></t>
+		</t>
+		<t t-if="not o or not 'company_id' in o">
+			<t t-set="company" t-value="res_company"></t>
+		</t>
+		<t t-call="arfi.report_bc_piece_document_header_arfi" />
+		<t t-raw="0" />
+		<t t-call="arfi.report_bc_piece_document_footer" />
+	</template>
+	<template id="product_bc_piece_layout_meca">
+		<t t-if="o and 'company_id' in o">
+			<t t-set="company" t-value="o.company_id"></t>
+		</t>
+		<t t-if="not o or not 'company_id' in o">
+			<t t-set="company" t-value="res_company"></t>
+		</t>
+		<t t-call="arfi.report_bc_piece_document_header_meca" />
+		<t t-raw="0" />
+		<t t-call="arfi.report_bc_piece_document_footer" />
+	</template>
+	<template id="report_bc_piece_document_header_arfi">
+		 <div class="header"  >
+			<div class="row">
+				<div class="col-xs-12">
+					<ul class="text-right list-inline" style="font-size :8px">
+						<li>Page:</li>
+						<li><span class="page"/></li>
+						<li>/</li>
+						<li><span class="topage"/></li>
+					</ul>
+				</div>
+				<div class="col-xs-12" style="padding-top : 135px">
+				</div>
+			</div>
+		</div>
+	</template>
+	<template id="report_bc_piece_document_header_meca">
+		 <div class="header"  >
+			<div class="row">
+				<div class="col-xs-12">
+					<ul class="text-right list-inline" style="font-size :8px">
+						<li>Page:</li>
+						<li><span class="page"/></li>
+						<li>/</li>
+						<li><span class="topage"/></li>
+					</ul>
+				</div>
+				<div class="col-xs-12" style="padding-top : 135px">
+				</div>
+			</div>
+		</div>
+	</template>
+	<template id="report_bc_piece_document_footer">
+		 <div class="footer"  >
+			<div class="row last-page" >
+				<div class="col-xs-12" style="padding-top : 40px">
+				</div>
+			</div>
+		</div>
+	</template>
+	<template id="report_bc_piece_document_arfi">
+		<t t-call="report.html_container">
+			<t t-call="arfi.product_bc_piece_layout_arfi">
+
+				<div class="page">
+					<div class="row">
+					  <div class="col-xs-6">
+							<table class="table table-condensed table table-bordered"  style="padding-top: 20px">
+								<tr> <td style="width: 40%;"><strong>BC N°</strong></td><td style="width: 60%;"></td><span t-field="o.name"/> </tr>
+								<tr> <td style="width: 40%;"><strong>Date BC</strong></td> <td style="width: 60%;"> <span t-field="o.date_bc" t-options ='{"widget": "datetime","format": "dd MMMM y"}'/></td> </tr>
+								<tr> <td style="width: 40%;"><strong>Fournisseur </strong></td> <td style="width: 60%;"><span t-field="o.supplier_id.name"/></td> </tr>
+							</table>
+						</div>
+					</div>
+					<table class="table table-condensed table table-bordered"  style="padding-top: 5px">
+						<thead>
+							<tr style="background-color : #ddd">
+								<th class="text-center" style="width: 10%;">Code Interne</th>
+								<th class="text-center" style="width: 20%;">Code Magasin</th>
+								<th class="text-center" style="width: 50%;">Désignation</th>
+								<th class="text-center" style="width: 10%;">Qte Demandée</th>
+							</tr>
+						</thead>
+						<tbody class="invoice_tbody">
+							<tr t-foreach="o.bc_line_ids" t-as="l">
+								<td class="text-center"><span t-field="l.code_interne"/></td>
+								<td class="text-center"><span t-field="l.magasin_id.code"/></td>
+								<td class="text-center"> <span t-field="l.piece_id.name"/></td>
+								<td class="text-right"> <span t-field="l.qte"/></td>
+							</tr>
+						</tbody>
+					 </table>
+			</div>
+			</t>
+		</t>
+	</template>
+	<template id="report_bc_piece_document_meca">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="arfi.product_bc_piece_layout_meca">
+					<div class="page">
+						<div class="row">
+						  <div class="col-xs-6">
+								<table class="table table-condensed table table-bordered"  style="padding-top: 20px">
+									<tr> <td style="width: 40%;"><strong>BC N°</strong></td><td style="width: 60%;"></td><span t-field="o.name"/> </tr>
+									<tr> <td style="width: 40%;"><strong>Date BC</strong></td> <td style="width: 60%;"> <span t-field="o.date_bc" t-options ='{"widget": "datetime","format": "dd MMMM y"}'/></td> </tr>
+									<tr> <td style="width: 40%;"><strong>Fournisseur </strong></td> <td style="width: 60%;"><span t-field="o.supplier_id.name"/></td> </tr>
+								</table>
+							</div>
+						</div>
+						<table class="table table-condensed table table-bordered"  style="padding-top: 5px">
+							<thead>
+								<tr style="background-color : #ddd">
+									<th class="text-center" style="width: 10%;">Code Interne</th>
+									<th class="text-center" style="width: 20%;">Code Magasin</th>
+									<th class="text-center" style="width: 50%;">Désignation</th>
+									<th class="text-center" style="width: 10%;">Qte Demandée</th>
+								</tr>
+							</thead>
+							<tbody class="invoice_tbody">
+								<tr t-foreach="o.bc_line_ids" t-as="l">
+									<td class="text-center"><span t-field="l.code_interne"/></td>
+									<td class="text-center"><span t-field="l.magasin_id.code"/></td>
+									<td class="text-center"> <span t-field="l.piece_id.name"/></td>
+									<td class="text-right"> <span t-field="l.qte"/></td>
+								</tr>
+							</tbody>
+						 </table>
+				</div>
+				</t>
+			</t>
+		</t>
+	</template>
+	<template id="report_productbcpiecearfi">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="arfi.product_bc_piece_layout_arfi">
+
+				<div class="page">
+					<div class="row">
+					  <div class="col-xs-6">
+							<table class="table table-condensed table table-bordered"  style="padding-top: 20px">
+								<tr> <td style="width: 40%;"><strong>BC N°</strong></td><td style="width: 60%;"></td><span t-field="o.name"/> </tr>
+								<tr> <td style="width: 40%;"><strong>Date BC</strong></td> <td style="width: 60%;"> <span t-field="o.date_bc" t-options ='{"widget": "datetime","format": "dd MMMM y"}'/></td> </tr>
+								<tr> <td style="width: 40%;"><strong>Fournisseur </strong></td> <td style="width: 60%;"><span t-field="o.supplier_id.name"/></td> </tr>
+							</table>
+						</div>
+					</div>
+					<table class="table table-condensed table table-bordered"  style="padding-top: 5px">
+						<thead>
+							<tr style="background-color : #ddd">
+								<th class="text-center" style="width: 10%;">Code Interne</th>
+								<th class="text-center" style="width: 20%;">Code Magasin</th>
+								<th class="text-center" style="width: 50%;">Désignation</th>
+								<th class="text-center" style="width: 10%;">Qte Demandée</th>
+							</tr>
+						</thead>
+						<tbody class="invoice_tbody">
+							<tr t-foreach="o.bc_line_ids" t-as="l">
+								<td class="text-center"><span t-field="l.code_interne"/></td>
+								<td class="text-center"><span t-field="l.magasin_id.code"/></td>
+								<td class="text-center"> <span t-field="l.piece_id.name"/></td>
+								<td class="text-right"> <span t-field="l.qte"/></td>
+							</tr>
+						</tbody>
+					 </table>
+			</div>
+			</t>
+			</t>
+		</t>
+	</template>
+	<template id="report_productbcpiecemeca">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="arfi.report_bc_piece_document_meca"/>
+			</t>
+		</t>
+	</template>
+</odoo>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Contrats des appareils-->
+		<record id="product_contract_appareil_search_view" model="ir.ui.view">
+            <field name="name">product.contract.appareil.search</field>
+            <field name="model">product.contract.appareil</field>
+            <field name="arch" type="xml">
+                <search string="Contracts">
+                	<field name="kks_id"/>
+                    <field name="customer_id"/>
+					<field name="appareil_id"/>
+                    <field name="nature_id"/>
+                    <field name="maker_id"/>
+                    <field name="montant"/>
+                	<group expand="0" string="Grouper Par">
+                		<filter string="Client" domain="[]" context="{'group_by':'customer_id'}"/>
+                		<filter string="Appareil" domain="[]" context="{'group_by':'appareil_id'}"/>
+                		<filter string="Nature" domain="[]" context="{'group_by':'nature_id'}"/>
+                		<filter string="KKS" domain="[]" context="{'group_by':'kks_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+	 	<record id="product_contract_appareil_tree_view" model="ir.ui.view">
+            <field name="name">product.contract.appareil.tree</field>
+            <field name="model">product.contract.appareil</field>
+            <field name="arch" type="xml">
+                <tree string="KKS" editable="top">
+                    <field name="item"/>
+                    <field name="kks_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="customer_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="appareil_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="maker_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="nature_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="magasin_id" options="{'no_create': True,'no_open': True}"/>
+					<field name="fact"/>
+					<field name="montant"/>
+			   </tree>
+            </field>
+        </record>
+
+        <record id="product_contract_appareil_action" model="ir.actions.act_window">
+            <field name="name">Contrats des appareils</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.contract.appareil</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouvelle contrat
+                </p>
+            </field>
+        </record>
+        <!-- Contrats des pieces-->
+		<record id="product_contract_piece_search_view" model="ir.ui.view">
+            <field name="name">product.contract.piece.search</field>
+            <field name="model">product.contract.piece</field>
+            <field name="arch" type="xml">
+                <search string="Implantation">
+                	<field name="kks_id"/>
+                    <field name="customer_id"/>
+					<field name="piece_id"/>
+                    <field name="nature_id"/>
+                    <field name="montant"/>
+                	<group expand="0" string="Grouper Par">
+                		<filter string="Client" domain="[]" context="{'group_by':'customer_id'}"/>
+                		<filter string="Pièce" domain="[]" context="{'group_by':'piece_id'}"/>
+                		<filter string="Nature" domain="[]" context="{'group_by':'nature_id'}"/>
+                		<filter string="KKS" domain="[]" context="{'group_by':'kks_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+	 	<record id="product_contract_piece_tree_view" model="ir.ui.view">
+            <field name="name">product.contract.piece.tree</field>
+            <field name="model">product.contract.piece</field>
+            <field name="arch" type="xml">
+                <tree string="KKS" editable="top">
+                    <field name="item"/>
+                    <field name="kks_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="customer_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="piece_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="nature_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="magasin_id" options="{'no_create': True,'no_open': True}"/>
+					<field name="fact"/>
+					<field name="montant"/>
+			   </tree>
+            </field>
+        </record>
+
+        <record id="product_contract_piece_action" model="ir.actions.act_window">
+            <field name="name">Contrats des pièces</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.contract.piece</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouvelle contrat
+                </p>
+            </field>
+        </record>
+    </data>
+ </openerp>

@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	 <!-- Top menu item -->
+    	  <record id="product_order_operation_create_view_form" model="ir.ui.view">
+            <field name="name">product.order.form</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <form string='Product Order'  create="false" delete="false">
+                    <sheet>
+                    	<field name='code_order' invisible="1"/> 
+                    	<group>
+                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Commande :</legend> 
+		  						<group style="width : 50%">
+	                                <field name='no_order' readonly="1"/>
+	                                <field name='date_order' readonly="1"/>
+	                                <field name='no_arfi' readonly="1"/>
+	                            </group>
+	                            <group style="width : 50%">
+	                                <field name='customer_id'  options="{'no_create': True,'no_open': True}" readonly="1"/>
+	                                <field name='place_id'  options="{'no_create': True,'no_open': True}" readonly="1"/>
+		                        </group>
+	                        </fieldset>
+                        </group>
+                        <group>                        	
+                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Appareil :</legend> 
+			  					<group style="width : 100%">
+	                            	<field name='appareil_id' options="{'no_create': True,'no_open': True}" readonly="1" context="{'form_view_ref': 'arfi.product_template_appareil_form_view'}"/>
+	                            </group>
+	                            <group style="width : 50%">
+	                                <field name='maker_id' options="{'no_create': True,'no_open': True}" readonly="1"/>
+	                                <field name='ss_type_appareil_id' options="{'no_create': True,'no_open': True}" readonly="1"/>
+	                                <field name='reference_appareil' options="{'no_create': True,'no_open': True}" readonly="1"/>
+	                            </group>
+	                            <group style="width : 50%">
+	                                <field name='type_appareil_id' options="{'no_create': True,'no_open': True}" readonly="1"/>
+	                                <field name='kks_id' options="{'no_create': True,'no_open': True}" readonly="1"/>
+	                                <field name='no_serie' readonly="1"/>
+	                            </group>
+	                        </fieldset>
+                        </group>
+                        <notebook>
+                        	<page string="Appareils"> 
+                        		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Appareil :</legend> 
+				  					<field name="operation_appareil_ids" style="overflow-y: auto;max-height: 200px;" options="{'no_create': True,'no_open': True}" colspan="4" nolabel="1" mode="tree"  context="{'default_order_id': active_id,'default_appareil_id': appareil_id,}">	
+	                        		<tree string="Opérations" editable="bottom" create="false">
+					                    <field name="order_id" invisible="1"/>
+					                    <field name="order_operation" invisible="1"/>
+					                    <field name="appareil_id" options="{'no_create': True,'no_open': True}" invisible="1"/>
+					                    <field name="operation_id" domain="[('application','=','appareil')]" options="{'no_create': True,'no_open': True}"  readonly="1"/>
+					                    <button name="open_appareil" type="object" icon="fa fa-external-link" string="Insérer les images"/>   
+					                    <field name="allotted_time" widget="float_time" sum="Tps Alloué"  readonly="1"/>
+					                    <field name="spent_time" widget="float_time" sum="Tps Passé"/>
+					                    <field name="intervenant"/>
+					                    <field name="estimated_cost" widget="monetary" sum="Coût Estimatif" readonly="1"/>
+					                    <field name="real_cost" widget="monetary" sum="Coût réel"/>
+					                    <field name="price" widget="monetary" sum="Prix"/>	
+					                    <field name="marge" widget="monetary" sum="Marge"/>					                    
+					                 </tree>
+					              </field>
+					          </fieldset>
+                        	</page>
+                        	<page string="Pièces"> 
+                        		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Appareil :</legend> 
+					  				<field name="operation_piece_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree"  context="{'default_order_id': active_id,'default_appareil_id': appareil_id,}">	
+	                        		<tree string="Opérations" editable="bottom" create="false">
+					                    <field name="order_id" invisible="1"/>
+					                    <field name="order_operation" invisible="1"/>
+					                    <field name="appareil_id" options="{'no_create': True,'no_open': True}" invisible="1"/>
+					                    <field name="piece_id" options="{'no_create': True,'no_open': True}"  readonly="1"/>
+					                    <button name="open_piece" type="object" icon="fa fa-external-link" string="Insérer les images"/>   
+					                    <field name="operation_id" domain="[('application','=','piece')]" options="{'no_create': True,'no_open': True}"  readonly="1"/>
+					                    <field name="allotted_time" widget="float_time" sum="Tps Alloué" readonly="1"/>
+					                    <field name="spent_time" widget="float_time" sum="Tps Passé"/>
+					                    <field name="intervenant"/>
+					                    <field name="estimated_cost" widget="monetary" sum="Coût Estimatif" readonly="1"/>
+					                    <field name="real_cost" widget="monetary" sum="Coût réel"/>
+					                    <field name="price" widget="monetary" sum="Prix"/>	
+					                    <field name="marge" widget="monetary" sum="Marge"/>				                    
+					                 </tree>
+					              </field>
+					            </fieldset>
+                        	</page>
+                        </notebook>
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="total">
+                            <field name="allotted_time_total"/>
+                            <field name="spent_time_total"/>
+                            <field name="estimated_cost_total"/>
+                            <field name="real_cost_total"/>
+                            <field name="price_total"/>
+                            <field name="marge_total"/>
+                        </group>
+                        <group>
+                            <field name="id" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    	  <record id="product_order_observation_create_view_form" model="ir.ui.view">
+            <field name="name">product.order.form</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <form string='Product Order'  create="false" delete="false">
+                    <sheet>
+                    	<field name='code_order' invisible="1"/>
+                    	<group>
+                    		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Observations à imprimer sur l'état des opérations :</legend> 
+					  			<group  colspan="2">
+							   		<field name='obs_atelier' widget="html" colspan="4" nolabel="1"/>
+							   	</group>	
+                             </fieldset>
+                        </group>
+                        <group>
+                    		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Observations à imprimer sur le devis :</legend> 
+					  			<group colspan="2">
+							   		<field name='obs_devis' widget="html" colspan="4" nolabel="1"/>
+							   	</group>
+                             </fieldset>
+                        </group>
+                        <group>
+                    		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Observations à imprimer sur l'état récapitulatif :</legend> 
+					  			<group colspan="2">
+							   		<field name='obs_recap' widget="html" colspan="4" nolabel="1"/>
+							   	</group>
+					  		</fieldset>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_order_expertise_create_view_form" model="ir.ui.view">
+            <field name="name">product.order.form</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <form string='Product Order'  create="false" delete="false">
+                    <sheet>
+                    	<field name='code_order' invisible="1"/>
+                    	<group>
+                    		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Constat d'expertise :</legend> 
+					  			<group  colspan="2">
+					  				<field name='print_expertise' colspan="2" />
+							   		<field name='note_expertise' widget="html" colspan="4" nolabel="1"/>
+							   	</group>	
+                             </fieldset>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+         <record id="product_order_certificate_create_view_form" model="ir.ui.view">
+            <field name="name">product.order.form</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <form string='Product Order'  create="false" delete="false">
+                    <sheet>
+                    	<field name='code_order' invisible="1"/>
+                    	<group  col="4" colspan="4">
+                    		 <field name='essai_satisfaisant' colspan="4"/>
+                    		 <field name='essai_org' colspan="4" options="{'no_create': True,'no_open': True}"/>
+                             <field name='essai_nom' colspan="4" options="{'no_create': True,'no_open': True}"/>
+                             <field name='essai_date' colspan="4" />
+                             <field name='essai_' colspan="4" />
+                             <field name='essai_file_name' select="1" colspan="4" invisible="1"/>
+                             <field name='essai_file' colspan="4" filename="essai_file_name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record> 
+ 	     <record id="product_order_search_view" model="ir.ui.view">
+            <field name="name">product.order.search</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <search string="Essai Nom">
+                	<field name="no_arfi"/>
+                    <field name="no_order"/>
+                    <field name="customer_id"/>
+                    <field name="type_appareil_id"/>
+					<field name="reference_appareil"/>
+					<field name="no_serie"/>
+					<field name="kks_id"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Client" domain="[]" context="{'group_by':'customer_id'}"/>
+                        <filter string="Appareil" domain="[]" context="{'group_by':'appareil_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+		<record id="view_product_order_calendar" model="ir.ui.view">
+            <field name="name">product.order.calendar</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <calendar string="Products Orders" color="state" date_start="date_order">
+                    <field name="appareil_id"/>
+                    <field name="nbr" widget="monetary"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="view_sale_product_graph" model="ir.ui.view">
+            <field name="name">product.order.graph</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <graph string="Sales Orders">
+                    <field name="date_order"/>
+                    <field name="nbr" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        <record id="view_product_order_pivot" model="ir.ui.view">
+            <field name="name">product.order.pivot</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <pivot string="Sales Orders">
+                    <field name="date_order" type="row"/>
+                    <field name="nbr" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        <record id="product_order_tree_view" model="ir.ui.view">
+            <field name="name">product.order.tree</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <tree string="Essai Nom">
+                    <field name="no_arfi"/>
+                    <field name="no_order"/>
+                    <field name="customer_id"/>
+					<field name="date_order"/>
+                    <field name="type_appareil_id"/>
+					<field name="reference_appareil"/>
+					<field name="no_serie"/>
+					<field name="kks_id"/>
+			   </tree>
+            </field>
+        </record>
+        
+         <record id="product_order_view_form" model="ir.ui.view">
+            <field name="name">product.order.form</field>
+            <field name="model">product.order</field>
+            <field name="arch" type="xml">
+                <form string='Product Order'>
+                    <sheet>
+                    	<field name='code_order' invisible="1"/>
+                    	<div class="oe_button_box" name="button_box">
+                    	</div>
+                        <group>
+                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Commande :</legend> 
+		  						<group style="width : 50%">
+	                                <field name='no_order'/>
+	                                <field name='date_order'/>
+	                                <field name='no_arfi'/>
+	                            </group>
+	                            <group style="width : 50%">
+	                                <field name='customer_id'  options="{'no_create': True,'no_open': True}"/>
+	                                <field name='place_id'  options="{'no_create': True,'no_open': True}"/>
+		                        </group>
+	                        </fieldset>
+                        </group>
+                        <group>                        	
+                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Appareil :</legend> 
+			  					<group style="width : 100%">
+			  						<field name='appareil_id'  options="{'no_create': True,'no_open': True}" context="{'form_view_ref': 'arfi.product_template_appareil_form_view'}"/>
+	                            </group>
+	                            <group style="width : 50%">
+	                                <field name='maker_id' options="{'no_create': True,'no_open': True}"/>
+	                                <field name='ss_type_appareil_id' options="{'no_create': True,'no_open': True}"/>
+	                                <field name='reference_appareil' options="{'no_create': True,'no_open': True}"/>
+	                            </group>
+	                            <group style="width : 50%">
+	                                <field name='type_appareil_id' options="{'no_create': True,'no_open': True}"/>
+	                                <field name='kks_id' options="{'no_create': True,'no_open': True}"/>
+	                                <field name='no_serie'/>
+	                            </group>
+	                        </fieldset>
+                        </group>
+                        <group >                        	
+                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Echéancier des contrôles et Retarages :</legend> 
+				  				<group style="width : 50%">
+	                            	<field name='date_next_ctr'/>
+	                            </group>
+	                            <group style="width : 50%">
+	                                <field name='date_next_retar' string="Date prochain retarage"/>
+	                            </group>
+	                        </fieldset>
+                        </group>
+                        <group>
+                        	<group>
+                            	<fieldset style="border: 1px solid #ddd !important;width : 99%;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<button class="btn btn-primary" string="Multiple Séléction"  groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" name="action_select_service"/>
+                					<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Conditions de services :</legend> 
+				  					<field style="overflow-y: auto;max-height: 100px;" name="service_ids" colspan="2" nolabel="1" mode="tree" context="{'default_order_id': active_id,}">	
+	                            		<tree string="Services" editable="bottom"  create="false" delete="false" limit="1000">
+						                    <field name="order_id" invisible="1"/>
+						                    <field name="service_id" options="{'no_open': True}" readonly="1"/>
+						                    <field name="value"/>
+						                    <button class="oe_edit_only" name="action_delete" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" icon="fa fa-trash-o" string="Supprimer"/>
+						                 </tree>
+								     </field>
+								</fieldset>	     
+							</group>
+							<group>
+                            	<fieldset style="border: 1px solid #ddd !important;width : 99%;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" name="action_select_test"/>
+                					<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Tests et contrôles :</legend> 
+					  				<field style="overflow-y: auto;max-height: 100px;" name="test_ids" colspan="2" nolabel="1" mode="tree"  context="{'default_order_id': active_id,}">	
+	                            		<tree string="Services" editable="bottom"  create="false" delete="false" limit="1000">
+						                    <field name="order_id" invisible="1"/>
+						                    <field name="test_id" options="{'no_open': True}" readonly="1"/>
+						                    <field name="value"/>
+						                    <button class="oe_edit_only" name="action_delete" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" icon="fa fa-trash-o" string="Supprimer"/>
+						                 </tree>
+								     </field>
+								  </fieldset>	   
+							</group>                        	
+                        </group>
+                        <group>
+                        	<div name="button_box" style="text-align: center;"> 
+                        		<button class="btn"  style="margin : 5px" string="Détail Appareil" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager,arfi.group_arfi_atelier" type="object" name="action_appareil"/>
+		                        <button class="btn btn-default" style="margin : 5px"  string="Détail KKS" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager,arfi.group_arfi_atelier"   type="object" name="action_kks"/>
+		                        <button class="btn btn-info" style="margin : 5px" string="Constat d'expertise"  type="object" name="action_expertise"/>
+                    	    	<button class="btn btn-primary" style="margin : 5px" string="Observations"  type="object" name="action_observation"/>
+                    	    	<button class="btn btn-success" style="margin : 5px" string="Certificat essai"  type="object" name="action_certificate"/>
+                    			<button class="btn btn-info" style="margin : 5px" string="Réalisations"  type="object" name="action_realisation"/>
+                        	</div>	
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_order_action" model="ir.actions.act_window">
+            <field name="name">Commandes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.order</field>
+            <field name="view_mode">tree,form,calendar,pivot,graph</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a new order.
+                </p>
+            </field>
+        </record>
+         <record model="ir.actions.act_window.view" id="product_order_action_form1">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_order_tree_view"/>
+            <field name="act_window_id" ref="product_order_action"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="product_order_action_tree1">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_order_view_form"/>
+            <field name="act_window_id" ref="product_order_action"/>
+        </record>
+ <!-- Open Action Opération 
+ 		<record id="open_order_operation_action" model="ir.actions.server">
+		        <field name="name">Réalisations</field>
+		        <field name="model_id" ref="model_product_order"/>
+		        <field name="type">ir.actions.server</field>
+		        <field name="state">code</field>
+		        <field name="condition">True</field>
+		        <field name="code">action = {
+		        			 'type': 'ir.actions.act_window',
+				            'res_model': 'product.order',
+				            'view_mode': 'form',
+				            'view_type': 'form',
+				            'res_id': object.id,
+				            'views': [(object.env.ref('arfi.product_order_operation_create_view_form').id, 'form')],
+				            'target': 'new',
+			            }</field>
+		</record>
+        <record id="product_order_operation_action_multi" model="ir.values">
+            <field name="name">Réalisations</field>
+            <field name="model_id" ref="model_product_order"/>
+            <field name="action_id" ref="open_order_operation_action" />
+            <field name="value" eval="'ir.actions.server,%d'%open_order_operation_action"/>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="model">product.order</field>
+        </record>-->
+ <!-- Open Action Observations 
+ 		<record id="open_order_observation_action" model="ir.actions.server">
+		        <field name="name">Observations</field>
+		        <field name="model_id" ref="model_product_order"/>
+		        <field name="type">ir.actions.server</field>
+		        <field name="state">code</field>
+		        <field name="condition">True</field>
+		        <field name="code">action = {
+		        			 'type': 'ir.actions.act_window',
+				            'res_model': 'product.order',
+				            'view_mode': 'form',
+				            'view_type': 'form',
+				            'res_id': object.id,
+				            'views': [(object.env.ref('arfi.product_order_observation_create_view_form').id, 'form')],
+				            'target': 'new',
+			            }</field>
+		</record>
+        <record id="product_order_observation_action_multi" model="ir.values">
+            <field name="name">Observations</field>
+            <field name="model_id" ref="model_product_order"/>
+            <field name="action_id" ref="open_order_observation_action" />
+            <field name="value" eval="'ir.actions.server,%d'%open_order_observation_action"/>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="model">product.order</field>
+        </record>       -->
+ <!-- Open Action Certificat 
+ 		<record id="open_order_certificate_action" model="ir.actions.server">
+		        <field name="name">Certificat d'essai</field>
+		        <field name="model_id" ref="model_product_order"/>
+		        <field name="type">ir.actions.server</field>
+		        <field name="state">code</field>
+		        <field name="condition">True</field>
+		        <field name="code">action = {
+		        			 'type': 'ir.actions.act_window',
+				            'res_model': 'product.order',
+				            'view_mode': 'form',
+				            'view_type': 'form',
+				            'res_id': object.id,
+				            'views': [(object.env.ref('arfi.product_order_certificate_create_view_form').id, 'form')],
+				            'target': 'new',
+			            }</field>
+		</record>
+        <record id="product_order_certificate_action_multi" model="ir.values">
+            <field name="name">Certificat d'essai</field>
+            <field name="model_id" ref="model_product_order"/>
+            <field name="action_id" ref="open_order_certificate_action" />
+            <field name="value" eval="'ir.actions.server,%d'%open_order_certificate_action"/>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="model">product.order</field>
+        </record>  -->
+ <!-- Open Action Détail Appareil 
+ 		<record id="open_order_appareil_action" model="ir.actions.server">
+		        <field name="name">Détail Appareil</field>
+		        <field name="model_id" ref="model_product_order"/>
+		        <field name="type">ir.actions.server</field>
+		        <field name="state">code</field>
+		        <field name="condition">True</field>
+		        <field name="code">action=object.action_appareil()</field>
+		</record>
+        <record id="product_order_appareil_action_multi" model="ir.values">
+            <field name="name">Détail Appareil</field>
+            <field name="model_id" ref="model_product_order"/>
+            <field name="action_id" ref="open_order_appareil_action" />
+            <field name="value" eval="'ir.actions.server,%d'%open_order_appareil_action"/>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="model">product.order</field>
+        </record>    -->
+ <!-- Open Action Détail KKS 
+ 		<record id="open_order_kks_action" model="ir.actions.server">
+		        <field name="name">Détail KKS</field>
+		        <field name="model_id" ref="model_product_order"/>
+		        <field name="type">ir.actions.server</field>
+		        <field name="state">code</field>
+		        <field name="condition">True</field>
+		        <field name="code">action=object.action_kks()</field>
+		</record>
+        <record id="product_order_kks_action_multi" model="ir.values">
+            <field name="name">Détail KKS</field>
+            <field name="model_id" ref="model_product_order"/>
+            <field name="action_id" ref="open_order_kks_action" />
+            <field name="value" eval="'ir.actions.server,%d'%open_order_kks_action"/>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="model">product.order</field>
+        </record>        -->  
+	<!-- Image des pieces -->
+        <record id="product_order_piece_image_form_view" model="ir.ui.view">
+            <field name="name">product.order.piece.image.form</field>
+            <field name="model">product.order.piece.image</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Product"   create="false" delete="false">
+                    <sheet>
+                    	<div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="order_id" readonly="1"/></h1>-
+                            <h1><field name="piece_id" readonly="1"/></h1>
+                        </div>
+                        <group style="width: 100%"> 
+							<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+						    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations :</legend> 
+							 	<group style="width: 50%">
+						    		<field name="degat_id"/>
+						    	</group>
+						    	<group style="width: 50%">	
+									<field name="etat_id"/>
+								</group>
+							</fieldset>
+						</group>	
+                        <group>
+                        	<group>
+		                    	<fieldset style="min-height: 370px;width: 98%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Avant :</legend> 
+								 	<field name="photo"  widget="image" class="img_product" filename="photo_name"/>
+							    	<field name="photo_name" select="1" invisible="1"/>
+								</fieldset>
+							</group>
+							<group>
+		                    	<fieldset style="min-height: 370px;width: 98%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Après :</legend> 
+								 	<field name="photo_after"  widget="image" class="img_product" filename="photo_name_after"/>
+							    	<field name="photo_name_after" select="1" invisible="1"/>
+								</fieldset>
+							</group>							
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+	<!-- Image des appareils -->
+        <record id="product_order_appareil_image_form_view" model="ir.ui.view">
+            <field name="name">product.order.appareil.image.form</field>
+            <field name="model">product.order.appareil.image</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Product"   create="false" delete="false">
+                    <sheet>
+                    	<div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="order_id" readonly="1"/></h1>-
+                            <h1><field name="appareil_id" readonly="1"/></h1>
+                        </div>	
+                        <group>
+                        	<group>
+		                    	<fieldset style="min-height: 370px;width: 98%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Avant :</legend> 
+								 	<field name="photo"  widget="image" class="img_product" filename="photo_name"/>
+							    	<field name="photo_name" select="1" invisible="1"/>
+								</fieldset>
+							</group>
+							<group>
+		                    	<fieldset style="min-height: 370px;width: 98%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Après :</legend> 
+								 	<field name="photo_after"  widget="image" class="img_product" filename="photo_name_after"/>
+							    	<field name="photo_name_after" select="1" invisible="1"/>
+								</fieldset>
+							</group>							
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>                   	
+	<!-- Conditions de serivce -->
+        <record id="product_order_service_tree_view" model="ir.ui.view">
+            <field name="name">product.order.service.tree</field>
+            <field name="model">product.order.service</field>
+            <field name="arch" type="xml">
+                <tree string="Conditions de services" editable="bottom">
+                    <field name="order_id"/>
+                    <field name="service_id"/>
+                    <field name="value"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_order_service_action" model="ir.actions.act_window">
+            <field name="name">Conditions de services</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.order.service</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouvelle condition de service
+                </p>
+            </field>
+        </record>    
+     <!-- Tests et contrôles -->
+        <record id="product_order_test_tree_view" model="ir.ui.view">
+            <field name="name">product.order.test.tree</field>
+            <field name="model">product.order.test</field>
+            <field name="arch" type="xml">
+                <tree string="Tests et contrôles" editable="bottom">
+                    <field name="order_id"/>
+                    <field name="test_id"/>
+                    <field name="value"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_order_test_action" model="ir.actions.act_window">
+            <field name="name">Tests et Contrôles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.order.test</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau test
+                </p>
+            </field>
+        </record>  
+           <!-- Opérations -->
+        <record id="product_order_operation_tree_view" model="ir.ui.view">
+            <field name="name">product.order.operation.tree</field>
+            <field name="model">product.order.operation</field>
+            <field name="arch" type="xml">
+                <tree string="Opérations" editable="top">
+                    <field name="order_id"/>
+                    <field name="type"/>
+                    <field name="operation_id"/>
+                    <field name="appareil_id"/>
+                    <field name="piece_id"/>
+                    <field name="poids_matiere"/>
+                    <field name="coef_matiere"/>
+                    <field name="allotted_time"/>
+                    <field name="estimated_cost"/>
+                    <field name="spent_time"/>
+                    <field name="real_cost"/>
+                    <field name="price"/>
+                    <field name="intervenant"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_order_operation_action" model="ir.actions.act_window">
+            <field name="name">Opérations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.order.operation</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouvelle opération
+                </p>
+            </field>
+        </record>  
+           <!-- Import Opérations -->
+        <record id="operation_tree_view" model="ir.ui.view">
+            <field name="name">operation.tree</field>
+            <field name="model">operation</field>
+            <field name="arch" type="xml">
+                <tree string="Opérations" editable="bottom">
+                	<field name="code_order"/>
+                	<field name="code_operation"/>
+                	<field name="code_piece"/>
+                    <field name="poids_matiere"/>
+                    <field name="coef_matiere"/>
+                    <field name="allotted_time"/>
+                    <field name="estimated_cost"/>
+                    <field name="spent_time"/>
+                    <field name="real_cost"/>
+                    <field name="price"/>
+                    <field name="intervenant"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="operation_action" model="ir.actions.act_window">
+            <field name="name">Opérations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">operation</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouvelle opération
+                </p>
+            </field>
+        </record>   
+         <!-- Import Commandes -->
+        <record id="commande_tree_view" model="ir.ui.view">
+            <field name="name">commande.tree</field>
+            <field name="model">commande</field>
+            <field name="arch" type="xml">
+                <tree string="Commandes" editable="bottom">
+                	<field name="code_order"/>
+                	<field name="no_order"/>
+                    <field name="date_order"/>
+                    <field name="code_client"/>
+                    <field name="code_place"/>
+                    <field name="maker"/>
+                    <field name="type_appareil"/>
+                    <field name="ss_type_appareil"/>
+                    <field name="reference_appareil"/>
+                    <field name="no_interne"/>
+                    <field name="no_serie"/>
+                    <field name="obs_devis"/>
+                    <field name="obs_recap"/>
+                    <field name="obs_atelier"/>
+                    <field name="essai_satisfaisant"/>
+                    <field name="essai_org"/>
+                    <field name="essai_nom"/>
+                    <field name="essai_date"/>
+                    <field name="essai_choix"/>
+                    <field name="date_next_ctr"/>
+                    <field name="date_next_retar"/>
+                    <field name="no_arfi"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="commande_action" model="ir.actions.act_window">
+            <field name="name">Import des commandes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">commande</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouvelle commandes
+                </p>
+            </field>
+        </record>   
+         <!-- Import Commandes -->
+        <record id="commande_kks_tree_view" model="ir.ui.view">
+            <field name="name">commande.kks.tree</field>
+            <field name="model">commande.kks</field>
+            <field name="arch" type="xml">
+                <tree string="Commandes" editable="bottom">
+                	<field name="code_order"/>
+                	<field name="code_kks"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="commande_kks_action" model="ir.actions.act_window">
+            <field name="name">Import des commandes/kks</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">commande.kks</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouvelle commande/kks
+                </p>
+            </field>
+        </record>  
+       <!-- Import Commandes/Appareils -->
+        <record id="commande_appareil_tree_view" model="ir.ui.view">
+            <field name="name">commande.appareil.tree</field>
+            <field name="model">commande.appareil</field>
+            <field name="arch" type="xml">
+                <tree string="Commandes" editable="bottom">
+                	<field name="code_order"/>
+                	<field name="code_appareil"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="commande_appareil_action" model="ir.actions.act_window">
+            <field name="name">Import des commandes/appareils</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">commande.appareil</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouvelle commande/appareil
+                </p>
+            </field>
+        </record>
+     <!-- update commande -->
+     <record id="view_update_order_form" model="ir.ui.view">
+            <field name="name">commande.update.form</field>
+            <field name="model">commande.update</field>
+            <field name="arch" type="xml">
+                <form string="Product Import">
+                    <footer>
+                        <button name="update_commande" string="Valider" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Annuler" class="oe_link" special="cancel" />
+                   </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_order_update" model="ir.actions.act_window">
+            <field name="name">Mis à jour</field>
+            <field name="res_model">commande.update</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_update_order_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_product_kks_pps_select_form" model="ir.ui.view">
+            <field name="name">product.kks.pps.select.form</field>
+            <field name="model">product.kks.pps.select</field>
+            <field name="arch" type="xml">
+                <form string="reporting">
+                	<group col="4" colspan="2">
+						<field name="kks_id" required="1" invisible="1"/>
+						<field name="directory_id" required="1" invisible="1"/>
+						<field name="type_file" required="1" invisible="1" />
+						<field name="pps_ids" domain="[('variant', '=', True),('type_file','=','prev')]" nolabel="1" options="{'no_create': True}"  widget="many2many_checkboxes" colspan="4"/>	     
+	                 </group>
+	                  <footer>
+	                    <button name="action_execute" string="Valider" type="object" class="oe_highlight"/>
+	                    ou
+	                    <button string="Annuler" class="btn-default" special="cancel"/>   
+                	</footer>
+               </form>
+            </field>
+        </record>
+    </data>
+</openerp>

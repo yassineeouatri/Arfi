@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<!-- <record model="muk_dms.root" id="database_root0">
+			<field name="name">Database Settings</field>
+			<field name="root_directory" ref="database_directory_root" />
+			<field name="save_type">database</field> 
+		</record>-->
+	</data>
+</odoo>

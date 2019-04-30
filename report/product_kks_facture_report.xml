@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+<template id="report_productkksfacture">
+    <t t-call="report.html_container">
+	    <t t-foreach="docs" t-as="o">    
+	        <t t-call="report.external_layout">
+    	    	<div class="page">	        				
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>Facture N° : </strong><span t-field="o.facture_id.no_facture"/><span t-field="o.facture_id.type_facture"/></p>
+				            <p><strong>BC/Contrat N°   : </strong><span t-field="o.facture_id.no_contrat"/></p>
+				            <p><strong>Devis N°   : </strong><span t-field="o.facture_id.no_devis"/></p>
+				            <p><strong>Votre référence   : </strong><span t-field="o.facture_id.no_reference"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Date : </strong><span t-field="o.facture_id.date_facture" t-options ='{"format": "d/M/Y"}'></span></p> 
+		        			<p><strong>Client : </strong><span t-field="o.facture_id.customer_id.name"/></p>
+				            <p><strong>Adresse   : </strong><span t-field="o.facture_id.customer_id.street"/></p>
+				        </div> 
+		       		</div>
+		       		<p>Désignation <span t-field="o.facture_id.type_extraction"/>  arrêt unité <span t-field="o.facture_id.unite_id.code"/>
+		       			du <span t-field="o.facture_id.arret_id.date" t-options ='{"widget": "datetime","format": "EEEE dd MMMM y"}'></span></p>  
+					<div class="row">
+		       			<div class="col-xs-12"  >		
+		        			 <table class="table table-condensed  table table-striped table table-bordered" style="font-size :14px">
+				                <thead style=" background-color: #3498DB;"  >
+				                    <tr>
+				                        <th class="text-center" colspan="1"><font color="#fff">item</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">KKS</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Marque</font></th>
+				                        <th class="text-center" colspan="5"><font color="#fff">Réference</font></th>
+				                        <th class="text-center" colspan="1"><font color="#fff">Montant</font></th>
+				                    </tr>
+				                </thead>
+				                <tbody class="invoice_tbody">
+					                <tr t-foreach="o.facture_id.facture_line.sorted(key=lambda b: b.item)" t-as="l">
+									  	<td class="text-center" colspan="1"><span t-field="l.item"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.kks_id.name"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.maker_id.name"/></td>
+				                        <td class="text-center" colspan="5"><span t-field="l.reference"/></td>
+				                        <td class="text-center" colspan="1"><span t-esc="'%.2f'%(l.montant)"/></td>
+				                  	</tr>
+								</tbody>
+				            </table>
+				        </div> 
+		       		</div>	   
+		       		<div class="row" style="font-size :20px">
+		       			<t t-set="montant_ht" t-value="sum(l.montant for l in o.facture_id.facture_line)"/>
+	        			<div class="col-xs-6"  >
+		        			<p>Arrêtée de la présente facture à la somme de :</p>
+		        			<p><strong><span t-field="o.facture_id.montant_text"/></strong></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+		        			<p><strong>Montant HT : <span t-esc="'%.2f'%(montant_ht)"/> Dhs</strong></p>
+		        			<p><strong>TVA (20%) : <span t-esc="'%.2f'%(montant_ht*0.2)"/> Dhs</strong></p>
+				            <p><strong>Montant TTC : <span t-esc="'%.2f'%(montant_ht*1.2)"/> Dhs</strong></p>
+				        </div> 
+		       		</div>  
+		       		</div>
+		       	</t>	        	
+        </t>
+    </t>
+</template>
+<template id="report_productkksfacturechangement">
+    <t t-call="report.external_layout">
+    	<t t-call="report.html_container">
+	        <div class="page">
+	        	<t t-foreach="docs" t-as="o">    
+	        				
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>Facture N° : </strong><span t-field="o.facture_id.no_facture"/><span t-field="o.facture_id.type_facture"/></p>
+				            <p><strong>BC/Contrat N°   : </strong><span t-field="o.facture_id.no_contrat"/></p>
+				            <p><strong>Devis N°   : </strong><span t-field="o.facture_id.no_devis"/></p>
+				            <p><strong>Votre référence   : </strong><span t-field="o.facture_id.no_reference"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Date : </strong><span t-field="o.facture_id.date_facture" t-options ='{"format": "d/M/Y"}'></span></p> 
+		        			<p><strong>Client : </strong><span t-field="o.facture_id.customer_id.name"/></p>
+				            <p><strong>Adresse   : </strong><span t-field="o.facture_id.customer_id.street"/></p>
+				        </div> 
+		       		</div>
+		       		<p>Désignation <span t-field="o.facture_id.type_extraction"/>  arrêt unité <span t-field="o.facture_id.unite_id.code"/>
+		       			du <span t-field="o.facture_id.arret_id.date"></span></p>  
+					<div class="row">
+		       			<div class="col-xs-12"  >		
+		        			 <table class="table table-condensed  table table-striped table table-bordered" style="font-size :14px">
+				                <thead style=" background-color: #3498DB;"  >
+				                    <tr>
+				                        <th class="text-center" colspan="1"><font color="#fff">item</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">KKS</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Marque</font></th>
+				                        <th class="text-center" colspan="5"><font color="#fff">Réference</font></th>
+				                        <th class="text-center" colspan="1"><font color="#fff">Montant</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Action</font></th>
+				                    </tr>
+				                </thead>
+				                <tbody class="invoice_tbody">
+					                <tr t-foreach="o.facture_id.facture_line.sorted(key=lambda b: b.item)" t-as="l">
+									  	<td class="text-center" colspan="1"><span t-field="l.item"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.kks_id.name"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.maker_id.name"/></td>
+				                        <td class="text-center" colspan="5"><span t-field="l.reference"/></td>
+				                        <td class="text-center" colspan="1"><span t-esc="'%.2f'%(l.montant)"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.nature_id.name"/></td>
+				                  	</tr>
+								</tbody>
+				            </table>
+				        </div> 
+		       		</div>	   
+		       		<div class="row" style="font-size :20px">
+		       			<t t-set="montant_ht" t-value="sum(l.montant for l in o.facture_id.facture_line)"/>
+	        			<div class="col-xs-6"  >
+		        			<p>Arrêtée de la présente facture à la somme de :</p>
+		        			<p><strong><span t-field="o.facture_id.montant_text"/></strong></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+		        			<p><strong>Montant HT : <span t-esc="'%.2f'%(montant_ht)"/> Dhs</strong></p>
+		        			<p><strong>TVA (20%) : <span t-esc="'%.2f'%(montant_ht*0.2)"/> Dhs</strong></p>
+				            <p><strong>Montant TTC : <span t-esc="'%.2f'%(montant_ht*1.2)"/> Dhs</strong></p>
+				        </div> 
+		       		</div>  
+		       		
+		       	</t>	
+        	</div>
+        </t>
+    </t>
+</template>
+<template id="report_productkkspv">
+    <t t-call="report.external_layout">
+    	<t t-call="report.html_container">
+	        <div class="page">
+	        	<t t-foreach="docs" t-as="o">    
+	        				
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>Facture N° : </strong><span t-field="o.facture_id.no_facture"/><span t-field="o.facture_id.type_facture"/></p>
+				            <p><strong>BC/Contrat N°   : </strong><span t-field="o.facture_id.no_contrat"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Date : </strong><span t-field="o.facture_id.date_facture" t-options ='{"format": "d/M/Y"}'></span></p> 
+		        			<p><strong>Client : </strong><span t-field="o.facture_id.customer_id.name"/></p>
+				            <p><strong>Adresse   : </strong><span t-field="o.facture_id.customer_id.street"/></p>
+				        </div> 
+		       		</div>
+		       		<p>Désignation <span t-field="o.facture_id.type_extraction"/>  arrêt unité <span t-field="o.facture_id.unite_id.code"/>
+		       			du <span t-field="o.facture_id.arret_id.date" t-options ='{"widget": "datetime","format": "EEEE dd MMMM y"}'></span></p>  
+					<div class="row">
+		       			<div class="col-xs-12"  >		
+		        			 <table class="table table-condensed  table table-striped table table-bordered" style="font-size :14px">
+				                <thead style=" background-color: #3498DB;"  >
+				                    <tr>
+				                        <th class="text-center" colspan="1"><font color="#fff">item</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">KKS</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Marque</font></th>
+				                        <th class="text-center" colspan="6"><font color="#fff">Réference</font></th>
+				                    </tr>
+				                </thead>
+				                <tbody class="invoice_tbody">
+					                <tr t-foreach="o.facture_id.facture_line.sorted(key=lambda b: b.item)" t-as="l">
+									  	<td class="text-center" colspan="1"><span t-field="l.item"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.kks_id.name"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.maker_id.name"/></td>
+				                        <td class="text-center" colspan="6"><span t-field="l.reference"/></td>
+				                  	</tr>
+								</tbody>
+				            </table>
+				        </div> 
+		       		</div>			       		
+		       	</t>	
+        	</div>
+        </t>
+    </t>
+</template>
+<template id="report_productkkspvchangement">
+    <t t-call="report.external_layout">
+    	<t t-call="report.html_container">
+	        <div class="page">
+	        	<t t-foreach="docs" t-as="o">    
+	        				
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>Facture N° : </strong><span t-field="o.facture_id.no_facture"/><span t-field="o.facture_id.type_facture"/></p>
+				            <p><strong>BC/Contrat N°   : </strong><span t-field="o.facture_id.no_contrat"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Date : </strong><span t-field="o.facture_id.date_facture" t-options ='{"format": "d/M/Y"}'></span></p> 
+		        			<p><strong>Client : </strong><span t-field="o.facture_id.customer_id.name"/></p>
+				            <p><strong>Adresse   : </strong><span t-field="o.facture_id.customer_id.street"/></p>
+				        </div> 
+		       		</div>
+		       		<p>Désignation <span t-field="o.facture_id.type_extraction"/>  arrêt unité <span t-field="o.facture_id.unite_id.code"/>
+		       			du <span t-field="o.facture_id.arret_id.date" t-options ='{"widget": "datetime","format": "EEEE dd MMMM y"}'></span></p>  
+					<div class="row">
+		       			<div class="col-xs-12"  >		
+		        			 <table class="table table-condensed  table table-striped table table-bordered" style="font-size :14px">
+				                <thead style=" background-color: #3498DB;"  >
+				                    <tr>
+				                        <th class="text-center" colspan="1"><font color="#fff">item</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">KKS</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Marque</font></th>
+				                        <th class="text-center" colspan="6"><font color="#fff">Réference</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Action</font></th>
+				                    </tr>
+				                </thead>
+				                <tbody class="invoice_tbody">
+					                <tr t-foreach="o.facture_id.facture_line.sorted(key=lambda b: b.item)" t-as="l">
+									  	<td class="text-center" colspan="1"><span t-field="l.item"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.kks_id.name"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.maker_id.name"/></td>
+				                        <td class="text-center" colspan="6"><span t-field="l.reference"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.nature_id.name"/></td>
+				                  	</tr>
+								</tbody>
+				            </table>
+				        </div> 
+		       		</div>			       		
+		       	</t>	
+        	</div>
+        </t>
+    </t>
+</template>
+<template id="action_report_productkksfacture">
+    <t t-call="report.external_layout">
+    	<t t-call="report.html_container">
+	        <div class="page">
+	        	<t t-foreach="docs" t-as="o">   
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>Facture N° : </strong><span t-field="o.facture_id.no_facture"/> <span t-field="o.facture_id.type_facture"/></p>
+				            <p><strong>BC/Contrat N°   : </strong><span t-field="o.facture_id.no_contrat"/></p>
+				            <p><strong>Devis N°   : </strong><span t-field="o.facture_id.no_devis"/></p>
+				            <p><strong>Votre référence   : </strong><span t-field="o.facture_id.no_reference"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Date : </strong><span t-field="o.facture_id.date_facture" t-options ='{"format": "d/M/Y"}'></span></p> 
+		        			<p><strong>Client : </strong><span t-field="o.facture_id.customer_id.name"/></p>
+				            <p><strong>Adresse   : </strong><span t-field="o.facture_id.customer_id.street"/></p>
+				        </div> 
+		       		</div>
+		       		<p>Désignation <span t-field="o.facture_id.type_extraction"/>  arrêt unité <span t-field="o.facture_id.unite_id.code"/>
+		       			du <span t-field="o.facture_id.arret_id.date" t-options ='{"widget": "datetime","format": "EEEE dd MMMM y"}'></span></p>  
+					<div class="row">
+		       			<div class="col-xs-12"  >		
+		        			 <table class="table table-condensed  table table-striped table table-bordered">
+				                <thead style=" background-color: #3498DB;"  >
+				                    <tr>
+				                        <th class="text-center" colspan="1"><font color="#fff">item</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">KKS</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Marque</font></th>
+				                        <th class="text-center" colspan="5"><font color="#fff">Réference</font></th>
+				                        <th class="text-center" colspan="1"><font color="#fff">Montant</font></th>
+				                    </tr>
+				                </thead>
+				                 <tbody class="invoice_tbody">
+					                <tr t-foreach="o.facture_id.facture_line.sorted(key=lambda b: b.item)" t-as="l">
+									  	<td class="text-center" colspan="1"><span t-field="l.item"/></td>
+				                        <td class="text-left" colspan="3"><span t-field="l.kks_id.name"/></td>
+				                        <td class="text-left" colspan="3"><span t-field="l.maker_id.name"/></td>
+				                        <td class="text-left" colspan="5"><span t-field="l.reference"/></td>
+				                        <td class="text-center" colspan="1"><span t-esc="'%.2f'%(l.montant)"/></td>
+				                  	</tr>
+								</tbody>
+				            </table>
+				        </div> 
+		       		</div>	   
+		       		<div class="row" style="font-size :20px">
+		       			<t t-set="montant_ht" t-value="sum(l.montant for l in o.facture_id.facture_line)"/>
+	        			<div class="col-xs-6"  >
+		        			<p>Arrêtée de la présente facture à la somme de :</p>
+		        			<p><strong><span t-field="o.facture_id.montant_text"/></strong></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+		        			<p><strong>Montant HT : <span t-esc="'%.2f'%(montant_ht)"/> Dhs</strong></p>
+		        			<p><strong>TVA (20%) : <span t-esc="'%.2f'%(montant_ht*0.2)"/> Dhs</strong></p>
+				            <p><strong>Montant TTC : <span t-esc="'%.2f'%(montant_ht*1.2)"/> Dhs</strong></p>
+				        </div> 
+		       		</div>  
+		       		
+		       	</t>	
+        	</div>
+        </t>
+    </t>
+</template>
+<template id="action_report_productkksfacturechangement">
+    <t t-call="report.external_layout">
+    	<t t-call="report.html_container">
+	        <div class="page">
+	        	<t t-foreach="docs" t-as="o">   
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>Facture N° : </strong><span t-field="o.facture_id.no_facture"/> <span t-field="o.facture_id.type_facture"/></p>
+				            <p><strong>BC/Contrat N°   : </strong><span t-field="o.facture_id.no_contrat"/></p>
+				            <p><strong>Devis N°   : </strong><span t-field="o.facture_id.no_devis"/></p>
+				            <p><strong>Votre référence   : </strong><span t-field="o.facture_id.no_reference"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Date : </strong><span t-field="o.facture_id.date_facture" t-options ='{"format": "d/M/Y"}'></span></p> 
+		        			<p><strong>Client : </strong><span t-field="o.facture_id.customer_id.name"/></p>
+				            <p><strong>Adresse   : </strong><span t-field="o.facture_id.customer_id.street"/></p>
+				        </div> 
+		       		</div>
+		       		<p>Désignation <span t-field="o.facture_id.type_extraction"/>  arrêt unité <span t-field="o.facture_id.unite_id.code"/>
+		       			du <span t-field="o.facture_id.arret_id.date" t-options ='{"widget": "datetime","format": "EEEE dd MMMM y"}'></span></p>  
+					<div class="row">
+		       			<div class="col-xs-12"  >		
+		        			 <table class="table table-condensed  table table-striped table table-bordered">
+				                <thead style=" background-color: #3498DB;"  >
+				                    <tr>
+				                        <th class="text-center" colspan="1"><font color="#fff">item</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">KKS</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Marque</font></th>
+				                        <th class="text-center" colspan="5"><font color="#fff">Réference</font></th>
+				                        <th class="text-center" colspan="1"><font color="#fff">Montant</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Action</font></th>
+				                    </tr>
+				                </thead>
+				                 <tbody class="invoice_tbody">
+					                <tr t-foreach="o.facture_id.facture_line.sorted(key=lambda b: b.item)" t-as="l">
+									  	<td class="text-center" colspan="1"><span t-field="l.item"/></td>
+				                        <td class="text-left" colspan="3"><span t-field="l.kks_id.name"/></td>
+				                        <td class="text-left" colspan="3"><span t-field="l.maker_id.name"/></td>
+				                        <td class="text-left" colspan="5"><span t-field="l.reference"/></td>
+				                        <td class="text-center" colspan="1"><span t-esc="'%.2f'%(l.montant)"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.nature_id.name"/></td>
+				                  	</tr>
+								</tbody>
+				            </table>
+				        </div> 
+		       		</div>	   
+		       		<div class="row" style="font-size :20px">
+		       			<t t-set="montant_ht" t-value="sum(l.montant for l in o.facture_id.facture_line)"/>
+	        			<div class="col-xs-6"  >
+		        			<p>Arrêtée de la présente facture à la somme de :</p>
+		        			<p><strong><span t-field="o.facture_id.montant_text"/></strong></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+		        			<p><strong>Montant HT : <span t-esc="'%.2f'%(montant_ht)"/> Dhs</strong></p>
+		        			<p><strong>TVA (20%) : <span t-esc="'%.2f'%(montant_ht*0.2)"/> Dhs</strong></p>
+				            <p><strong>Montant TTC : <span t-esc="'%.2f'%(montant_ht*1.2)"/> Dhs</strong></p>
+				        </div> 
+		       		</div>  
+		       		
+		       	</t>	
+        	</div>
+        </t>
+    </t>
+</template>
+<template id="action_report_productkkspv">
+    <t t-call="report.external_layout">
+    	<t t-call="report.html_container">
+	        <div class="page">
+	        	<t t-foreach="docs" t-as="o">   
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>PV N° : </strong><span t-field="o.facture_id.no_facture"/> <span t-field="o.facture_id.type_facture"/></p>
+				            <p><strong>BC/Contrat N°   : </strong><span t-field="o.facture_id.no_contrat"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Date : </strong><span t-field="o.facture_id.date_facture" t-options ='{"format": "d/M/Y"}'></span></p> 
+		        			<p><strong>Client : </strong><span t-field="o.facture_id.customer_id.name"/></p>
+				            <p><strong>Adresse   : </strong><span t-field="o.facture_id.customer_id.street"/></p>
+				        </div> 
+		       		</div>
+		       		<p>Désignation <span t-field="o.facture_id.type_extraction"/>  arrêt unité <span t-field="o.facture_id.unite_id.code"/>
+		       			du <span t-field="o.facture_id.arret_id.date" t-options ='{"widget": "datetime","format": "EEEE dd MMMM y"}'></span></p>  
+					<div class="row">
+		       			<div class="col-xs-12"  >		
+		        			 <table class="table table-condensed  table table-striped table table-bordered">
+				                <thead style=" background-color: #3498DB;"  >
+				                    <tr>
+				                        <th class="text-center" colspan="1"><font color="#fff">item</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">KKS</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Marque</font></th>
+				                        <th class="text-center" colspan="6"><font color="#fff">Réference</font></th>
+				                    </tr>
+				                </thead>
+				                 <tbody class="invoice_tbody">
+					                <tr t-foreach="o.facture_id.facture_line.sorted(key=lambda b: b.item)" t-as="l">
+									  	<td class="text-center" colspan="1"><span t-field="l.item"/></td>
+				                        <td class="text-left" colspan="3"><span t-field="l.kks_id.name"/></td>
+				                        <td class="text-left" colspan="3"><span t-field="l.maker_id.name"/></td>
+				                        <td class="text-left" colspan="6"><span t-field="l.reference"/></td>
+				                  	</tr>
+								</tbody>
+				            </table>
+				        </div> 
+		       		</div>	   		       		
+		       	</t>	
+        	</div>
+        </t>
+    </t>
+</template>
+<template id="action_report_productkkspvchangement">
+    <t t-call="report.external_layout">
+    	<t t-call="report.html_container">
+	        <div class="page">
+	        	<t t-foreach="docs" t-as="o">   
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>PV N° : </strong><span t-field="o.facture_id.no_facture"/> <span t-field="o.facture_id.type_facture"/></p>
+				            <p><strong>BC/Contrat N°   : </strong><span t-field="o.facture_id.no_contrat"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Date : </strong><span t-field="o.facture_id.date_facture" t-options ='{"format": "d/M/Y"}'></span></p> 
+		        			<p><strong>Client : </strong><span t-field="o.facture_id.customer_id.name"/></p>
+				            <p><strong>Adresse   : </strong><span t-field="o.facture_id.customer_id.street"/></p>
+				        </div> 
+		       		</div>
+		       		<p>Désignation <span t-field="o.facture_id.type_extraction"/>  arrêt unité <span t-field="o.facture_id.unite_id.code"/>
+		       			du <span t-field="o.facture_id.arret_id.date" t-options ='{"widget": "datetime","format": "EEEE dd MMMM y"}'></span></p>  
+					<div class="row">
+		       			<div class="col-xs-12"  >		
+		        			 <table class="table table-condensed  table table-striped table table-bordered">
+				                <thead style=" background-color: #3498DB;"  >
+				                    <tr>
+				                        <th class="text-center" colspan="1"><font color="#fff">item</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">KKS</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Marque</font></th>
+				                        <th class="text-center" colspan="6"><font color="#fff">Réference</font></th>
+				                        <th class="text-center" colspan="3"><font color="#fff">Action</font></th>
+				                    </tr>
+				                </thead>
+				                 <tbody class="invoice_tbody">
+					                <tr t-foreach="o.facture_id.facture_line.sorted(key=lambda b: b.item)" t-as="l">
+									  	<td class="text-center" colspan="1"><span t-field="l.item"/></td>
+				                        <td class="text-left" colspan="3"><span t-field="l.kks_id.name"/></td>
+				                        <td class="text-left" colspan="3"><span t-field="l.maker_id.name"/></td>
+				                        <td class="text-left" colspan="6"><span t-field="l.reference"/></td>
+				                        <td class="text-center" colspan="3"><span t-field="l.nature_id.name"/></td>
+				                  	</tr>
+								</tbody>
+				            </table>
+				        </div> 
+		       		</div>	   		       		
+		       	</t>	
+        	</div>
+        </t>
+    </t>
+</template>
+</odoo>

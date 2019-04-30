@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="product_order_operation_layout">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.product_order_operation_report_header" />
+    <t t-raw="0" />
+    <t t-call="report.external_layout_footer" />
+</template>
+
+<template id="product_order_operation_report_header">
+    <div class="header">
+         <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+            </div>
+            <div class="col-xs-6 text-center" style="padding-top: 40px;">
+            	<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Récapitulatif des opérations</h2> 
+            </div>
+            <div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+            
+        </div>
+        <div class="row zero_min_height" style="padding-top: 5px;">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>    
+    </div>
+</template>	
+<template id="action_report_productorderoperation">
+    <t t-call="arfi.product_order_operation_layout">
+    	<t t-call="report.html_container">
+	        <div class="page"  >
+        	<t t-foreach="docs" t-as="template">    		
+        		<div style="width : 100%">
+        			<div class="col-xs-6"  >
+	        			<p><strong>Numéro commande :</strong><span t-field="template.no_order"/></p>
+			            <p><strong>Date commande   :</strong><span t-field="template.date_order"/></p>
+			        </div> 
+			        <div class="col-xs-6"  >
+	        			<p><strong>Client :</strong><span t-field="template.customer_id.name"/></p>
+			            <p><strong>Lieu   :</strong><span t-field="template.place_id.description"/></p>
+			        </div> 
+	       		</div>
+	       		<div style="width : 100%">
+	       			<p ><u><strong>Informations Appareil :</strong></u></p>
+        			<div class="col-xs-6"  >
+	        			<p><strong>Fabriquant :</strong><span t-field="template.maker_id.name"/></p>
+			            <p><strong>Type :</strong><span t-field="template.ss_type_appareil_id.description"/></p>
+			            <p><strong>Référence :</strong><span t-field="template.reference_appareil"/></p>
+			        </div> 
+			        <div class="col-xs-6"  >
+	        			<p><strong>N° ARFI :</strong><span t-field="template.no_arfi"/></p>
+			            <p><strong>N° Série :</strong><span t-field="template.no_serie"/></p>
+			            <p><strong>KKS :</strong><span t-field="template.kks_id.name"/></p>
+			        </div> 
+	       		</div>
+	       		
+				<div style="width : 100%">
+					<p ><u><strong>Caractéristiques :</strong></u></p>
+        			<div class="col-xs-6">
+	        			 <table  style="font-size :14px">
+			                <thead>
+			                    <tr>
+			                        <th style="text-align : center">Mesure</th>
+			                        <th style="text-align : center">Valeur</th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="template.appareil_id.attribute_line_ids" t-as="l">
+			                        <td><span t-field="l.attribute_id.name"/></td>
+			                        <td><span t-field="l.value"/></td>
+			                    </tr>
+			                </tbody>
+			            </table>
+			        </div> 
+			        <div class="col-xs-6"  >
+			        	<p><strong>Autres caractéristiques</strong></p> 
+	        			 <table class="table table-condensed table table table-bordered" style="font-size :14px">
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="template.service_ids" t-as="l">
+			                        <td><span t-field="l.service_id.name"/></td>
+			                        <td><span t-field="l.value"/></td>
+			                    </tr>
+			                </tbody>
+			             </table>
+			        </div> 
+	       		</div>
+	       		<div style="width : 100%">
+	       			<p  ><u>Opérations sur l'appareil :</u></p> 
+        			<div class="col-xs-12"  >		
+	        			 <table  style="font-size :14px">
+			                <thead >
+			                    <tr>
+			                        <th style="text-align : center">Opération</th>
+			                        <th style="text-align : center">Code Matière</th>
+			                        <th style="text-align : center">Poids Matière</th>
+			                        <th style="text-align : center">Coût Matière</th>
+			                        <th style="text-align : center">Temps alloué</th>
+			                        <th style="text-align : center">Coût Estimatif</th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="template.operation_appareil_ids" t-as="l">
+			                        <td><span t-field="l.operation_id.name"/></td>
+			                        <td style="text-align : center"></td>
+			                        <td style="text-align : center"></td>
+			                        <td style="text-align : center"></td>
+			                        <td style="text-align : center"><span t-esc="time.strftime('%H:%M', time.gmtime(3600*l.allotted_time))"/></td>
+			                        <td style="text-align : center"><span t-esc="round(l.estimated_cost,2)"/></td>
+			                    </tr>
+			                </tbody>
+			                <tr>
+								 <td style="text-align : left" colspan="4"> </td>
+								 <td style="text-align : right" colspan="2"><strong>Sous Total : 
+								      <t t-set="subtotal_appareil" t-value="sum(l.estimated_cost for l in template.operation_appareil_ids)"/>
+                                	<span t-esc="subtotal_appareil"/></strong></td>
+							</tr>
+			            </table>
+			        </div> 
+	       		</div>	     
+	       		<div style="width : 100%">
+	       			<p ><u>Opérations sur les pièces :</u></p> 
+        			<div class="col-xs-12"  >
+	        			 <table >
+			                <thead >
+			                    <tr>
+									<th style="text-align : center">Opération</th>
+			                        <th style="text-align : center">Code Matière</th>
+			                        <th style="text-align : center">Poids Matière</th>
+			                        <th style="text-align : center">Coût Matière</th>
+			                        <th style="text-align : center">Temps alloué</th>
+			                        <th style="text-align : center">Coût Estimatif</th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                	<t t-set="product_piece" t-value="[]"/>
+								<t t-foreach="template.operation_piece_ids" t-as="l">
+								    <t t-set="product_piece" t-value="product_piece+[l.piece_id]"/>
+								</t>
+								<t t-foreach="set(product_piece)" t-as="piece">
+									<t t-set="sub_total" t-value="0"/>
+								    <t t-foreach="template.operation_piece_ids" t-as="l">
+								        <t t-if="piece.id==l.piece_id.id">
+								        	<t t-set="sub_total" t-value="sub_total+l.estimated_cost"/>
+								            <tr>
+								            	<td><span t-field="l.operation_id.name"/></td>
+						                        <td style="text-align : center"><span t-field="l.piece_id.material_id.name"/></td>
+						                        <td style="text-align : center"><span t-field="l.poids_matiere"/></td>
+						                        <td style="text-align : center"><span t-field="l.coef_matiere"/></td>
+						                        <td style="text-align : center"><span t-esc="time.strftime('%H:%M', time.gmtime(3600*l.allotted_time))"/></td>
+						                        <td style="text-align : center"><span t-field="l.estimated_cost"/></td>
+					                        </tr>
+								        </t>
+								    </t>
+								     <tr>
+								     	<td style="text-align : left" colspan="4"><strong t-esc="piece.name"/> </td>
+								        <td style="text-align : right" colspan="2">Sous Total : <strong t-esc="sub_total"/></td>
+								     </tr>
+								</t>
+			                </tbody>
+			                <tr>
+								 <td style="text-align : left" colspan="4"> </td>
+								 <td style="text-align : right" colspan="2"><strong>Total Commande : 
+								      <t t-set="total" t-value="sum(l.estimated_cost for l in template.operation_appareil_ids)+sum(l.estimated_cost for l in template.operation_piece_ids)"/>
+                                  <span t-esc="total"/></strong></td>
+							</tr>
+			            </table>
+			        </div> 
+	       		</div>		
+        	</t>
+        </div>
+        </t>
+    </t>
+</template>
+<template id="report_productorderoperation"> 
+	<t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="arfi.product_order_operation_layout">
+                <div class="page">
+                    <div class="oe_structure"/>    
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>Numéro commande : </strong><span t-field="o.no_order"/></p>
+				            <p><strong>Date commande   : </strong><span t-field="o.date_order"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+		        			<p><strong>Client :</strong> <span t-field="o.customer_id.name"/></p>
+				            <p><strong>Lieu   :</strong> <span t-field="o.place_id.description"/></p>
+				        </div> 
+				    </div>    
+		       		<div class="row" style="padding-top: 5px;">
+		       			<div class="col-xs-12"  >	       		
+		       				<p style="border: solid 1px;width: 180px;padding-left: 10px;"><strong>Informations Appareil :</strong></p>
+	        			</div>
+	        		</div>	
+	        		<div class="row" style="padding-top: 5px;">	
+		       			<div class="col-xs-6"  >
+		        			<p><strong>Fabriquant : </strong><span t-field="o.maker_id.name"/></p>
+				            <p><strong>Type : </strong><span t-field="o.ss_type_appareil_id.description"/></p>
+				            <p><strong>Référence : </strong><span t-field="o.reference_appareil"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+		        			<p><strong>N° ARFI : </strong><span t-field="o.no_arfi"/></p>
+				            <p><strong>N° Série : </strong><span t-field="o.no_serie"/></p>
+				            <p><strong>KKS : </strong><span t-field="o.kks_id.name"/></p>
+				        </div> 
+		       		</div>
+		       		
+					<div class="row" style="padding-top: 5px;">
+						<div class="col-xs-6">
+		        			 <table class="table table-condensed table table-bordered">
+				                <thead>
+				                    <tr style="background-color : #ddd">
+				                        <th style="border: 1px solid black;" class="text-center">Mesure</th>
+				                        <th style="border: 1px solid black;" class="text-center">Valeur</th>
+				                    </tr>
+				                </thead>
+				                <tbody class="invoice_tbody">
+				                    <tr t-foreach="o.appareil_id.attribute_line_ids.sorted(key=lambda b: b.attribute_id.sequence)" t-as="l">
+				                        <td style="border: 1px solid black;"><span t-field="l.attribute_id.name"/></td>
+				                        <td style="border: 1px solid black;"><span t-field="l.value"/></td>
+				                    </tr>
+				                </tbody>
+				            </table>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Autres caractéristiques</strong></p> 
+		        			 <table class="table table-condensed table table-bordered">
+				                <tbody class="invoice_tbody">
+				                    <tr t-foreach="o.service_ids" t-as="l">
+				                        <td style="border: 1px solid black;"><span t-field="l.service_id.name"/></td>
+				                        <td style="border: 1px solid black;"><span t-field="l.value"/></td>
+				                    </tr>
+				                </tbody>
+				             </table>
+				        </div> 
+		       		</div>
+				    <div class="row" style="padding-top: 5px;">
+		    			<table  style="font-size :14px;border-color : black" class="table table-condensed ">
+		    				<tr style="border-top: 1px double black;border-bottom: 1px double black;">
+		                        <th class="text-center" colspan="6">Opérations</th>
+		                        <th class="text-center" colspan="2">Code Matière</th>
+		                        <th class="text-center" colspan="2">Poids Matière</th>
+		                        <th class="text-center" colspan="2">Coût Matière</th>
+		                        <th class="text-center" colspan="2">Temps alloué</th>
+		                        <th class="text-center" colspan="2">Coût Estimatif</th>
+			                </tr>
+				            <tr>
+		                        <th class="text-left" colspan="16" style="border-bottom: 1px solid black;">Appareil</th>
+			                </tr>
+		                	<t t-set="sub_total" t-value="0"/>
+		                	<t t-set="total" t-value="0"/>
+		                    <tr t-foreach="o.operation_appareil_ids" t-as="l" style="border-bottom: 1px solid black;">
+		                    	<t t-set="sub_total" t-value="sub_total+l.estimated_cost"/>
+		                    	
+		                        <td colspan="6"><span t-field="l.operation_id.name"/></td>
+		                        <td class="text-center" colspan="2"></td>
+		                        <td class="text-center" colspan="2"></td>
+		                        <td class="text-center" colspan="2"></td>
+		                        <td class="text-center" colspan="2"><span t-esc="time.strftime('%H:%M', time.gmtime(3600*l.allotted_time))"/></td>
+		                        <td class="text-center" colspan="2"><span t-esc="'%.2f'%(l.estimated_cost)"/></td>
+		                    </tr>
+		                    <tr> 
+			                	 <td class="text-left" colspan="12" style="border-bottom: solid 1px white;"> </td>
+								 <td class="text-right" colspan="4"  style="border-bottom: solid 1px black;"></td>
+							</tr>
+			                <tr> 
+			                	 <t t-set="total" t-value="sub_total+total"/>	
+								 <td class="text-left" colspan="12" style="border-bottom: solid 1px black;"> </td>
+								 <td class="text-right" colspan="4"  style="border: solid 1px black;"><strong>Sous Total : <span t-esc="'%.2f'%(sub_total)"/></strong></td>
+							</tr>		                
+		                	<t t-set="product_piece" t-value="[]"/>
+							<t t-foreach="o.operation_piece_ids.sorted(key=lambda b: b.piece_id.order_)" t-as="l">
+								<t t-if="l.piece_id not in product_piece">								    
+							   	 	<t t-set="product_piece" t-value="product_piece+[l.piece_id]"/> 
+								</t>
+							</t>
+							<t t-foreach="product_piece" t-as="piece">
+								<t t-set="sub_total" t-value="0"/>
+								<tr><td class="text-left" colspan="16" style="border-bottom: solid 1px white;"> </td></tr>
+								<tr><td class="text-left" colspan="16" style="border-bottom: solid 1px black;"> </td></tr>
+			                	<tr><td class="text-left" colspan="16" style="border-bottom: solid 1px black;"><strong t-esc="piece.name"/>(<strong t-esc="piece.no_piece"/>) </td></tr>
+							    <t t-foreach="o.operation_piece_ids.sorted(key=lambda b: b.piece_id.order_)" t-as="l">
+							        <t t-if="piece.id==l.piece_id.id">
+							        	<t t-set="sub_total" t-value="sub_total+l.estimated_cost"/>
+							            <tr>
+							            	<td  colspan="6"><span t-field="l.operation_id.name"/></td>
+					                        <td class="text-center"  colspan="2"><span t-field="l.piece_id.material_id.name"/></td>
+					                        <td class="text-center"  colspan="2"><span t-field="l.poids_matiere"/></td>
+					                        <td class="text-center"  colspan="2"><span t-field="l.coef_matiere"/></td>
+					                        <td class="text-center"  colspan="2"><span t-esc="time.strftime('%H:%M', time.gmtime(3600*l.allotted_time))"/></td>
+					                        <td class="text-center"  colspan="2"><span t-esc="'%.2f'%(l.estimated_cost)"/></td>
+				                        </tr>
+							        </t>
+							    </t>
+							    <tr> 
+				                	 <td class="text-left" colspan="12" style="border-bottom: solid 1px white;"> </td>
+									 <td class="text-right" colspan="4"  style="border-bottom: solid 1px black;"></td>
+								</tr>
+							     <tr>
+							     	<t t-set="total" t-value="sub_total+total"/>
+							     	<td class="text-left" colspan="12" style="border-bottom: solid 1px black;"> </td>
+							        <td class="text-right" colspan="4" style="border: solid 1px black;"><strong>Sous Total : <span t-esc="'%.2f'%(sub_total)"/></strong></td>
+							     </tr>
+							</t>
+			                <tr> 
+			                	 <td class="text-left" colspan="12" style="border-bottom: solid 1px white;"> </td>
+								 <td class="text-right" colspan="4"  style="border-bottom: solid 1px black;"></td>
+							</tr>
+							<tr>
+								 <td class="text-left"  colspan="12" style="border-bottom: solid 1px black;"> </td>
+								 <td class="text-right" colspan="4" style="border: solid 1px black;"><strong>Total Commande : <span t-esc="'%.2f'%(total)"/></strong></td>
+							</tr>
+			            </table>
+		       		</div> 	
+		       			
+		       	</div> 
+		    </t>
+		    <t t-call="arfi.product_order_operation_layout">
+                <div class="page">
+		       		<div class="row" style="padding-top: 15px;">
+		       			<p><u><strong>Observations :</strong></u></p>
+		       			<p t-raw="o.obs_atelier"/>
+		       		</div> 
+		       	</div>
+	        </t>
+	        </t>
+	   </t>
+       
+</template>
+<template id="action_report_productorderoperationempty">
+     <t t-call="arfi.product_order_operation_layout">
+    	<t t-call="report.html_container">
+	        <div class="page">
+        	<t t-foreach="docs" t-as="template">      		
+        		<div style="width : 100%">
+        			<p  ><u><strong>Informations commande :</strong></u></p>
+        			<div class="col-xs-6"  >
+	        			<p><strong>Numéro commande : </strong><span t-field="template.no_order"/></p>
+			            <p><strong>Date commande   : </strong><span t-field="template.date_order"/></p>
+			        </div> 
+			        <div class="col-xs-6"  >
+	        			<p><strong>Client : </strong><span t-field="template.customer_id.name"/>
+			            </p>
+			            <p><strong>Lieu   : </strong><span t-field="template.place_id.description"/></p>
+			        </div> 
+	       		</div>
+	       		<div style="width : 100%">
+	       			<p ><u><strong>Informations Appareil :</strong></u></p>
+        			<div class="col-xs-6"  >
+	        			<p><strong>Fabriquant : </strong><span t-field="template.maker_id.name"/></p>
+			            <p><strong>Type : </strong><span t-field="template.ss_type_appareil_id.description"/></p>
+			            <p><strong>Référence : </strong><span t-field="template.reference_appareil"/></p>
+			        </div> 
+			        <div class="col-xs-6"  >
+	        			<p><strong>N° ARFI : </strong><span t-field="template.no_arfi"/></p>
+			            <p><strong>N° Série : </strong><span t-field="template.no_serie"/></p>
+			            <p><strong>KKS : </strong><span t-field="template.kks_id.name"/></p>
+			        </div> 
+	       		</div>
+	       		
+				<div style="width : 100%">
+					<div class="col-xs-6"  >
+	        			 <table  style="font-size :14px">
+			                <thead>
+			                    <tr>
+			                        <th style="text-align : center">Mesure</th>
+			                        <th style="text-align : center">Valeur</th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="template.appareil_id.attribute_line_ids" t-as="l">
+			                        <td><span t-field="l.attribute_id.name"/></td>
+			                        <td><span t-field="l.value"/></td>
+			                    </tr>
+			                </tbody>
+			            </table>
+			        </div> 
+			        <div class="col-xs-6"  >
+			        	<p><strong>Autres caractéristiques</strong></p> 
+	        			 <table class="table table-condensed table table table-bordered" style="font-size :14px">
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="template.service_ids" t-as="l">
+			                        <td><span t-field="l.service_id.name"/></td>
+			                        <td><span t-field="l.value"/></td>
+			                    </tr>
+			                </tbody>
+			             </table>
+			        </div> 
+	       		</div>
+	       		<div style="width : 100%">
+	       			<p  ><u>Opérations sur l'appareil :</u></p> 
+        			<div class="col-xs-12"  >		
+	        			 <table  style="font-size :14px">
+			                <thead >
+			                    <tr>
+			                        <th style="text-align : center">Opération</th>
+			                        <th style="text-align : center">Code Matière</th>
+			                        <th style="text-align : center">Poids Matière</th>
+			                        <th style="text-align : center">Coût Matière</th>
+			                        <th style="text-align : center">Temps alloué</th>
+			                        <th style="text-align : center">Coût Estimatif</th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="template.operation_appareil_ids" t-as="l">
+			                        <td><span t-field="l.operation_id.name"/></td>
+			                        <td style="text-align : center" colspan="5"></td>
+			                    </tr>
+			                </tbody>
+			                <tr>
+								 <td style="text-align : left" colspan="4"> </td>
+								 <td style="text-align : right" colspan="2"><strong>Sous Total :</strong></td>
+							</tr>
+			            </table>
+			        </div> 
+	       		</div>	     
+	       		<div style="width : 100%">
+	       			<p ><u>Opérations sur les pièces :</u></p> 
+        			<div class="col-xs-12"  >
+	        			 <table  style="font-size :14px">
+			                <thead >
+			                    <tr>
+			                        <th style="text-align : center">Opération</th>
+			                        <th style="text-align : center">Code Matière</th>
+			                        <th style="text-align : center">Poids Matière</th>
+			                        <th style="text-align : center">Coût Matière</th>
+			                        <th style="text-align : center">Temps alloué</th>
+			                        <th style="text-align : center">Coût Estimatif</th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                	<t t-set="product_piece" t-value="[]"/>
+								<t t-foreach="template.operation_piece_ids" t-as="l">
+								    <t t-set="product_piece" t-value="product_piece+[l.piece_id]"/>
+								</t>
+								<t t-foreach="set(product_piece)" t-as="piece">
+									<t t-set="sub_total" t-value="0"/>
+								    <t t-foreach="template.operation_piece_ids" t-as="l">
+								        <t t-if="piece.id==l.piece_id.id">
+								        	<t t-set="sub_total" t-value="sub_total+l.estimated_cost"/>
+								            <tr>
+								            	<td><span t-field="l.operation_id.name"/></td>
+						                        <td style="text-align : center"><span t-field="l.piece_id.material_id.name"/></td>
+						                        <td style="text-align : center"><span t-field="l.poids_matiere"/></td>
+						                        <td style="text-align : center"><span t-field="l.coef_matiere"/></td>
+						                        <td style="text-align : center"></td>
+						                        <td style="text-align : center"></td>
+					                        </tr>
+								        </t>
+								    </t>
+								     <tr>
+								     	<td style="text-align : left" colspan="4"><strong t-esc="piece.name"/> </td>
+								        <td style="text-align : right" colspan="2"><strong>Sous Total :</strong></td>
+								     </tr>
+								</t>
+			                </tbody>
+			                <tr>
+								 <td style="text-align : left" colspan="4"> </td>
+								 <td style="text-align : right" colspan="2"><strong>Total Commande :</strong></td>
+							</tr>
+			            </table>
+			        </div> 
+	       		</div>		
+        	</t>
+        </div>
+         </t>
+    </t>
+</template>
+<template id="report_productorderoperationempty"> 
+	<t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="arfi.product_order_operation_layout">
+                <div class="page">
+                    <div class="oe_structure"/>    
+	        		<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>Numéro commande : </strong><span t-field="o.no_order"/></p>
+				            <p><strong>Date commande   : </strong><span t-field="o.date_order"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+		        			<p><strong>Client :</strong> <span t-field="o.customer_id.name"/></p>
+				            <p><strong>Lieu   :</strong> <span t-field="o.place_id.description"/></p>
+				        </div> 
+				    </div>    
+		       		<div class="row" style="padding-top: 5px;">
+		       			<div class="col-xs-12"  >	       		
+		       				<p style="border: solid 1px;width: 180px;padding-left: 10px;"><strong>Informations Appareil :</strong></p>
+	        			</div>
+	        		</div>	
+	        		<div class="row" style="padding-top: 5px;">	
+		       			<div class="col-xs-6"  >
+		        			<p><strong>Fabriquant : </strong><span t-field="o.maker_id.name"/></p>
+				            <p><strong>Type : </strong><span t-field="o.ss_type_appareil_id.description"/></p>
+				            <p><strong>Référence : </strong><span t-field="o.reference_appareil"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+		        			<p><strong>N° ARFI : </strong><span t-field="o.no_arfi"/></p>
+				            <p><strong>N° Série : </strong><span t-field="o.no_serie"/></p>
+				            <p><strong>KKS : </strong><span t-field="o.kks_id.name"/></p>
+				        </div> 
+		       		</div>
+		       		
+					<div class="row" style="padding-top: 5px;">
+						<div class="col-xs-6">
+		        			 <table class="table table-condensed table table-bordered">
+				                <thead>
+				                    <tr style="background-color : #ddd">
+				                        <th style="border: 1px solid black;" class="text-center">Mesure</th>
+				                        <th style="border: 1px solid black;" class="text-center">Valeur</th>
+				                    </tr>
+				                </thead>
+				                <tbody class="invoice_tbody">
+				                    <tr t-foreach="o.appareil_id.attribute_line_ids.sorted(key=lambda b: b.attribute_id.sequence)" t-as="l">
+				                        <td style="border: 1px solid black;"><span t-field="l.attribute_id.name"/></td>
+				                        <td style="border: 1px solid black;"><span t-field="l.value"/></td>
+				                    </tr>
+				                </tbody>
+				            </table>
+				        </div> 
+				        <div class="col-xs-6"  >
+				        	<p><strong>Autres caractéristiques</strong></p> 
+		        			 <table class="table table-condensed table table-bordered">
+				                <tbody class="invoice_tbody">
+				                    <tr t-foreach="o.service_ids" t-as="l">
+				                        <td style="border: 1px solid black;"><span t-field="l.service_id.name"/></td>
+				                        <td style="border: 1px solid black;"><span t-field="l.value"/></td>
+				                    </tr>
+				                </tbody>
+				             </table>
+				        </div> 
+		       		</div>
+				    <div class="row">
+		    			<table  style="font-size :14px" class="table table-condensed">
+			                <tr >
+		                        <th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center" colspan="6">Opérations</th>
+		                        <th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center" colspan="2">Code Matière</th>
+		                        <th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center" colspan="2">Poids Matière</th>
+		                        <th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center" colspan="2">Coût Matière</th>
+		                        <th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center" colspan="2">Temps alloué</th>
+		                        <th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-center" colspan="2">Coût Estimatif</th>
+			                </tr>
+			                <tr >
+		                        <th style="border-top: 1px solid black;border-bottom: 1px solid black;" class="text-left" colspan="16">Appareil</th>
+			                </tr>
+		                    <tr t-foreach="o.operation_appareil_ids" t-as="l">
+		                        <td colspan="6"><span t-field="l.operation_id.name"/></td>
+		                        <td  style="border-bottom: 1px dashed black;" class="text-center" colspan="2"></td>
+		                        <td  style="border-bottom: 1px dashed black;" class="text-center" colspan="2"></td>
+		                        <td  style="border-bottom: 1px dashed black;" class="text-center" colspan="2"></td>
+		                        <td  style="border-bottom: 1px dashed black;" class="text-center" colspan="2"></td>
+		                        <td  style="border-bottom: 1px dashed black;" class="text-center" colspan="2"></td>
+		                    </tr>
+			                <tr> 
+								 <td class="text-left" colspan="12" style="border-bottom: solid 1px white;"> </td>
+								 <td class="text-left" colspan="4" style="border-bottom: solid 1px black;"> </td>
+							</tr>
+			                <tr> 
+								 <td class="text-left" colspan="12" style="border-bottom: solid 1px;"> </td>
+								 <td class="text-right" colspan="4"  style="border: solid 1px;"><strong>Sous Total : </strong></td>
+							</tr>
+		                	<t t-set="product_piece" t-value="[]"/>
+							<t t-set="piece1" t-value="''"/>
+							<t t-set="piece2" t-value="''"/>
+							<t t-foreach="o.operation_piece_ids.sorted(key=lambda b: b.piece_id.order_)" t-as="l">
+								<t t-if="l.piece_id not in product_piece">								    
+							   	 	<t t-set="product_piece" t-value="product_piece+[l.piece_id]"/> 
+								</t>
+							</t>
+							<t t-foreach="product_piece" t-as="piece">
+								<tr><td class="text-left" colspan="16" style="border-bottom: solid 1px white;"> </td></tr>
+								<tr><td class="text-left" colspan="16" style="border-bottom: solid 1px black;"> </td></tr>
+			                	<tr><td class="text-left" colspan="16"><strong t-esc="piece.name"/> (<strong t-esc="piece.no_piece"/>) </td></tr>
+			                    <t t-foreach="o.operation_piece_ids.sorted(key=lambda b: b.piece_id.order_)" t-as="l">
+							        <t t-if="piece.id==l.piece_id.id">
+							            <tr>
+							            	<td  colspan="6"><span t-field="l.operation_id.name"/></td>
+					                        <td class="text-center"  colspan="2"><span t-field="l.piece_id.material_id.name"/></td>
+					                        <td class="text-center"  colspan="2"><span t-field="l.poids_matiere"/></td>
+					                        <td class="text-center"  colspan="2"></td>
+					                        <td class="text-center"  colspan="2"></td>
+					                        <td class="text-center"  colspan="2"></td>
+				                        </tr>
+							        </t>
+							    </t>
+							    <tr> 
+									 <td class="text-left" colspan="12" style="border-bottom: solid 1px white;"> </td>
+									 <td class="text-left" colspan="4" style="border-bottom: solid 1px black;"> </td>
+								</tr>
+							     <tr>
+							     	<td class="text-left" colspan="12" style="border-bottom: solid 1px;"></td>
+							        <td class="text-right" colspan="4" style="border: solid 1px;"><strong>Sous Total : </strong></td>
+							     </tr>
+							</t>
+			                <tr> 
+								 <td class="text-left" colspan="12" style="border-bottom: solid 1px white;"> </td>
+								 <td class="text-left" colspan="4" style="border-bottom: solid 1px black;"> </td>
+							</tr>
+							<tr>
+								 <td class="text-left"  colspan="12" style="border-bottom: solid 1px;"> </td>
+								 <td class="text-right" colspan="4" style="border: solid 1px;"><strong>Total Commande : </strong></td>
+							</tr>
+			            </table>
+		       		</div> 		
+		       	</div> 
+	        </t>
+	        <t t-call="arfi.product_order_operation_layout">
+                <div class="page">
+		       		<div class="row" style="padding-top: 15px;">
+		       			<p><u><strong>Observations :</strong></u></p>
+		       			<p t-raw="o.obs_atelier"/>
+		       		</div> 
+		       	</div>
+	        </t>
+	      </t>
+	   </t>
+</template>
+</odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record model="product.kks.facture" id="facture_">
+			<field name="name">Facture</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="res.groups" id="group_arfi_employee">
+            <field name="name">Arfi Ayoub</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+    <record model="res.groups" id="group_arfi_employee1">
+            <field name="name">Arfi Abderahmane</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+    <record model="res.groups" id="group_arfi_employee2">
+            <field name="name">Arfi Zineb</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+    <record model="res.groups" id="group_arfi_employee3">
+            <field name="name">Arfi Loubna</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+    <record model="res.groups" id="group_arfi_atelier">
+            <field name="name">Arfi Atelier</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+	<record model="res.groups" id="group_arfi_manager">
+            <field name="name">Arfi Responsable</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+    <record model="res.groups" id="group_arfi_invoice">
+            <field name="name">Arfi Factures</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+    <record model="res.groups" id="group_arfi_affaire">
+            <field name="name">Arfi Affaires</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+    <record model="res.groups" id="group_arfi_purchase">
+            <field name="name">Arfi Achats</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+    <record model="res.groups" id="group_arfi_contract">
+            <field name="name">Arfi Contrat</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+    <data noupdate="1">
+		<record id="res_company_arfi_invoice_rule" model="ir.rule">
+	        <field name="name">Société Invoice Rule</field>
+	        <field ref="base.model_res_company" name="model_id"/>
+	        <field name="domain_force">[(1,'=',1)]</field>
+	        <field name="groups" eval="[(4, ref('group_arfi_invoice'))]"/>
+	    </record>
+    </data>
+</odoo>

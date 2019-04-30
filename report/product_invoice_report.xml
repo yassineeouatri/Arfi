@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="product_invoice_layout_arfi">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.report_invoice_document_header_arfi" />
+    <t t-raw="0" />
+    <t t-call="arfi.report_invoice_document_footer" />
+</template>
+<template id="product_invoice_layout_meca">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.report_invoice_document_header_meca" />
+    <t t-raw="0" />
+    <t t-call="arfi.report_invoice_document_footer" />
+</template>
+<template id="report_invoice_document_header_arfi">
+     <div class="header"  >
+		<div class="row">
+			<div class="col-xs-12">
+                <ul class="text-right list-inline" style="font-size :8px">
+	                <li>Page:</li>
+	                <li><span class="page"/></li>
+	                <li>/</li>
+	                <li><span class="topage"/></li>
+	            </ul>
+            </div>
+            <div class="col-xs-12" style="padding-top : 230px">
+                <p class="text-right"><strong> </strong> <span t-field="o.date_invoice" t-options ='{"widget": "datetime","format": "dd MMMM y"}'/></p>
+            </div>
+        </div>
+	</div>
+</template>
+<template id="report_invoice_document_header_meca">
+     <div class="header"  >
+		<div class="row">
+			<div class="col-xs-12">
+                <ul class="text-right list-inline" style="font-size :8px">
+	                <li>Page:</li>
+	                <li><span class="page"/></li>
+	                <li>/</li>
+	                <li><span class="topage"/></li>
+	            </ul>
+            </div>
+            <div class="col-xs-12" style="padding-top : 135px">
+                <p class="text-right"><strong> </strong> <span t-field="o.date_invoice" t-options ='{"widget": "datetime","format": "dd MMMM y"}'/></p>
+            </div>
+        </div>
+	</div>
+</template>
+<template id="report_invoice_document_footer">
+     <div class="footer"  >
+		<div class="row last-page" >
+			<div class="col-xs-12" style="padding-top : 40px">
+                <p><strong>Coordonnées Bancaires : </strong><span t-field="o.company_id.name"/> - <span t-field="o.company_id.bank_id.name"/> - n° <span t-field="o.company_id.no_compte"/> </p>
+           		<p>Code <span t-field="o.company_id.bank_id.code"/> Clé RIB : <span t-field="o.company_id.cle_rib"/> Code Ville <span t-field="o.company_id.city_id.code"/> - SWIFT : <span t-field="o.company_id.swift"/></p>
+            </div>
+        </div>
+	</div>
+</template>	
+<template id="report_invoice_document">
+    <t t-call="report.html_container">
+    	<t t-call="arfi.product_invoice_layout">
+    	    <t t-set="o" t-value="o.with_context({'lang':o.customer_id.lang})" />
+	        <div class="page">
+	        	<div class="row">
+		      	  <div class="col-xs-6">
+		            	<table class="table table-condensed table table-bordered"  style="padding-top: 20px">
+			                <tr> <td style="width: 40%;"><strong><t t-if="o.type == 'invoice'">Facture N°</t><t t-if="o.type == 'devis'">Devis N°</t><t t-if="o.type == 'avoir'">Avoir N°</t></strong></td><td style="width: 60%;"><span t-field="o.name"/></td> </tr>
+			                <tr> <td style="width: 40%;"><strong>Commande N° </strong></td> <td style="width: 60%;"><span t-field="o.no_order"/></td> </tr>
+			                <tr> <td style="width: 40%;"><strong>BC ou OL </strong></td> <td style="width: 60%;"><span t-field="o.bc"/></td> </tr>
+			                <tr> <td style="width: 40%;"><strong>BL  </strong></td> <td style="width: 60%;"><span t-field="o.bl"/></td> </tr>
+			           </table>
+		            </div>
+		            <div class="col-xs-6">
+		                <p class="text-center"><strong></strong> <span t-field="o.customer_id.name"/></p>
+		                <p class="text-center"><strong></strong> <span t-field="o.city"/></p>
+		                <p class="text-center">I.C.E : <strong></strong> <span t-field="o.ice"/></p>
+		            </div>
+		        </div>
+				<div class="row">
+					<div class="col-xs-12">
+						<p><strong>Désignation : </strong><span t-field="o.designation"/></p>
+					</div>
+				</div>
+	           	<table class="table table-condensed table table-bordered"  style="padding-top: 5px">
+	                <thead>
+	                    <tr style="background-color : #ddd">
+	                        <th class="text-center" style="width: 10%;">Qte</th>
+	                        <th class="text-center" style="width: 20%;">KKS</th>
+	                        <th class="text-center" style="width: 50%;">Désignation</th>
+	                        <th class="text-center" style="width: 10%;">PU HT (Dhs)</th>
+	                        <th class="text-center" style="width: 10%;">Total HT (Dhs)</th>
+	                    </tr>
+	                </thead>
+	                <tbody class="invoice_tbody">
+	                    <tr t-foreach="o.invoice_line_ids" t-as="l">
+	                        <td class="text-center"><span t-field="l.qte"/></td>
+	                        <td class="text-center"><span t-field="l.kks"/></td>
+	                        <td class="text-left"> <span t-field="l.designation"/></td>
+	                        <td class="text-right"><t t-esc="'{0:,.2f}'.format((l.price_unit)).replace(',', ' ')" /></td>
+	                        <td class="text-right"><t t-esc="'{0:,.2f}'.format((l.montant)).replace(',', ' ')" /></td>
+	                    </tr>
+	                </tbody>
+           		 </table>
+	            <div class="row" style="padding-top: 5px">
+	            	<div class="col-xs-5 pull-left">
+						<p>Arrêté la présente facture à la somme de :</p><span t-field="o.montant_text"/>
+	                </div>
+	                <div class="col-xs-5 pull-right">
+	                    <table class="table table-condensed table table-bordered">
+	                        <tr><td><strong>Montant HT</strong></td>
+	                            <td class="text-right">
+	                            	<t t-esc="'{0:,.2f}'.format((o.montant)).replace(',', ' ')" />
+	                            </td>
+	                        </tr>
+	                        <tr t-if="o.retenue_pourcentage">
+	                            <td><strong>Retenue de garantie de <span t-field="o.retenue_pourcentage"/>%</strong></td>
+	                            <td class="text-right"> <t t-esc="'{0:,.2f}'.format((o.retenue)).replace(',', ' ')" /></td>
+	                        </tr>
+	                        <tr t-if="o.tva_transport_pourcentage">
+	                            <td><strong>TVA Transport <span t-field="o.tva_transport_pourcentage"/>%</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.tva_transport)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                        <tr t-if="o.remise_pourcentage">
+	                            <td><strong>Remise <span t-field="o.remise_pourcentage"/>%</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.remise)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                         <tr>
+	                            <td><strong>Montant HT Global</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.montant_ht)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                        <tr>
+	                            <td><strong>TVA 20%</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.tva)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                        <tr class="border-black">
+	                            <td><strong>TTC</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.montant_ttc)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                    </table>
+	                </div>
+	            </div>
+        </div>
+        </t>
+    </t>
+</template>
+
+<template id="report_invoice_document_arfi">
+    <t t-call="report.html_container">
+    	<t t-call="arfi.product_invoice_layout_arfi">
+    	    <t t-set="o" t-value="o.with_context({'lang':o.customer_id.lang})" />
+	        <div class="page">
+	        	<div class="row">
+		      	  <div class="col-xs-6">
+		            	<table class="table table-condensed table table-bordered"  style="padding-top: 20px">
+			                <tr> <td style="width: 40%;"><strong><t t-if="o.type == 'invoice'">Facture N°</t><t t-if="o.type == 'devis'">Devis N°</t><t t-if="o.type == 'avoir'">Avoir N°</t></strong></td><td style="width: 60%;"><span t-field="o.name"/></td> </tr>
+			                <tr> <td style="width: 40%;"><strong>Commande N° </strong></td> <td style="width: 60%;"><span t-field="o.no_order"/></td> </tr>
+			                <tr> <td style="width: 40%;"><strong>BC ou OL </strong></td> <td style="width: 60%;"><span t-field="o.bc"/></td> </tr>
+			                <tr> <td style="width: 40%;"><strong>BL  </strong></td> <td style="width: 60%;"><span t-field="o.bl"/></td> </tr>
+			           </table>
+		            </div>
+		            <div class="col-xs-6">
+		                <p class="text-center"><strong></strong> <span t-field="o.customer_id.name"/></p>
+		                <p class="text-center"><strong></strong> <span t-field="o.city"/></p>
+		                <p class="text-center">I.C.E : <strong></strong> <span t-field="o.ice"/></p>
+		            </div>
+		        </div>
+				<div class="row">
+					<div class="col-xs-12">
+						<p><strong>Désignation : </strong><span t-field="o.designation"/></p>
+					</div>
+				</div>
+	           	<table class="table table-condensed table table-bordered"  style="padding-top: 5px">
+	                <thead>
+	                    <tr style="background-color : #ddd">
+	                        <th class="text-center" style="width: 10%;">Qte</th>
+	                        <th class="text-center" style="width: 20%;">KKS</th>
+	                        <th class="text-center" style="width: 50%;">Désignation</th>
+	                        <th class="text-center" style="width: 10%;">PU HT (Dhs)</th>
+	                        <th class="text-center" style="width: 10%;">Total HT (Dhs)</th>
+	                    </tr>
+	                </thead>
+	                <tbody class="invoice_tbody">
+	                    <tr t-foreach="o.invoice_line_ids" t-as="l">
+	                        <td class="text-center"><span t-field="l.qte"/></td>
+	                        <td class="text-center"><span t-field="l.kks"/></td>
+	                        <td class="text-left"> <span t-field="l.designation"/></td>
+	                        <td class="text-right"><t t-esc="'{0:,.2f}'.format((l.price_unit)).replace(',', ' ')" /></td>
+	                        <td class="text-right"><t t-esc="'{0:,.2f}'.format((l.montant)).replace(',', ' ')" /></td>
+	                    </tr>
+	                </tbody>
+           		 </table>
+	            <div class="row" style="padding-top: 5px">
+	            	<div class="col-xs-5 pull-left">
+						<p>Arrêté la présente facture à la somme de :</p><span t-field="o.montant_text"/>
+	                </div>
+	                <div class="col-xs-5 pull-right">
+	                    <table class="table table-condensed table table-bordered">
+	                        <tr><td><strong>Montant HT</strong></td>
+	                            <td class="text-right">
+	                            	<t t-esc="'{0:,.2f}'.format((o.montant)).replace(',', ' ')" />
+	                            </td>
+	                        </tr>
+	                        <tr t-if="o.retenue_pourcentage">
+	                            <td><strong>Retenue de garantie de <span t-field="o.retenue_pourcentage"/>%</strong></td>
+	                            <td class="text-right"> <t t-esc="'{0:,.2f}'.format((o.retenue)).replace(',', ' ')" /></td>
+	                        </tr>
+	                        <tr t-if="o.tva_transport_pourcentage">
+	                            <td><strong>TVA Transport <span t-field="o.tva_transport_pourcentage"/>%</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.tva_transport)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                        <tr t-if="o.remise_pourcentage">
+	                            <td><strong>Remise <span t-field="o.remise_pourcentage"/>%</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.remise)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                         <tr>
+	                            <td><strong>Montant HT Global</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.montant_ht)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                        <tr>
+	                            <td><strong>TVA 20%</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.tva)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                        <tr class="border-black">
+	                            <td><strong>TTC</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.montant_ttc)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                    </table>
+	                </div>
+	            </div>
+        </div>
+        </t>
+    </t>
+</template>
+
+<template id="report_invoice_document_meca">
+    <t t-call="report.html_container">
+    	<t t-call="arfi.product_invoice_layout_meca">
+    	    <t t-set="o" t-value="o.with_context({'lang':o.customer_id.lang})" />
+	        <div class="page">
+	        	<div class="row">
+		      	  <div class="col-xs-6">
+		            	<table class="table table-condensed table table-bordered"  style="padding-top: 20px">
+			                <tr> <td style="width: 40%;"><strong><t t-if="o.type == 'invoice'">Facture N°</t><t t-if="o.type == 'devis'">Devis N°</t><t t-if="o.type == 'avoir'">Avoir N°</t></strong></td><td style="width: 60%;"><span t-field="o.name"/></td> </tr>
+			                <tr> <td style="width: 40%;"><strong>Commande N° </strong></td> <td style="width: 60%;"><span t-field="o.no_order"/></td> </tr>
+			                <tr> <td style="width: 40%;"><strong>BC ou OL </strong></td> <td style="width: 60%;"><span t-field="o.bc"/></td> </tr>
+			                <tr> <td style="width: 40%;"><strong>BL  </strong></td> <td style="width: 60%;"><span t-field="o.bl"/></td> </tr>
+			           </table>
+		            </div>
+		            <div class="col-xs-6">
+		                <p class="text-center"><strong></strong> <span t-field="o.customer_id.name"/></p>
+		                <p class="text-center"><strong></strong> <span t-field="o.city"/></p>
+		                <p class="text-center">I.C.E : <strong></strong> <span t-field="o.ice"/></p>
+		            </div>
+		        </div>
+				<div class="row">
+					<div class="col-xs-12">
+						<p><strong>Désignation : </strong><span t-field="o.designation"/></p>
+					</div>
+				</div>
+	           	<table class="table table-condensed table table-bordered"  style="padding-top: 5px">
+	                <thead>
+	                    <tr style="background-color : #ddd">
+	                        <th class="text-center" style="width: 10%;">Qte</th>
+	                        <th class="text-center" style="width: 20%;">KKS</th>
+	                        <th class="text-center" style="width: 50%;">Désignation</th>
+	                        <th class="text-center" style="width: 10%;">PU HT (Dhs)</th>
+	                        <th class="text-center" style="width: 10%;">Total HT (Dhs)</th>
+	                    </tr>
+	                </thead>
+	                <tbody class="invoice_tbody">
+	                    <tr t-foreach="o.invoice_line_ids" t-as="l">
+	                        <td class="text-center"><span t-field="l.qte"/></td>
+	                        <td class="text-center"><span t-field="l.kks"/></td>
+	                        <td class="text-left"> <span t-field="l.designation"/></td>
+	                        <td class="text-right"><t t-esc="'{0:,.2f}'.format((l.price_unit)).replace(',', ' ')" /></td>
+	                        <td class="text-right"><t t-esc="'{0:,.2f}'.format((l.montant)).replace(',', ' ')" /></td>
+	                    </tr>
+	                </tbody>
+           		 </table>
+	            <div class="row" style="padding-top: 5px">
+	            	<div class="col-xs-5 pull-left">
+						<p>Arrêté la présente facture à la somme de :</p><span t-field="o.montant_text"/>
+	                </div>
+	                <div class="col-xs-5 pull-right">
+	                    <table class="table table-condensed table table-bordered">
+	                        <tr><td><strong>Montant HT</strong></td>
+	                            <td class="text-right">
+	                            	<t t-esc="'{0:,.2f}'.format((o.montant)).replace(',', ' ')" />
+	                            </td>
+	                        </tr>
+	                        <tr t-if="o.retenue_pourcentage">
+	                            <td><strong>Retenue de garantie de <span t-field="o.retenue_pourcentage"/>%</strong></td>
+	                            <td class="text-right"> <t t-esc="'{0:,.2f}'.format((o.retenue)).replace(',', ' ')" /></td>
+	                        </tr>
+	                        <tr t-if="o.tva_transport_pourcentage">
+	                            <td><strong>TVA Transport <span t-field="o.tva_transport_pourcentage"/>%</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.tva_transport)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                        <tr t-if="o.remise_pourcentage">
+	                            <td><strong>Remise <span t-field="o.remise_pourcentage"/>%</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.remise)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                         <tr>
+	                            <td><strong>Montant HT Global</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.montant_ht)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                        <tr>
+	                            <td><strong>TVA 20%</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.tva)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                        <tr class="border-black">
+	                            <td><strong>TTC</strong></td>
+	                            <td class="text-right"><t t-esc="'{0:,.2f}'.format((o.montant_ttc)).replace(',', ' ')" /> </td>
+	                        </tr>
+	                    </table>
+	                </div>
+	            </div>
+        </div>
+        </t>
+    </t>
+</template>
+
+<template id="action_report_productinvoice">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="arfi.report_invoice_document" t-lang="o.customer_id.lang"/>
+        </t>
+    </t>
+</template>
+<template id="report_productinvoice">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="arfi.report_invoice_document" t-lang="o.customer_id.lang"/>
+        </t>
+    </t>
+</template>
+<template id="report_productinvoicearfi">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="arfi.report_invoice_document_arfi" t-lang="o.customer_id.lang"/>
+        </t>
+    </t>
+</template>
+<template id="report_productinvoicemeca">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="arfi.report_invoice_document_meca" t-lang="o.customer_id.lang"/>
+        </t>
+    </t>
+</template>
+</odoo>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+		 <record id="view_product_kks_etat_wizard_form" model="ir.ui.view">
+            <field name="name">product.kks.etat.wizard.form</field>
+            <field name="model">product.kks.etat.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Product Import" create="false" delete="false">
+                	<sheet>
+                		<field name="name" invisible="1"/>
+	                    <group>
+	                       <group>
+	                        	<field name="customer_id" required="1"  options="{'no_create': True,'no_open': True}"/>
+	              			</group>
+	                   		<group>
+	                        	<field name="arret_id" required="1"  options="{'no_create': True,'no_open': True}"/>
+	              			</group>
+	              			<group>
+	              				<fieldset style="width:99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Factures :</legend> 
+			  						<group>
+		              					<field name="type_travaux"/>
+			                        	<field name="type_contrat"/>
+			                        	<button string="Valider facture" name="print_facture_report" type="object" class="btn-danger"/>
+	              					</group>
+			                    </fieldset>
+                    		</group>
+	              			<group>
+	                        	<fieldset style="width:99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >PDR :</legend> 
+			  						<group>
+				              			<field name="type_pdr"/>
+			                        	<button string="Apperçu PDF" name="print_pdr_report" type="object" class="btn btn-default" icon="fa-file-pdf-o"/>
+			                        	<button string="Apperçu Excel" name="print_pdr_report_excel" type="object" class="btn btn-default" icon="fa-file-excel-o"/>
+	              					</group>
+			                    </fieldset>
+			                </group>
+	              			<group>
+	                        	<fieldset style="width:99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Listes générales outillage :</legend> 
+			  						<group>
+						              	<field name="type_outillage"/>
+			                        	<button string="Imprimer Outillage" name="print_outillage_report" type="object" class="btn-info"/>
+	              					</group>
+			                    </fieldset>
+			                </group>
+	              			<group>
+	                        	 <fieldset style="width:99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Echafaudages :</legend> 
+			  						<group>
+						         		<button string="Imprimer Echafaudage" name="print_echafaudage_report" type="object" class="btn-success"/>
+	                        		</group>
+			                    </fieldset>
+	              			</group>
+	                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_product_kks_etat_wizard" model="ir.actions.act_window">
+            <field name="name">Etat</field>
+            <field name="res_model">product.kks.etat.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_product_kks_etat_wizard_form"/>
+            <field name="target">current</field>
+        </record>
+    </data>
+</openerp>

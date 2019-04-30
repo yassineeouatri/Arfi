@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="product_order_customer_layout">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.product_order_customer_report_header" />
+    <t t-raw="0" />
+    <t t-call="report.external_layout_footer" />
+</template>
+
+<template id="product_order_customer_report_header">
+    <div class="header">
+         <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+            </div>
+            <div class="col-xs-6 text-center" style="padding-top: 40px;">
+            	<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste des commandes par client</h2> 
+            </div>
+            <div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+            
+        </div>
+        <div class="row zero_min_height" style="padding-top: 5px;">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>    
+    </div>
+</template>		
+<template id="action_report_productordercustomer">
+	<t t-call="report.html_container">
+		<t t-foreach="docs" t-as="o">
+	        <t t-call="arfi.product_order_customer_layout">
+		        <div class="page">
+		        	<div class="row">
+			        	<table class="table table-stripped table table-bordered">
+			    			<thead style=" background-color: #3498DB; color : white" >
+			                    <tr>
+				        			<td class="text-center" colspan="1"><strong>Société</strong></td>
+						            <td class="text-center" colspan="1"><strong>Date</strong></td>
+						            <td class="text-center" colspan="1"><strong>N° Commande</strong></td>
+						            <td class="text-center" colspan="1"><strong>N° ARFI</strong></td>
+									<td class="text-center" colspan="1"><strong>Type Appareil</strong></td>
+									<td class="text-center" colspan="2"><strong>Référence Appareil</strong></td>
+									<td class="text-center" colspan="1"><strong>N° Série</strong></td>
+									<td class="text-center" colspan="1"><strong>Prochain Contrôle</strong></td>
+									<td class="text-center" colspan="1"><strong>Prochain Retarage</strong></td>
+									<td class="text-center" colspan="1"><strong>KKS</strong></td>     
+								</tr>
+		                	</thead> 
+		                	<tr>
+			        			<td class="text-left" colspan="11" style=" background-color: blue; color : white" ><strong><span t-field="o.customer_id.name"/></strong></td>   
+							</tr>
+							<tbody class="invoice_tbody">
+		                 		<tr t-foreach="orders" t-as="order">
+				                    <td class="text-center" colspan="1"></td>
+						            <td class="text-center" colspan="1"><span t-field="order.date_order"/></td>
+						            <td class="text-center" colspan="1"><span t-field="order.no_order"/></td>
+						            <td class="text-center" colspan="1"><span t-field="order.no_arfi"/></td>
+									<td class="text-center" colspan="1"><span t-field="order.type_appareil_id.description"/></td>
+									<td class="text-center" colspan="2"><span t-field="order.reference_appareil"/></td>
+									<td class="text-center" colspan="1"><span t-field="order.no_serie"/></td>
+									<td class="text-center" colspan="1"><span t-field="order.date_next_ctr"/></td>
+									<td class="text-center" colspan="1"><span t-field="order.date_next_retar"/></td>
+									<td class="text-center" colspan="1"><span t-field="order.kks_id.name"/></td>
+			                	</tr>
+			                </tbody>
+			       		</table>	
+		        	</div>
+		       </div>
+		  </t>   
+    </t>
+ </t>   
+ </template>
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_product_template_information_form" model="ir.ui.view">
+            <field name="name">product.template.information.form</field>
+            <field name="model">product.template.information</field>
+            <field name="arch" type="xml">
+                <form string="reporting">
+                	<group col="4" colspan="2">
+						<field name="appareil_id" required="1" invisible="1"/>
+						<field name="information_ids" domain="[('create_variant', '=', True)]" nolabel="1" options="{'no_create': True}"  widget="many2many_checkboxes" colspan="4"/>	     
+	                 </group>
+	                  <footer>
+	                    <button name="action_execute" string="Valider" type="object" class="oe_highlight"/>
+	                    ou
+	                    <button string="Annuler" class="btn-default" special="cancel"/>   
+                	</footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="open_product_template_information" model="ir.actions.act_window">
+            <field name="name">Informations Techniques</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template.information</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>  
+    </data>
+</openerp>

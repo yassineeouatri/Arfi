@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="product_template_cartouche_layout">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.product_template_cartouche_report_header" />
+    <t t-raw="0" />
+    <t t-call="report.external_layout_footer" />
+</template>
+
+<template id="product_template_cartouche_report_header">
+    <div class="header">
+         <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+            </div>
+            <div class="col-xs-6 text-center" style="padding-top: 40px;">
+            	<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Cartouche</h2> 
+            </div>
+            <div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+            
+        </div>
+        <div class="row zero_min_height" style="padding-top: 5px;">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>    
+    </div>
+</template>
+<template id="action_report_producttemplatecartouche">
+    <t t-call="arfi.product_template_cartouche_layout">
+    	<t t-foreach="docs" t-as="o">
+	    	<t t-call="report.html_container">
+		        <div class="page"  style="margin-top:40px;"> 		
+		        	<div class="row">
+	        			<div class="col-xs-6"  >
+		        			<p><strong>Référence : </strong><span t-field="o.name"/></p>
+				            <p><strong>Fabriquant : </strong><span t-field="o.maker_id.name"/></p>
+				            <p><strong>Type : </strong><span t-field="o.ss_categ_id.description"/></p>
+				        </div> 
+				        <div class="col-xs-6"  >
+					          <table class="table table-condensed table table-striped table table-bordered">
+				                <thead style=" background-color: #3498DB;" >
+				                    <tr>
+				                        <th><font color="#fff">Mesure</font></th>
+				                        <th><font color="#fff">Valeur</font></th>
+				                    </tr>
+				                </thead>
+				                 <tbody class="invoice_tbody">
+			                    <tr t-foreach="o.attribute_line_ids" t-as="l">
+			                        <td><span t-field="l.attribute_id.name"/></td>
+			                        <td><span t-field="l.value"/></td>
+			                    </tr>
+			                </tbody>
+				            </table>
+				        </div>  
+		       		</div>
+		       		<div class="row zero_min_height">
+			            <div class="col-xs-12">
+			                <div style="border-bottom: 1px solid black;"></div>
+			            </div>
+			        </div> 
+		            <div class="row">
+			            <table class="table table-condensed table table-striped table table-bordered">
+			                <thead style=" background-color: #3498DB;" >
+			                    <tr>
+			                        <th><font color="#fff">N° Pièce</font></th>
+			                        <th><font color="#fff">Nom Pièce</font></th>
+			                        <th><font color="#fff">Réf Matière</font></th>
+			                        <th><font color="#fff">Déscription matériau</font></th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="pieces" t-as="l">
+			                        <td><span t-field="l.no_piece"/></td>
+			                        <td><span t-field="l.name"/></td>
+			                        <td><span t-field="l.material_id.name"/></td>
+			                        <td><span t-field="l.name"/></td>
+			                    </tr>
+			                </tbody>
+			            </table>
+		       		</div>
+	        	</div>
+	        </t>
+	    </t>
+    </t>
+</template>
+
+<template id="report_producttemplatecartouche">
+	<t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="arfi.product_template_cartouche_layout">
+                <div class="page">
+                    <div class="oe_structure"/> 		
+		        	<div class="row" style="padding-top: 5px;">
+	        			<div class="col-xs-6"  style="margin-top: 40px;">
+		        			<p><strong>Référence : </strong><span t-field="o.name"/></p>
+				            <p><strong>Fabriquant : </strong><span t-field="o.maker_id.name"/></p>
+				            <p><strong>Type : </strong><span t-field="o.ss_categ_id.description"/></p>
+				        </div> 
+				        <div class="col-xs-6"  style="padding-top: 5px;">
+					          <table class="table table-condensed table-bordered">
+				                <thead>
+				                    <tr style="background-color : #ddd">
+				                        <th style="border: 1px solid black;" class="text-center">Mesure</th>
+				                        <th style="border: 1px solid black;" class="text-center">Valeur</th>
+				                    </tr>
+				                </thead>
+				                 <tbody class="invoice_tbody">
+			                    <tr t-foreach="o.attribute_line_ids" t-as="l">
+			                        <td style="border: 1px solid black;"><span t-field="l.attribute_id.name"/></td>
+			                        <td style="border: 1px solid black;"><span t-field="l.value"/></td>
+			                    </tr>
+			                </tbody>
+				            </table>
+				        </div>  
+		       		</div>
+		            <div class="row" style="padding-top: 5px;">
+			            <table class="table table-condensed">
+			                <thead >
+			                    <tr>
+			                        <th class="text-center" style="width : 10%;border-top: 1px solid black;border-bottom: 1px solid black;">N° Pièce</th>
+			                        <th class="text-center" style="width : 35%;border-top: 1px solid black;border-bottom: 1px solid black;">Nom Pièce</th>
+			                        <th class="text-center" style="width : 10%;border-top: 1px solid black;border-bottom: 1px solid black;">Réf Matière</th>
+			                        <th class="text-center" style="width : 45%;border-top: 1px solid black;border-bottom: 1px solid black;">Déscription matériau</th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">			                	
+			                		<tr t-foreach="o.piece_ids" t-as="l">
+			                			<t t-if="l.material_id">			                				 
+			                    			<t t-set="description" t-value="''"></t>
+			                    			<t t-foreach="l.material_id.reference_ids" t-as="f">  
+			                    				<t t-if="f.reference ">
+			                    					<t t-set="description" t-value="description+'/ '+f.reference"></t>
+			                    				</t>	
+			                    			</t>
+					                        <td class="text-center" style="width : 10%;border-bottom: 1px solid black;"><span t-field="l.no_piece"/></td>
+					                        <td class="text-left" style="width : 35%;border-bottom: 1px solid black;"><span t-field="l.name"/></td>
+					                        <td class="text-center" style="width : 10%;border-bottom: 1px solid black;"><span t-field="l.material_id.name"/></td>
+					                        <td class="text-left" style="width : 45%;border-bottom: 1px solid black;"><t t-esc="description"/></td>
+				                        </t>
+				                    </tr>
+			                </tbody>
+			            </table>
+		       		</div>
+		       		<!-- <div class="row" style="padding-top: 15px;">			       
+		       			<img t-if="o.image" t-att-src="'data:image/png;base64,%s' % o.image" style="height: 100%"/>
+		       		</div>	 -->
+	        	</div>
+	        </t>
+	      
+	    </t>
+	</t>
+</template>
+</odoo>

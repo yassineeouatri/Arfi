@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="product_affaire_layout">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.report_affaire_document_header" />
+    <t t-raw="0" />
+    <t t-call="arfi.report_affaire_document_footer" />
+</template>
+<template id="report_affaire_document_header">
+     <div class="header"  >
+		<div class="row">
+			<div class="col-xs-12">
+            </div>
+        </div>
+	</div>
+</template>
+<template id="report_affaire_document_footer">
+     <div class="footer"  >
+		<div class="row last-page" >
+			<div class="col-xs-12" style="padding-top : 40px">
+            </div>
+        </div>
+	</div>
+</template>	
+<template id="report_affaire_document_colmatage">
+    <t t-call="report.html_container">
+    	<t t-call="arfi.product_affaire_layout">
+    	    <t t-set="o" t-value="o.with_context({'lang':o.customer_id.lang})" />
+	        <div class="page">
+	        	<div class="row" style="padding-top : 30px">
+		      	  <div class="col-xs-6"><p class="text-left"><strong>Date d'ouverture</strong> <span t-field="o.date_affaire"/></p>
+		            </div>
+		            <div class="col-xs-6"><p class="text-left"><strong>N° Contrat mère</strong> <span t-field="o.no_parent"/></p>
+					 </div>     
+		        </div>
+	        	<div class="row" style="padding-top : 10px">
+		      	 	<div class="col-xs-3" style="border : 1px solid;width: 22%; margin-top: 9px;margin-left: 22px;border: 1px solid;height: 200px;">
+			      	  	<div  class="col-xs-12" style="border: 1px solid;height: 100px;text-align: center;top: 27%;position: relative;">
+			      	    	<strong style="font-size: 28px;position: relative;top: 33%;"><span t-field="o.name"/></strong>
+			      	    </div>	
+		            </div>
+		            <div class="col-xs-9">
+		            	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Affaires :</legend> 
+					  			<p class="text-left" style="height : 25px">
+					  				<strong style="display: block;width: 25%;float: left;padding: 5px;">CLIENT : </strong> 
+					  				<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.customer_id.name"/>
+					  			</p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">DEMANDEUR : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.title_id.shortcut"/>
+				                	<span style="min-height: 31px;display: block;width: 60%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.person_id.name"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">TEL : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.phone"/>
+				                    <strong style="display: block;width: 15%;float: left;padding: 5px;"> GSM : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.mobile"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">FAX : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.fax"/>
+				                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> STANDARD : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.standard"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">VILLE : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.city_id.name"/>
+				                </p>
+			            </fieldset>
+					 </div>    
+		        </div>
+				<div class="row" style="margin: 0px;border: 1px solid;padding-bottom: 10px;padding-top: 10px;">
+		      	    <div class="col-xs-12">
+		      	    	 <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DISTANCE (KM) : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_km"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DISTANCE (Hr) : </strong> 
+			                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_temps"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NATURE DE TRAVAUX : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.type"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">TRAVAUX PLANIFIES : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.travaux_plan"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DATE PREVUE DE REALISATION : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.date_prevu"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NBR D'INTERVENTIONS PREVUES : </strong> 
+			                	<strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DELAI MAXIMAL : </strong> 
+			                    <strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                </p>
+		            </div>
+		         </div>
+		         <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >PLANNING DES TRAVAUX :</legend> 
+					  			<p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 35%;float: left;padding: 5px;">Date de prise cote : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> Resp : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 35%;float: left;padding: 5px;">Date de l'encement de l'enceinte : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> Resp : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 35%;float: left;padding: 5px;">Date d'intervention : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                 </p>
+			            </fieldset>
+		      	    </div>
+		      	  </div>
+		      	  <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
+		      	    	<strong>Consignes particulières :  </strong>
+		      	    </div>
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
+		      	    	<strong>Matériel spécifique :  </strong>
+		      	    </div>
+		      	  </div>
+		      	   <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<p class="text-left" style="height : 25px">
+		                	<strong>COMMENTAIRES APRES TRAVAUX : </strong> 
+		                </p>
+		      	    	<p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">INTERVENTION N° : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">REPERES : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">EQUIPES : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                    <strong style="display: block;width: 35%;float: left;padding: 5px;"> Chef d'equipe : </strong> 
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;"> </strong> 
+		                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                    <strong style="display: block;width: 35%;float: left;padding: 5px;"></strong> 
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;"> </strong> 
+		                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                    <strong style="display: block;width: 35%;float: left;padding: 5px;"></strong> 
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;"> </strong> 
+		                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                    <strong style="display: block;width: 35%;float: left;padding: 5px;"></strong> 
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NBR D'INTERVENTION : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 10%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                    <strong style="display: block;width: 35%;float: left;padding: 5px;"> DATE DE FIN REALISATION : </strong> 
+		                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">FACTURES N° : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                 </p>
+		      	    </div>
+		      	  </div>
+        	</div>
+        </t>
+    </t>
+</template>
+
+<template id="report_affaire_document_ree">
+    <t t-call="report.html_container">
+    	<t t-call="arfi.product_affaire_layout">
+    	    <t t-set="o" t-value="o.with_context({'lang':o.customer_id.lang})" />
+	        <div class="page">
+	        	<div class="row" style="padding-top : 30px">
+		      	  <div class="col-xs-6"><p class="text-left"><strong>Date d'ouverture</strong> <span t-field="o.date_affaire"/></p>
+		            </div>
+		            <div class="col-xs-6"><p class="text-left"><strong>N° Contrat mère</strong> <span t-field="o.no_parent"/></p>
+					 </div>     
+		        </div>
+	        	<div class="row" style="padding-top : 10px">
+		      	 	<div class="col-xs-3" style="border : 1px solid;width: 22%; margin-top: 9px;margin-left: 22px;border: 1px solid;height: 200px;">
+			      	  	<div  class="col-xs-12" style="border: 1px solid;height: 100px;text-align: center;top: 27%;position: relative;">
+			      	    	<strong style="font-size: 28px;position: relative;top: 33%;"><span t-field="o.name"/></strong>
+			      	    </div>	
+		            </div>
+		            <div class="col-xs-9">
+		            	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Affaires :</legend> 
+					  			<p class="text-left" style="height : 25px">
+					  				<strong style="display: block;width: 25%;float: left;padding: 5px;">CLIENT : </strong> 
+					  				<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.customer_id.name"/>
+					  			</p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">DEMANDEUR : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.title_id.shortcut"/>
+				                	<span style="min-height: 31px;display: block;width: 60%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.person_id.name"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">TEL : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.phone"/>
+				                    <strong style="display: block;width: 15%;float: left;padding: 5px;"> GSM : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.mobile"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">FAX : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.fax"/>
+				                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> STANDARD : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.standard"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">VILLE : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.city_id.name"/>
+				                </p>
+			            </fieldset>
+					 </div>    
+		        </div>
+				<div class="row" style="margin: 0px;border: 1px solid;padding-bottom: 10px;padding-top: 10px;">
+		      	    <div class="col-xs-12">
+		      	    	 <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DISTANCE (KM) : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_km"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DISTANCE (Hr) : </strong> 
+			                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_temps"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NATURE DE TRAVAUX : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.type"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">TRAVAUX PLANIFIES : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.travaux_plan"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DATE PREVUE DE REALISATION : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.date_prevu"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NBR D'APPAREILS PREVUES : </strong> 
+			                	<strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DELAI MAXIMAL : </strong> 
+			                    <strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                </p>
+		            </div>
+		         </div>
+		         <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >PLANNING DES TRAVAUX :</legend> 
+					  			<p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 35%;float: left;padding: 5px;">Date de réception matériel : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 40%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 35%;float: left;padding: 5px;">Date de devis : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 40%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 35%;float: left;padding: 5px;">Date de lancement des travaux : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 40%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                 </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 35%;float: left;padding: 5px;">Date d'expédition: </strong> 
+				                	<span style="min-height: 31px;display: block;width: 40%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                 </p>
+			            </fieldset>
+		      	    </div>
+		      	  </div>
+		      	  <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
+		      	    	<strong>Consignes particulières :  </strong>
+		      	    </div>
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
+		      	    	<strong>Matériel spécifique :  </strong>
+		      	    </div>
+		      	  </div>
+		      	   <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<p class="text-left" style="height : 25px">
+		                	<strong>COMMENTAIRES APRES TRAVAUX : </strong> 
+		                </p>
+		      	    	<p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NBR D'APPAREIL REEL : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 10%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                    <strong style="display: block;width: 35%;float: left;padding: 5px;"> DATE DE LIVRAISON : </strong> 
+		                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">FACTURES N° : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                 </p>
+		      	    </div>
+		      	  </div>
+        	</div>
+        </t>
+    </t>
+</template>
+
+<template id="report_affaire_document_essai">
+    <t t-call="report.html_container">
+    	<t t-call="arfi.product_affaire_layout">
+    	    <t t-set="o" t-value="o.with_context({'lang':o.customer_id.lang})" />
+	        <div class="page">
+	        	<div class="row" style="padding-top : 30px">
+		      	  <div class="col-xs-6"><p class="text-left"><strong>Date d'ouverture</strong> <span t-field="o.date_affaire"/></p>
+		            </div>
+		            <div class="col-xs-6"><p class="text-left"><strong>N° Contrat mère</strong> <span t-field="o.no_parent"/></p>
+					 </div>     
+		        </div>
+	        	<div class="row" style="padding-top : 10px">
+		      	 	<div class="col-xs-3" style="border : 1px solid;width: 22%; margin-top: 9px;margin-left: 22px;border: 1px solid;height: 200px;">
+			      	  	<div  class="col-xs-12" style="border: 1px solid;height: 100px;text-align: center;top: 27%;position: relative;">
+			      	    	<strong style="font-size: 28px;position: relative;top: 33%;"><span t-field="o.name"/></strong>
+			      	    </div>	
+		            </div>
+		            <div class="col-xs-9">
+		            	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Affaires :</legend> 
+					  			<p class="text-left" style="height : 25px">
+					  				<strong style="display: block;width: 25%;float: left;padding: 5px;">CLIENT : </strong> 
+					  				<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.customer_id.name"/>
+					  			</p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">DEMANDEUR : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.title_id.shortcut"/>
+				                	<span style="min-height: 31px;display: block;width: 60%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.person_id.name"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">TEL : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.phone"/>
+				                    <strong style="display: block;width: 15%;float: left;padding: 5px;"> GSM : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.mobile"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">FAX : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.fax"/>
+				                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> STANDARD : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.standard"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">VILLE : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.city_id.name"/>
+				                </p>
+			            </fieldset>
+					 </div>    
+		        </div>
+				<div class="row" style="margin: 0px;border: 1px solid;padding-bottom: 10px;padding-top: 10px;">
+		      	    <div class="col-xs-12">
+		      	    	 <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DISTANCE (KM) : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_km"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DISTANCE (Hr) : </strong> 
+			                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_temps"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NATURE DE TRAVAUX : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.type"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">TRAVAUX PLANIFIES : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.travaux_plan"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DATE PREVUE DE REALISATION : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.date_prevu"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NBR D'APPAREILS PREVUES : </strong> 
+			                	<strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DELAI MAXIMAL : </strong> 
+			                    <strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                </p>
+		            </div>
+		         </div>
+		         <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >PLANNING DES TRAVAUX :</legend> 
+					  			<p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 55%;float: left;padding: 5px;">Date début des travaux fixé par le client : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 55%;float: left;padding: 5px;">Date fin des travaux fixé par le client : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                 </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 55%;float: left;padding: 5px;">Responsable chargé de chantier : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 45%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				               	</p>
+			            </fieldset>
+		      	    </div>
+		      	  </div>
+		      	  <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
+		      	    	<strong>Consignes particulières :  </strong>
+		      	    </div>
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
+		      	    	<strong>Matériel spécifique :  </strong>
+		      	    </div>
+		      	  </div>
+		      	   <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<p class="text-left" style="height : 25px">
+		                	<strong>COMMENTAIRES APRES TRAVAUX : </strong> 
+		                </p>
+		      	    	<p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NBR D'APPAREIL REEL : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 10%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                    <strong style="display: block;width: 35%;float: left;padding: 5px;"> DATE DE FIN REALISATION : </strong> 
+		                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DATE DE RECEPTION TRAVAUX : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">FACTURES N° : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                 </p>
+		      	    </div>
+		      	  </div>
+        	</div>
+        </t>
+    </t>
+</template>
+
+<template id="report_affaire_document_gppm">
+    <t t-call="report.html_container">
+    	<t t-call="arfi.product_affaire_layout">
+    	    <t t-set="o" t-value="o.with_context({'lang':o.customer_id.lang})" />
+	        <div class="page">
+	        	<div class="row" style="padding-top : 30px">
+		      	  <div class="col-xs-6"><p class="text-left"><strong>Date d'ouverture</strong> <span t-field="o.date_affaire"/></p>
+		            </div>
+		            <div class="col-xs-6"><p class="text-left"><strong>N° Contrat mère</strong> <span t-field="o.no_parent"/></p>
+					 </div>     
+		        </div>
+	        	<div class="row" style="padding-top : 10px">
+		      	 	<div class="col-xs-3" style="border : 1px solid;width: 22%; margin-top: 9px;margin-left: 22px;border: 1px solid;height: 200px;">
+			      	  	<div  class="col-xs-12" style="border: 1px solid;height: 100px;text-align: center;top: 27%;position: relative;">
+			      	    	<strong style="font-size: 28px;position: relative;top: 33%;"><span t-field="o.name"/></strong>
+			      	    </div>	
+		            </div>
+		            <div class="col-xs-9">
+		            	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Affaires :</legend> 
+					  			<p class="text-left" style="height : 25px">
+					  				<strong style="display: block;width: 25%;float: left;padding: 5px;">CLIENT : </strong> 
+					  				<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.customer_id.name"/>
+					  			</p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">DEMANDEUR : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.title_id.shortcut"/>
+				                	<span style="min-height: 31px;display: block;width: 60%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.person_id.name"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">TEL : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.phone"/>
+				                    <strong style="display: block;width: 15%;float: left;padding: 5px;"> GSM : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.mobile"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">FAX : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.fax"/>
+				                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> STANDARD : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.standard"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">VILLE : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.city_id.name"/>
+				                </p>
+			            </fieldset>
+					 </div>     
+		        </div>
+				<div class="row" style="margin: 0px;border: 1px solid;padding-bottom: 10px;padding-top: 10px;">
+		      	    <div class="col-xs-12">
+		      	    	 <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DISTANCE (KM) : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_km"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DISTANCE (Hr) : </strong> 
+			                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_temps"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NATURE DE TRAVAUX : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.type"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">TRAVAUX PLANIFIES : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.travaux_plan"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DATE PREVUE DE REALISATION : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.date_prevu"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NBR D'APPAREILS PREVUES : </strong> 
+			                	<strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DELAI MAXIMAL : </strong> 
+			                    <strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                </p>
+		            </div>
+		         </div>
+		         <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >PLANNING DES TRAVAUX :</legend> 
+					  			<p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 45%;float: left;padding: 5px;">Date début d'arrêt fixé par le client : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 45%;float: left;padding: 5px;">Date prévue d'installation du chanter : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				               		<strong style="display: block;width: 25%;float: left;padding: 5px;">Resp : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 45%;float: left;padding: 5px;">Date prévue de sortie PDR du magasin : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				               		<strong style="display: block;width: 25%;float: left;padding: 5px;">Resp : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 45%;float: left;padding: 5px;">Date de début des travaux : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                 </p>
+			            </fieldset>
+		      	    </div>
+		      	  </div>
+		      	  <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
+		      	    	<strong>Consignes particulières :  </strong>
+		      	    </div>
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
+		      	    	<strong>Matériel spécifique :  </strong>
+		      	    </div>
+		      	  </div>
+		      	   <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<p class="text-left" style="height : 25px">
+		                	<strong>COMMENTAIRES APRES TRAVAUX : </strong> 
+		                </p>
+		      	    	<p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NBR D'APPAREIL REEL : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 10%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                    <strong style="display: block;width: 35%;float: left;padding: 5px;"> DATE DE FIN REALISATION : </strong> 
+		                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DATE DE RECEPTION TRAVAUX : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">FACTURES N° : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                 </p>
+		      	    </div>
+		      	  </div>
+        	</div>
+        </t>
+    </t>
+</template>
+
+<template id="report_affaire_document_re">
+    <t t-call="report.html_container">
+    	<t t-call="arfi.product_affaire_layout">
+    	    <t t-set="o" t-value="o.with_context({'lang':o.customer_id.lang})" />
+	        <div class="page">
+	        	<div class="row" style="padding-top : 30px">
+		      	  <div class="col-xs-6"><p class="text-left"><strong>Date d'ouverture</strong> <span t-field="o.date_affaire"/></p>
+		            </div>
+		            <div class="col-xs-6"><p class="text-left"><strong>N° Contrat mère</strong> <span t-field="o.no_parent"/></p>
+					 </div>     
+		        </div>
+	        	<div class="row" style="padding-top : 10px">
+		      	 	<div class="col-xs-3" style="border : 1px solid;width: 22%; margin-top: 9px;margin-left: 22px;border: 1px solid;height: 200px;">
+			      	  	<div  class="col-xs-12" style="border: 1px solid;height: 100px;text-align: center;top: 27%;position: relative;">
+			      	    	<strong style="font-size: 28px;position: relative;top: 33%;"><span t-field="o.name"/></strong>
+			      	    </div>	
+		            </div>
+		            <div class="col-xs-9">
+		            	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Affaires :</legend> 
+					  			<p class="text-left" style="height : 25px">
+					  				<strong style="display: block;width: 25%;float: left;padding: 5px;">CLIENT : </strong> 
+					  				<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.customer_id.name"/>
+					  			</p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">DEMANDEUR : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.title_id.shortcut"/>
+				                	<span style="min-height: 31px;display: block;width: 60%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.person_id.name"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">TEL : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.phone"/>
+				                    <strong style="display: block;width: 15%;float: left;padding: 5px;"> GSM : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.mobile"/>
+				                </p>
+				                <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">FAX : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 30%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.fax"/>
+				                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> STANDARD : </strong> 
+				                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.standard"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 25%;float: left;padding: 5px;">VILLE : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 75%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.city_id.name"/>
+				                </p>
+			            </fieldset>
+					 </div>    
+		        </div>
+				<div class="row" style="margin: 0px;border: 1px solid;padding-bottom: 10px;padding-top: 10px;">
+		      	    <div class="col-xs-12">
+		      	    	 <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DISTANCE (KM) : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_km"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DISTANCE (Hr) : </strong> 
+			                    <span   style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.distance_temps"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NATURE DE TRAVAUX : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.type"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">TRAVAUX PLANIFIES : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.travaux_plan"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DATE PREVUE DE REALISATION : </strong> 
+			                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 1px -1px;" t-field="o.date_prevu"/>
+			              </p>
+			              <p class="text-left" style="height : 25px">
+			                	<strong style="display: block;width: 35%;float: left;padding: 5px;">NBR D'APPAREILS PREVUES : </strong> 
+			                	<strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                    <strong style="display: block;width: 25%;float: left;padding: 5px;"> DELAI MAXIMAL : </strong> 
+			                    <strong style="min-height: 31px;display: block;width: 20%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+			                </p>
+		            </div>
+		         </div>
+		         <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<fieldset style="border: 1px solid !important;padding: 1em 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >PLANNING DES TRAVAUX :</legend> 
+					  			<p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 45%;float: left;padding: 5px;">Date de commande : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				               		<strong style="display: block;width: 25%;float: left;padding: 5px;">Trans : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                 <p class="text-left" style="height : 25px">
+				                	<strong style="display: block;width: 45%;float: left;padding: 5px;">Date de lancement de fabrication : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				               		<strong style="display: block;width: 25%;float: left;padding: 5px;">Resp : </strong> 
+				                	<span style="min-height: 31px;display: block;width: 15%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+				                </p>
+				                <p class="text-left" style="height : 25px"></p>
+			            </fieldset>
+		      	    </div>
+		      	  </div>
+		      	  <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
+		      	    	<strong>Consignes particulières :  </strong>
+		      	    </div>
+		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
+		      	    	<strong>Matériel spécifique :  </strong>
+		      	    </div>
+		      	  </div>
+		      	   <div class="row" style="padding-top : 10px">
+		      	    <div class="col-xs-12">
+		      	    	<p class="text-left" style="height : 25px">
+		                	<strong>COMMENTAIRES APRES TRAVAUX : </strong> 
+		                </p>
+		      	    	<p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px"></p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">DATE DE LIVRAISON : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 25%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                </p>
+		                <p class="text-left" style="height : 25px">
+		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">FACTURES N° : </strong> 
+		                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                 </p>
+		      	    </div>
+		      	  </div>
+        	</div>
+        </t>
+    </t>
+</template>
+
+<template id="report_productaffaire">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+        	<t t-if="o.type == 'colmatage' ">
+            	<t t-call="arfi.report_affaire_document_colmatage" t-lang="o.customer_id.lang"/>
+            </t>
+            <t t-if="o.type == 'Remise en etat (REE)' ">
+            	<t t-call="arfi.report_affaire_document_ree" t-lang="o.customer_id.lang"/>
+            </t>	
+            <t t-if="o.type == 'GPPM' ">
+            	<t t-call="arfi.report_affaire_document_gppm" t-lang="o.customer_id.lang"/>
+            </t>
+             <t t-if="o.type == 'Essai sur site' ">
+            	<t t-call="arfi.report_affaire_document_essai" t-lang="o.customer_id.lang"/>
+            </t>
+              <t t-if="o.type == 'Fabrication/Revente' ">
+            	<t t-call="arfi.report_affaire_document_re" t-lang="o.customer_id.lang"/>
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>

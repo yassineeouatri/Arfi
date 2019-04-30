@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_product_kks_piece_wizard_form" model="ir.ui.view">
+            <field name="name">product.kks.piece.wizard.form</field>
+            <field name="model">product.kks.piece.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="reporting" create="false">
+                	<group col="4" colspan="2">
+						<field name="kks_id" required="1" invisible="1"/>
+						<field name="piece_ids" nolabel="1" domain="[('variant', '=', True)]" options="{'no_create': True}"  widget="many2many_checkboxes" colspan="4"/>	     
+					</group>
+	                <footer>
+                    	<button name="action_execute" string="Valider" type="object" class="oe_highlight"/>
+                    	ou
+                    	<button string="Annuler" class="btn-default" special="cancel"/>  	
+                	</footer>
+               </form>
+            </field>
+        </record> 
+    </data>
+</openerp>

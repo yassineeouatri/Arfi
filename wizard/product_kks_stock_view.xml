@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_product_kks_stock_wizard_form" model="ir.ui.view">
+            <field name="name">product.kks.stock.wizard.form</field>
+            <field name="model">product.kks.stock.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="reporting" create="false">
+                	<group col="4" colspan="2">
+						<field name="file" filename="file_name"/>
+              			<field name="file_name" select="1" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button icon="fa-refresh" name="update_stock" string="Mis à jour" type="object" class="oe_highlight"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel" />
+                   </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_product_kks_stock_wizard" model="ir.actions.act_window">
+            <field name="name">Mis à jour du stock</field>
+            <field name="res_model">product.kks.stock.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_product_kks_stock_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+        
+		 <record id="view_product_magasin_stock_wizard_form" model="ir.ui.view">
+            <field name="name">product.magasin.stock.wizard.form</field>
+            <field name="model">product.magasin.stock.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="reporting" create="false">
+                	<group col="4" colspan="2">
+						<field name="magasin_id" required="1" invisible="1"/>
+						<field name="info_ids" nolabel="1" domain="[('variant', '=', True)]" options="{'no_create': True}"  widget="many2many_checkboxes" colspan="4"/>	     
+					</group>
+	                <footer>
+                    	<button name="action_execute" string="Valider" type="object" class="oe_highlight"/>
+                    	ou
+                    	<button string="Annuler" class="btn-default" special="cancel"/>  	
+                	</footer>
+               </form>
+            </field>
+        </record> 
+   </data>
+</openerp>

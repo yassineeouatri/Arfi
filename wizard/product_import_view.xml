@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+<!--Done BY Addition IT Solutions: BEGIN
+        <record id="view_product_import_form" model="ir.ui.view">
+            <field name="name">product.import.form</field>
+            <field name="model">product.import</field>
+            <field name="arch" type="xml">
+                <form string="Product Import">
+                    <group>
+                        <group>
+                            <separator string="Importer les pieces"/>
+                       </group>
+                        <group colspan="2">
+                            <field name="file" filename="file_name"/>
+              				<field name="file_name" select="1" invisible="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="import_product" string="Importer" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Annuler" class="oe_link" special="cancel" />
+                   </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_product_import" model="ir.actions.act_window">
+            <field name="name">Importer les pièces</field>
+            <field name="res_model">product.import</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_product_import_form"/>
+            <field name="target">new</field>
+        </record>
+		<menuitem  action="action_product_import"
+            id="menu_product_import"
+            parent="menu_arfi_appareil"
+ 			groups="base.group_no_one"           
+			sequence="100"/>
+ -->
+    </data>
+</openerp>
+
+<!--Done BY Addition IT Solutions: END -->

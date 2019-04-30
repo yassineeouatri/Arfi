@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="product_kks_echafaudage_layout">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.product_kks_echafaudage_report_header" />
+    <t t-raw="0" />
+    <t t-call="report.external_layout_footer" />
+</template>
+
+<template id="product_kks_echafaudage_report_header">
+    <div class="header">
+         <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+            </div>
+            <div class="col-xs-6 text-center" style="padding-top: 40px;">
+            	<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste Matériel Echafaudage</h2> 
+            </div>
+            <div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+            
+        </div>
+        <div class="row zero_min_height" style="padding-top: 5px;">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>    
+    </div>
+</template>		
+<template id="action_report_productkksechafaudage">
+    <t t-call="report.html_container">
+		<t t-foreach="docs" t-as="o">
+	        <t t-call="arfi.product_kks_echafaudage_layout">
+        		<div class="page">		
+			        <div class="row">
+	        			<div class="col-xs-6" style="font:15px lucida-console,sans-serif !important;" >
+		        			<p><strong>KKS : </strong><span t-field="o.name"/></p>
+				            <p><strong>Référence : </strong><span t-field="o.reference"/></p>
+				            <p><strong>Métrage : </strong><span t-field="o.repere"/></p>
+				        </div> 
+		       		</div>
+		            <div class="row" style="padding-top:15px;">
+			            <table class="table table-condensed table table-striped table table-bordered" style="width : 100%">
+			                <thead style=" background-color: #3498DB;" >
+			                    <tr>
+			                        <th  class="text-center"><font color="#fff">Code </font></th>
+			                        <th  class="text-center"><font color="#fff">Désignation </font></th>
+			                        <th  class="text-center"><font color="#fff">Qté utilisée</font></th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="records.sorted(key=lambda b: b.echafaudage_id.code)" t-as="l">
+			                        <td  class="text-center"><span t-field="l.echafaudage_id.code"/></td>
+			                        <td><span t-field="l.echafaudage_id.libelle"/></td>
+			                        <td  class="text-center"><span t-field="l.qte"/></td>
+			                    </tr>
+			                </tbody>
+			            </table>
+		       		</div>
+	       		</div>
+        	</t>
+        </t>
+    </t>
+</template>
+<template id="report_productkksechafaudage">
+    <t t-call="report.html_container">
+		<t t-foreach="docs" t-as="o">
+	        <t t-call="arfi.product_kks_echafaudage_layout">
+        		<div class="page">		
+			        <div class="row">
+	        			<div class="col-xs-6" style="font:15px lucida-console,sans-serif !important;" >
+		        			<p><strong>KKS : </strong><span t-field="o.name"/></p>
+				            <p><strong>Référence : </strong><span t-field="o.reference"/></p>
+				            <p><strong>Métrage : </strong><span t-field="o.repere"/></p>
+				        </div> 
+		       		</div>
+		            <div class="row" style="padding-top:15px;">
+			            <table class="table table-condensed table table-bordered" style="width : 100%">
+			                <thead>
+			                    <tr>
+			                        <th class="text-center">Code</th>
+			                        <th class="text-center">Désignation</th>
+			                        <th class="text-center">Qté utilisée</th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="o.echafaudage_ids.sorted(key=lambda b: b.echafaudage_id.code)" t-as="l">
+			                        <td  class="text-center"><span t-field="l.echafaudage_id.code"/></td>
+			                        <td><span t-field="l.echafaudage_id.libelle"/></td>
+			                        <td  class="text-center"><span t-field="l.qte"/></td>
+			                    </tr>
+			                </tbody>
+			            </table>
+		       		</div>
+	       		</div>
+        	</t>
+        </t>
+    </t>
+</template>
+<template id="action_report_productkksechafaudagearret">
+    <t t-call="report.html_container">
+		<t t-foreach="docs" t-as="o">
+	        <t t-call="arfi.product_kks_echafaudage_layout">
+        		<div class="page"> 		
+			        <div class="row">
+			        	<t t-set="info" t-value="get_info"/>
+	        			<div class="col-xs-6" style="font:15px lucida-console,sans-serif !important;" >
+	        				<p><strong>Arrêt : </strong><span t-field="o.arret_id.date"  t-options ='{"format": "dd/MM/Y"}'/></p>
+				        </div> 
+				        <div class="col-xs-6" style="font:15px lucida-console,sans-serif !important;" >
+		        			<p><strong>Client : </strong><span t-field="o.customer_id.name"/></p>
+				        </div> 
+		       		</div>
+		            <div class="row" style="padding-top:15px;">
+			            <table class="table table-condensed table table-striped table table-bordered" style="width : 100%">
+			                <thead style=" background-color: #3498DB;" >
+			                    <tr>
+			                        <th  class="text-center"><font color="#fff">Code </font></th>
+			                        <th  class="text-center"><font color="#fff">Désignation </font></th>
+			                        <th  class="text-center"><font color="#fff">Qté utilisée</font></th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="records.sorted(key=lambda b: b.echafaudage_id.code)" t-as="l">
+			                        <td  class="text-center"><span t-field="l.echafaudage_id.code"/></td>
+			                        <td><span t-field="l.echafaudage_id.libelle"/></td>
+			                        <td  class="text-center"><span t-field="l.qte"/></td>
+			                    </tr>
+			                </tbody>
+			            </table>
+		       		</div>
+	       		</div>
+        	</t>
+        </t>
+    </t>
+</template>
+
+<template id="action_report_productkksfactureechafaudagearret">
+    <t t-call="report.html_container">
+		<t t-foreach="docs" t-as="o">
+	        <t t-call="arfi.product_kks_echafaudage_layout">
+        		<div class="page">
+	        		<p>Désignation : Facturation échafaudages vannes arrêt unité <t t-esc="unite"/> du 
+	        			<span t-field="o.arret_id.date" t-options ='{"widget": "datetime","format": "EEEE dd MMMM y"}'></span></p>  		
+			        <div class="row" style="padding-top:20px;">
+			            <table class="table table-condensed table table-striped table table-bordered" style="width : 100%">
+			                <thead style=" background-color: #3498DB;" >
+			                    <tr>
+			                        <th  class="text-center"><font color="#fff">KKS </font></th>
+			                        <th  class="text-center"><font color="#fff">Métrage (m3) </font></th>
+			                        <th  class="text-center"><font color="#fff">Prix unitaire</font></th>
+			                        <th  class="text-center"><font color="#fff">Montant (DH)</font></th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody"> 
+			                	<t t-set="prix_total" t-value="0"/>
+			                    <tr t-foreach="records.sorted(key=lambda b: b.kks_id.name)" t-as="l">
+			                        <td  class="text-center"><span t-field="l.kks_id.name"/></td>
+			                        <td  class="text-center"><span t-field="l.repere"/></td>
+			                        <td  class="text-center"><span t-field="l.customer_id.price"/></td>
+			                        <td  class="text-center"><span t-esc="'%.2f'%(l.customer_id.price*l.repere)"/></td>
+			                        <t t-set="prix_total" t-value="prix_total+(l.customer_id.price*l.repere)"/>
+			                    </tr>
+			                     <tr>
+			                        <td  class="text-center" colspan="3">TOTAL</td>
+			                        <td  class="text-center"><span t-esc="'%.2f'%(prix_total)"/></td>
+			                    </tr>
+			                </tbody>
+			            </table>
+		       		</div>
+	       		</div>
+        	</t>
+        </t>
+    </t>
+</template>
+</odoo>

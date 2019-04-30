@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	 <!-- Achats -->
+ 	     <record id="product_purchase_search_view" model="ir.ui.view">
+            <field name="name">product.purchase.search</field>
+            <field name="model">product.purchase</field>
+            <field name="arch" type="xml">
+                <search string="Achats">
+                	<field name="date_purchase"/>
+                	<field name="date_reception"/>
+                	<field name="supplier_id"/>
+                    <field name="customer_id"/>
+                    <field name="bc"/>
+                    <field name="bl"/>
+                    <filter string="Commandes en cours" domain="[('date_reception','=',False)]" name='en_cours'/>
+                    <group expand="0" string="Group By">
+                    	<filter string="Fournisseur" domain="[]" context="{'group_by':'supplier_id'}"/>
+                    	<filter string="Client" domain="[]" context="{'group_by':'customer_id'}"/>
+                    </group>	
+                </search>
+            </field>
+        </record>
+        <record id="product_purchase_tree_view" model="ir.ui.view">
+            <field name="name">product.purchase.tree</field>
+            <field name="model">product.purchase</field>
+            <field name="arch" type="xml">
+                <tree string="Facture">
+                    <field name="create_date"/>
+			        <field name="date_purchase"/>
+                	<field name="date_reception"/>
+                	<field name="supplier_id"/>
+                    <field name="customer_id"/>
+                    <field name="bc"/>
+                    <field name="bl"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_purchase_form_view" model="ir.ui.view">
+            <field name="name">product.purchase.form</field>
+            <field name="model">product.purchase</field>
+            <field name="arch" type="xml">
+                <form string="Facture">
+                	<sheet> 
+                		<group col="4" colspan="2"> 
+                			<field name="create_date"/>
+                		</group>
+                    	<group>	
+                    		<group>
+                    			<fieldset style="width: 98%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations fournisseur :</legend> 
+						  			<group>
+                    					<field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
+                    					<field name="contact_id" options="{'no_create': True,'no_open': True}" domain="[('supplier_id','=',supplier_id)]"/>
+			                		</group>
+			              		 </fieldset> 
+                    		</group>
+                    		<group>
+                    			<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations client :</legend> 
+						  			<group>
+						  				<field name="customer_id"  options="{'no_create': True,'no_open': True}"/>
+			                			<field name="no_affaire"/>
+			                		</group>
+			              		 </fieldset> 
+                    		</group>	
+		                		
+		                </group>	
+		                <group col="6">
+                    		<group colspan="2">
+                    			<fieldset style="width: 98%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Commande :</legend> 
+						  			<group>
+						  				<field name="date_purchase"/>
+			                			<field name="bc"/>
+			                			<field name="date_reception"/>
+			                			<field name="bl"/>
+			                		</group>
+			              		 </fieldset> 
+                    		</group>
+                    		<group colspan="2">
+                    			<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Conformité :</legend> 
+						  			<group>
+						  				<field name="delai"/>
+						  				<field name="conforme"/>
+						  				<field name="note" nolabel="1" colspan="2"  placeholder="Observation"/>
+						  				<newline/>
+						  			</group>
+						  		</fieldset>
+                    		</group>
+                    		<group colspan="2">
+                    			<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Evaluation :</legend> 
+						  			<group>
+						  				<button class="btn btn-primary" string="Multiple Séléction" type="object" name="action_select_evaluation"/>
+                						<field name="purchase_evaluation_ids" style="overflow-y: auto;max-height: 200px;" colspan="2" nolabel="1" mode="tree" context="{'default_purchase_id': active_id}">  
+				            		 		<tree string="Lignes des achats" editable="bottom"  create="false" delete="false" limit="1000">
+				            		 			<field name="purchase_id" invisible="1"/>
+				            		 			<field name="type_evaluation_id" options="{'no_open': True}" readonly="1"/>
+						                		<field name="note_id" widget="selection"/>
+				            		 		</tree>
+			                		 	</field>
+			                		</group>
+			              		 </fieldset> 
+                    		</group>
+                    	</group>	
+		                <group>	
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Détail achat :</legend> 
+					  			<field name="purchase_line_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_purchase_id': active_id}">  
+		            		 		<tree string="Lignes des achats" limit="10000" editable="bottom">
+		            		 			<field name="purchase_id" invisible="1"/>
+		            		 			<field name="qte"/>
+				                		<field name="magasin_id"  options="{'no_create': True,'no_open': True}"/>
+				                		<field name="designation"/>
+				                		<field name="remise"/>
+				                		<field name="price_unit"/>
+				                		<field name="montant"/>
+		            		 		</tree>
+	                		 	</field>
+	                		</fieldset> 			
+	                	</group>       
+	                	 <group>
+	                	 	<group>
+		                		<fieldset style="border: 1px solid #ddd !important;padding: 0px 2.5em 0em 0.5em !important;margin: 0px 0 1em 0 !important;width: 60%;">
+									<legend style="color: #7c7bad;width: inherit;border-bottom: none;font-weight: bold ! important;font-size: 11px ! important;margin-bottom: 0px ! important;" >Note d'évaluation :</legend> 
+						  			<h1 style="color: #7c7bad;text-align: center;"><field name="note_evaluation" readonly="1" nolabel="1"/></h1>
+			                    </fieldset>
+		                    </group>
+		                	<group class="oe_subtotal_footer oe_right" name="total">
+		                        <field name="montant_ht"/>
+		                        <field name="tva"/>
+		                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+		                            <label for="montant_ttc" />
+		                        </div>
+		                        <field name="montant_ttc" nolabel="1" class="oe_subtotal_footer_separator"/>
+		                    </group>
+	                    </group>       
+                    </sheet>	
+                </form>
+            </field>
+        </record>
+         <record id="action_product_purchase" model="ir.actions.act_window">
+            <field name="name">Achats</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.purchase</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{ "search_default_en_cours": 1} </field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle commande
+                </p>
+            </field>
+        </record>  
+        <!-- Lignes des achats -->
+ 	  
+        <record id="product_purchase_line_tree_view" model="ir.ui.view">
+            <field name="name">product.purchase.line.tree</field>
+            <field name="model">product.purchase.line</field>
+            <field name="arch" type="xml">
+                <tree string="Lignes" editable="top">
+                    <field name="purchase_id" invisible="1"/>
+		 			<field name="qte"/>
+            		<field name="magasin_id"  options="{'no_create': True,'no_open': True}"/>
+            		<field name="designation"/>
+            		<field name="remise"/>
+            		<field name="price_unit"/>
+            		<field name="montant"/>
+                </tree>
+            </field>
+        </record>
+         <record id="action_product_purchase_line" model="ir.actions.act_window">
+            <field name="name">Lignes des achats</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.purchase.line</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle ligne
+                </p>
+            </field>
+        </record>   
+           <!-- Evaluation -->
+ 	  
+        <record id="product_purchase_evaluation_tree_view" model="ir.ui.view">
+            <field name="name">product.purchase.evaluation.tree</field>
+            <field name="model">product.purchase.evaluation</field>
+            <field name="arch" type="xml">
+                <tree string="Lignes" editable="top">
+                    <field name="purchase_id" invisible="1"/>
+		 			<field name="type_evaluation_id"/>
+            		<field name="note_id"/>
+                </tree>
+            </field>
+        </record>
+         <record id="action_product_purchase_evaluation" model="ir.actions.act_window">
+            <field name="name">Evaluation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.purchase.evaluation</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle ligne
+                </p>
+            </field>
+        </record>   
+        <!-- Liste des types d'évaluation -->
+ 	     <record id="product_purchase_type_evaluation_search_view" model="ir.ui.view">
+            <field name="name">product.purchase.type.evaluation.search</field>
+            <field name="model">product.purchase.type.evaluation</field>
+            <field name="arch" type="xml">
+                <search string="Villes">
+                	<field name="name"/>
+                	<field name="code"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_purchase_type_evaluation_tree_view" model="ir.ui.view">
+            <field name="name">product.purchase.type.evaluation.tree</field>
+            <field name="model">product.purchase.type.evaluation</field>
+            <field name="arch" type="xml">
+                <tree string="Villes" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+         <record id="action_product_purchase_type_evaluation" model="ir.actions.act_window">
+            <field name="name">Type d'évaluation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.purchase.type.evaluation</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle évaluation
+                </p>
+            </field>
+        </record>   
+ <!-- Liste des notes -->
+ 	     <record id="product_purchase_note_search_view" model="ir.ui.view">
+            <field name="name">product.purchase.note.search</field>
+            <field name="model">product.purchase.note</field>
+            <field name="arch" type="xml">
+                <search string="Villes">
+                	<field name="name"/>
+                	<field name="code"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_purchase_note_tree_view" model="ir.ui.view">
+            <field name="name">product.purchase.note.tree</field>
+            <field name="model">product.purchase.note</field>
+            <field name="arch" type="xml">
+                <tree string="Notes" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+         <record id="action_product_purchase_note" model="ir.actions.act_window">
+            <field name="name">Notes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.purchase.note</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle note
+                </p>
+            </field>
+        </record>   
+<!-- Liste des activités -->
+ 	     <record id="product_purchase_activity_search_view" model="ir.ui.view">
+            <field name="name">product.purchase.activity.search</field>
+            <field name="model">product.purchase.activity</field>
+            <field name="arch" type="xml">
+                <search string="Activités">
+                	<field name="name"/>
+                	<field name="code"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_purchase_activity_tree_view" model="ir.ui.view">
+            <field name="name">product.purchase.activity.tree</field>
+            <field name="model">product.purchase.activity</field>
+            <field name="arch" type="xml">
+                <tree string="Activités" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+         <record id="action_product_purchase_activity" model="ir.actions.act_window">
+            <field name="name">Activités</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.purchase.activity</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle activité
+                </p>
+            </field>
+        </record>
+        <!-- BC -->
+ 	     <record id="product_bc_search_view" model="ir.ui.view">
+            <field name="name">product.bc.search</field>
+            <field name="model">product.bc</field>
+            <field name="arch" type="xml">
+                <search string="BC">
+                	<field name="unite_id"/>
+                	<field name="arret_id"/>
+                    <field name="travaux_id"/>
+                    <field name="supplier_id"/>
+                    <group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+        <record id="product_bc_tree_view" model="ir.ui.view">
+            <field name="name">product.bc.tree</field>
+            <field name="model">product.bc</field>
+            <field name="arch" type="xml">
+                <tree string="BC">
+                    <field name="name"/>
+                    <field name="no_commande"/>
+                    <field name="date_bc"/>
+                    <field name="supplier_id"/>
+                    <field name="arret_id"/>
+                    <field name="unite_id"/>
+                    <field name="travaux_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_bc_form_view" model="ir.ui.view">
+            <field name="name">product.bc.form</field>
+            <field name="model">product.bc</field>
+            <field name="arch" type="xml">
+                <form string="Facture">
+                	<sheet>
+                    	<group>
+		                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations :</legend>
+					  			<group style="width : 50%">
+                                     <field name="name"/>
+                                     <field name="no_commande"/>
+			                		 <field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
+                    				 <field name="arret_id" options="{'no_create': True,'no_open': True}"/>
+			                	</group>
+			                	<group style="width : 50%">
+			                		 <field name="date_bc"/>
+                                     <field name="unite_id" options="{'no_create': True,'no_open': True}"/>
+                                     <field name="travaux_id" options="{'no_create': True,'no_open': True}"/>
+			                	</group>
+			               </fieldset>
+		                </group>
+		                <group>
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Détail BC :</legend>
+					  			<field name="bc_line_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_bc_id': active_id}">
+		            		 		<tree string="Lignes de facture" limit="10000" editable="bottom">
+		            		 			<field name="bc_id" invisible="1"/>
+                                        <field name="item"/>
+		            		 			<field name="kks_id" options="{'no_create': True,'no_open': True}"/>
+				                		<field name="maker_id" options="{'no_create': True,'no_open': True}"/>
+				                		<field name="appareil_id" options="{'no_create': True,'no_open': True}"/>
+				                		<field name="nature_id" options="{'no_create': True,'no_open': True}"/>
+                                        <field name="sale_price" sum="Total Prix de vente"/>
+				                		<field name="purchase_price" sum="Total Prix d'achat"/>
+		            		 		</tree>
+	                		 	</field>
+	                		</fieldset>
+	                	</group>
+                        <group>
+                        	<div name="button_box" style="text-align: center;">
+                        		<button string="Apperçu PDF" name="print_bc_report_pdf" type="object" class="btn btn-default" icon="fa-file-pdf-o"/>
+                                <button string="Apperçu Excel" name="print_bc_report_excel" type="object" class="btn btn-default" icon="fa-file-excel-o"/>
+                            </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_product_bc" model="ir.actions.act_window">
+            <field name="name">BC</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.bc</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un BC
+                </p>
+            </field>
+        </record>
+          <!-- BC des pièces-->
+ 	     <record id="product_bc_piece_search_view" model="ir.ui.view">
+            <field name="name">product.bc.piece.search</field>
+            <field name="model">product.bc.piece</field>
+            <field name="arch" type="xml">
+                <search string="BC">
+                    <field name="supplier_id"/>
+                    <field name="company_id"/>
+                    <group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+        <record id="product_bc_piece_tree_view" model="ir.ui.view">
+            <field name="name">product.bc.piece.tree</field>
+            <field name="model">product.bc.piece</field>
+            <field name="arch" type="xml">
+                <tree string="BC">
+                    <field name="company_id"/>
+                    <field name="name"/>
+                    <field name="date_bc"/>
+                    <field name="supplier_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_bc_piece_form_view" model="ir.ui.view">
+            <field name="name">product.bc.piece.form</field>
+            <field name="model">product.bc.piece</field>
+            <field name="arch" type="xml">
+                <form string="Facture">
+                	<sheet>
+                    	<group>
+		                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations :</legend>
+					  			<group style="width : 50%">
+                                     <field name="name"/>
+			                		 <field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
+			                	</group>
+			                	<group style="width : 50%">
+			                		 <field name="date_bc"/>
+                                     <field name="company_id" widget="selection"/>
+			                	</group>
+			               </fieldset>
+		                </group>
+		                <group>
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Détail BC :</legend>
+					  			<field name="bc_line_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_bc_id': active_id}">
+		            		 		<tree string="Lignes de bc" limit="10000" editable="bottom">
+		            		 			<field name="bc_id" invisible="1"/>
+                                        <field name="code_interne"/>
+		            		 			<field name="magasin_id" options="{'no_create': True,'no_open': True}"/>
+				                		<field name="piece_id" options="{'no_create': True,'no_open': True}"/>
+				                		<field name="qte" sum="Qte Demandée"/>
+		            		 		</tree>
+	                		 	</field>
+	                		</fieldset>
+	                	</group>
+                        <group>
+                        	<div name="button_box" style="text-align: center;">
+                        		<button string="Apperçu PDF" name="print_bc_report_pdf" type="object" class="btn btn-default" icon="fa-file-pdf-o"/>
+                                <button string="Apperçu Excel" name="print_bc_report_excel" type="object" class="btn btn-default" icon="fa-file-excel-o"/>
+                            </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_product_bc_piece" model="ir.actions.act_window">
+            <field name="name">BC Pièces</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.bc.piece</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un BC
+                </p>
+            </field>
+        </record>
+
+    </data>
+</openerp>

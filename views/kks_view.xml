@@ -1,0 +1,989 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	 <!-- Top menu item -->
+       
+    	
+        
+    	 <!-- KKS -->
+		<record id="product_kks_search_view" model="ir.ui.view">
+            <field name="name">product.kks.search</field>
+            <field name="model">product.kks</field>
+            <field name="arch" type="xml">
+                <search string="Implantation">
+                	<field name="name"/>
+                    <field name="reference"/>
+					<field name="maker_id"/>
+                    <field name="ss_type_appareil_id"/>
+					<field name="implantation_id"/>
+					<field name="customer_id"/>
+                	<group expand="0" string="Grouper Par">
+                		<filter string="Client" domain="[]" context="{'group_by':'customer_id'}"/>
+                		<filter string="Fabriquant" domain="[]" context="{'group_by':'maker_id'}"/>
+                		<filter string="Implantation" domain="[]" context="{'group_by':'implantation_id'}"/>
+                		<filter string="Sous Type" domain="[]" context="{'group_by':'ss_type_appareil_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="product_kks_tree_view" model="ir.ui.view">
+            <field name="name">product.kks.tree</field>
+            <field name="model">product.kks</field>
+            <field name="arch" type="xml">
+                <tree string="KKS">
+                    <field name="item"/>
+                    <field name="name"/>
+                    <field name="appareil_id"/>
+					<field name="reference"/>
+					<field name="maker_id"/>
+                    <field name="ss_type_appareil_id"/>
+					<field name="implantation_id"/>
+					<field name="customer_id"/>
+			   </tree>
+            </field>
+        </record>
+        <record id="product_kks_view_open_form" model="ir.ui.view">
+            <field name="name">product.kks.form</field>
+            <field name="model">product.kks</field>
+            <field name="arch" type="xml">
+                <form string='kks'>
+                    <sheet>
+                        <group >
+                        	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Repère :</legend> 
+					  			<group>
+                           			<field name='item'/>
+	                                <field name='name'/>
+	                                <field name='type_implantation_id'   options="{'no_create': True,'no_open': True}"/>
+	                                <field name='implantation_id'   options="{'no_create': True,'no_open': True}"/>
+	                                <field name='order_id' invisible="1"/>
+	                             </group>   
+                            </fieldset>  
+                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Réference :</legend> 
+							  	<group>
+                                	<field name='appareil_id'   options="{'no_create': True,'no_open': True}"/>	
+	                                <field name='ss_type_appareil_id'   options="{'no_create': True,'no_open': True}"/>
+	                                <field name='maker_id'   options="{'no_create': True,'no_open': True}"/>
+	                                <field name='reference'/>
+	                             </group>    
+	                       </fieldset>                             
+                        </group>
+                        <group>                        	
+                        	 <fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Historiques des arrêts :</legend> 
+						  		<field name="arret_ids" style="overflow-y: auto;max-height: 200px;" colspan="2" nolabel="1" mode="tree" context="{'default_kks_id': active_id,}">	
+                            		<tree string="Arrêts" editable="bottom">
+					                    <field name="kks_id" invisible="1"/>
+					                    <field name="unite_id"   options="{'no_open': True}"/>
+					                    <!--  <button name="open_unite" type="object" icon="fa fa-external-link" string="Ouvrir unité"/>  -->    
+					                    <field name="travaux_id"  options="{'no_open': True}"/>
+					                    <field name="arret_id"   options="{'no_open': True}"/>
+					                 </tree>
+							     </field>
+							  </fieldset> 
+							<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Tarifs :</legend> 
+							  	<group> 
+							  		<field name='customer_id'  options="{'no_create': True,'no_open': True}" />
+									<field name='tarif'/>
+									<button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" name="action_select_tarif"/>
+                					<field name="tarif_ids" colspan="2" style="overflow-y: auto;max-height: 200px;"  nolabel="1" mode="tree" context="{'default_kks_id': active_id,}">	
+	                            		<tree string="Tarifs" editable="bottom" create="false">
+						                    <field name="kks_id" invisible="1"/>
+						                    <field name="choice"/>
+						                    <field name="nature_id" options="{'no_open': True}"/>
+						                    <field name="montant" sum="Prix de vente"/>
+                                            <field name="montant2" sum="Prix d'achat"/>
+						                    <field name="fact"/>
+						                 </tree>
+								     </field>
+								 </group>   
+							 </fieldset>   							
+                        </group>
+                        <group>
+                        	<div name="button_box" style="text-align: center;"> 
+                        		<button class="btn btn-primary" style="margin : 5px" string="Analyse des risques"  type="object" name="action_pps"/>
+                    	    	<button class="btn btn-success" style="margin : 5px" string="Echafaudage"  type="object" name="action_echafaudage"/>
+                    			<button class="btn btn-info" style="margin : 5px" string="PDR"  type="object" name="action_pdr"/>
+                        	</div>	
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_kks_echafaudage_create_view_form" model="ir.ui.view">
+            <field name="name">product.kks.form</field>
+            <field name="model">product.kks</field>
+            <field name="arch" type="xml">
+                <form string='kks' create="false" delete="false">
+                    <sheet>
+                    	<div class="oe_button_box" name="button_box">
+                    		<!-- <button class="oe_inline oe_stat_button"  name="print_product_kks_echafaudage" string="Imprimer" type="object" icon="fa-print"/> -->
+                    	</div>
+                        <group >
+                        	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Echafaudage KKS :</legend> 
+				  				<group >
+                        			<field name='name' readonly="1"/>
+                            		<field name='repere'/>
+                            	</group>
+                            </fieldset>
+                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des accessoires :</legend> 
+					  			<field name="echafaudage_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_kks_id': active_id,}">	
+	                        		<tree string="Arrêts" editable="bottom">
+					                    <field name="kks_id" invisible="1"/>
+					                    <field name="echafaudage_id"  widget="selection"/>
+					                    <field name="qte"  sum="Qté utilisée"/>
+					                 </tree>
+							     </field>
+							</fieldset>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_kks_risque_create_view_form" model="ir.ui.view">
+            <field name="name">product.kks.form</field>
+            <field name="model">product.kks</field>
+            <field name="arch" type="xml">
+                <form string='kks' create="false" delete="false">
+                    <sheet>
+                        <group >
+                        	<div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        </group>
+                        <group>
+                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Plan Prévention Sécurité :</legend> 
+					  			<button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager"  type="object" name="action_select_pps"/>
+                				<field name="pps_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_kks_id': active_id,}">	
+	                        		<tree string="PPS" editable="bottom" create="false"   limit="1000">
+	                        			<field name="print_file" invisible="1"/>
+					                    <field name="kks_id" invisible="1"/>
+					                    <field name="type_file" invisible="1"/>
+					                    <field name="directory_id"  widget="selection" invisible="1"/>
+					                    <field name="file_id"  widget="selection" readonly="1"/>
+					                    <button class="btn btn-success" name="download_file" type="object" icon="fa-download" string="Télécharger"/>                  
+									</tree>
+							     </field>
+						     </fieldset>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_kks_pdr_create_view_form" model="ir.ui.view">
+            <field name="name">product.kks.form</field>
+            <field name="model">product.kks</field>
+            <field name="arch" type="xml">
+                <form string='kks' create="false" delete="false">
+                    <sheet>
+                        <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" readonly="1" /></h1>
+                        </div>
+                        <group >
+                        	 <field name='appareil_id' invisible="1"/>
+                        </group>
+                        <group>
+                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des PDR :</legend> 
+					  			<button class="btn btn-success" string="Observations"  type="object" name="action_observation"/>
+                				<button class="btn btn-primary" style="margin-left: 10px;" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager"  type="object" name="action_select_piece"/>
+                				<field name="piece_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_kks_id': active_id,'default_appareil_id': appareil_id,}">	
+	                        		<tree string="PDR" editable="bottom" create="false">
+					                    <field name="kks_id"  invisible="1"/>
+					                    <field name="appareil_id"  invisible="1"/>
+					                    <field name="piece_prevoir"/>
+					                    <field name="piece_changee"/>
+					                    <field name="choice"/>
+					                    <field name="magasin_id"  options="{'no_create': True,'no_open': True}"/>
+					                    <button name="open_magasin" type="object" icon="fa fa-external-link" string="Ouvrir magasin"/>      
+					                    <field name="tarif" sum="tarif"/>
+					                    <field name="no_piece" invisible="1"/>
+					                    <field name="piece_id"  options="{'no_create': True,'no_open': True}"/>
+					                    <button name="open_piece" type="object" icon="fa fa-external-link" string="Ouvrir image"/>   
+					                    <field name="ref_fab"/>
+					                    <field name="ref_com"/>
+					                    <field name="datetarif_id"  options="{'no_create': True,'no_open': True}"/>
+					                 </tree>
+							     </field>
+							     <newline/>
+							     <table>
+								     <tr> 
+								     	<td><field name="piece_prevoir_" nolabel="1" style="margin-right: 47px;"/></td>
+						                <td><field name="piece_changee_" nolabel="1" style="margin-right: 47px;"/></td>
+						                <td><field name="choice_" nolabel="1"/></td>
+						             </tr>
+					              </table>   
+							</fieldset>     
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+         <record id="product_kks_view_form" model="ir.ui.view">
+            <field name="name">product.kks.form</field>
+            <field name="model">product.kks</field>
+            <field name="arch" type="xml">
+                <form string='kks'>
+                    <sheet>
+                        <group >
+                        	<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Repère :</legend> 
+					  			<group>
+                           			<field name='item'/>
+	                                <field name='name'/>
+	                                <field name='type_implantation_id'   options="{'no_create': True,'no_open': True}"/>
+	                                <field name='implantation_id'   options="{'no_create': True,'no_open': True}"/>
+	                                <field name='order_id' invisible="1"/>
+	                             </group>   
+                            </fieldset>  
+                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Réference :</legend> 
+							  	<group>
+                                	<field name='appareil_id'   options="{'no_create': True,'no_open': True}"/>	
+	                                <field name='ss_type_appareil_id'   options="{'no_create': True,'no_open': True}"/>
+	                                <field name='maker_id'   options="{'no_create': True,'no_open': True}"/>
+	                                <field name='reference'/>
+	                             </group>    
+	                       </fieldset>                             
+                        </group>
+                        <group>                        	
+                        	 <fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Historiques des arrêts :</legend> 
+						  		<field name="arret_ids" style="overflow-y: auto;max-height: 200px;" colspan="2" nolabel="1" mode="tree" context="{'default_kks_id': active_id,}">	
+                            		<tree string="Arrêts" editable="bottom">
+					                    <field name="kks_id" invisible="1"/>
+					                    <field name="unite_id"  widget="many2one_clickable"  options="{'no_open': True}"/>
+					                    <!--  <button name="open_unite" type="object" icon="fa fa-external-link" string="Ouvrir unité"/>  -->    
+					                    <field name="travaux_id"  widget="many2one_clickable" options="{'no_open': True}"/>
+					                    <field name="arret_id"   widget="many2one_clickable" options="{'no_open': True}"/>
+					                 </tree>
+							     </field>
+							  </fieldset> 
+							<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Tarifs :</legend> 
+							  	<group> 
+							  		<field name='customer_id'  options="{'no_create': True,'no_open': True}" />
+									<field name='tarif'/>
+									<button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager"  type="object" name="action_select_tarif"/>
+                					<field name="tarif_ids" colspan="2" style="overflow-y: auto;max-height: 200px;"  nolabel="1" mode="tree" context="{'default_kks_id': active_id,}">	
+	                            		<tree string="Tarifs" editable="bottom" create="false">
+						                    <field name="kks_id" invisible="1"/>
+						                    <field name="choice"/>
+						                    <field name="nature_id" options="{'no_open': True}"/>
+						                    <field name="montant" sum="Prix de vente"/>
+                                            <field name="montant2" sum="Prix d'achat"/>
+						                    <field name="fact"/>
+						                 </tree>
+								     </field>
+								 </group>   
+							 </fieldset>   							
+                        </group>
+                        <group>
+                        	<div name="button_box" style="text-align: center;"> 
+                        		<button class="btn btn-primary" style="margin : 5px" string="Analyse des risques"  type="object" name="action_pps"/>
+                    	    	<button class="btn btn-success" style="margin : 5px" string="Echafaudage"  type="object" name="action_echafaudage"/>
+                    			<button class="btn btn-info" style="margin : 5px" string="PDR"  type="object" name="action_pdr"/>
+                        	</div>	
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_kks_action" model="ir.actions.act_window">
+            <field name="name">KKS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.kks</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau kks
+                </p>
+            </field>
+        </record>
+         <record model="ir.actions.act_window.view" id="product_kks_action_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_kks_tree_view"/>
+            <field name="act_window_id" ref="product_kks_action"/>
+        </record>
+         <record model="ir.actions.act_window.view" id="product_kks_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_kks_view_form"/>
+            <field name="act_window_id" ref="product_kks_action"/>
+        </record>
+   <!-- Open Action Analyse des risques 
+ 		<record id="open_kks_risque_action" model="ir.actions.server">
+		        <field name="name">Analyse des risques</field>
+		        <field name="model_id" ref="model_product_kks"/>
+		        <field name="type">ir.actions.server</field>
+		        <field name="state">code</field>
+		        <field name="condition">True</field>
+		        <field name="code">action = {
+		        			 'type': 'ir.actions.act_window',
+				            'res_model': 'product.kks',
+				            'view_mode': 'form',
+				            'view_type': 'form',
+				            'res_id': object.id,
+				            'views': [(object.env.ref('arfi.product_kks_risque_create_view_form').id, 'form')],
+				            'target': 'new',
+			            }</field>
+		</record>
+        <record id="product_kks_risque_action_multi" model="ir.values">
+            <field name="name">Analyse des risques</field>
+            <field name="model_id" ref="model_product_kks"/>
+            <field name="action_id" ref="open_kks_risque_action" />
+            <field name="value" eval="'ir.actions.server,%d'%open_kks_risque_action"/>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="model">product.kks</field>
+        </record>        -->
+ <!-- Open Action Echafaudage 
+ 		<record id="open_kks_echafaudage_action" model="ir.actions.server">
+		        <field name="name">Echafaudage</field>
+		        <field name="model_id" ref="model_product_kks"/>
+		        <field name="type">ir.actions.server</field>
+		        <field name="state">code</field>
+		        <field name="condition">True</field>
+		        <field name="code">action = {
+		        			 'type': 'ir.actions.act_window',
+				            'res_model': 'product.kks',
+				            'view_mode': 'form',
+				            'view_type': 'form',
+				            'res_id': object.id,
+				            'views': [(object.env.ref('arfi.product_kks_echafaudage_create_view_form').id, 'form')],
+				            'target': 'new',
+			            }</field>
+		</record>
+        <record id="product_kks_echafaudage_action_multi" model="ir.values">
+            <field name="name">Echafaudage</field>
+            <field name="model_id" ref="model_product_kks"/>
+            <field name="action_id" ref="open_kks_echafaudage_action" />
+            <field name="value" eval="'ir.actions.server,%d'%open_kks_echafaudage_action"/>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="model">product.kks</field>
+        </record>  -->
+  <!-- Open Action Echafaudage 
+ 		<record id="open_kks_pdr_action" model="ir.actions.server">
+		        <field name="name">PDR</field>
+		        <field name="model_id" ref="model_product_kks"/>
+		        <field name="type">ir.actions.server</field>
+		        <field name="state">code</field>
+		        <field name="condition">True</field>
+		        <field name="code">action = {
+		        			 'type': 'ir.actions.act_window',
+				            'res_model': 'product.kks',
+				            'view_mode': 'form',
+				            'view_type': 'form',
+				            'res_id': object.id,
+				            'views': [(object.env.ref('arfi.product_kks_pdr_create_view_form').id, 'form')],
+				            'target': 'new',
+			            }</field>
+		</record>
+        <record id="product_kks_pdr_action_multi" model="ir.values">
+            <field name="name">PDR</field>
+            <field name="model_id" ref="model_product_kks"/>
+            <field name="action_id" ref="open_kks_pdr_action" />
+            <field name="value" eval="'ir.actions.server,%d'%open_kks_pdr_action"/>
+            <field name="key">action</field>
+            <field name="key2">client_action_multi</field>
+            <field name="model">product.kks</field>
+        </record>     -->
+ <!-- KKS Arrêts-->
+	 	<record id="product_kks_arret_tree_view" model="ir.ui.view">
+            <field name="name">product.kks.arret.tree</field>
+            <field name="model">product.kks.arret</field>
+            <field name="arch" type="xml">
+                <tree string="KKS" editable="top">
+                    <field name="kks_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="unite_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="travaux_id" options="{'no_create': True,'no_open': True}"/>
+					<field name="arret_id" options="{'no_create': True,'no_open': True}"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_kks_arret_action" model="ir.actions.act_window">
+            <field name="name">KKS Arrêts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.kks.arret</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    
+                	Créer un nouveau kks arrêt
+                </p>
+            </field>
+        </record>
+<!-- KKS Tarif-->
+		<record id="product_kks_tarif_search_view" model="ir.ui.view">
+            <field name="name">product.kks.tarif.search</field>
+            <field name="model">product.kks.tarif</field>
+            <field name="arch" type="xml">
+                <search string="Implantation">
+                	<field name="kks_id"/>
+                    <field name="customer_id"/>
+					<field name="appareil_id"/>
+                    <field name="nature_id"/>
+                	<group expand="0" string="Grouper Par">
+                		<filter string="Client" domain="[]" context="{'group_by':'customer_id'}"/>
+                		<filter string="Appareil" domain="[]" context="{'group_by':'appareil_id'}"/>
+                		<filter string="Nature" domain="[]" context="{'group_by':'nature_id'}"/>
+                		<filter string="KKS" domain="[]" context="{'group_by':'kks_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+	 	<record id="product_kks_tarif_tree_view" model="ir.ui.view">
+            <field name="name">product.kks.tarif.tree</field>
+            <field name="model">product.kks.tarif</field>
+            <field name="arch" type="xml">
+                <tree string="KKS" editable="top">
+                    <field name="item"/>
+                    <field name="kks_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="customer_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="appareil_id"  options="{'no_create': True,'no_open': True}"/>
+                    <field name="nature_id"/>
+                    <field name="choice"/>
+					<field name="fact"/>
+					<field name="montant"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_kks_tarif_action" model="ir.actions.act_window">
+            <field name="name">Contrats</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.kks.tarif</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouvelle contrat
+                </p>
+            </field>
+        </record>  
+<!-- KKS Echafaudage-->
+	 	<record id="product_kks_echafaudage_tree_view" model="ir.ui.view">
+            <field name="name">product.kks.echafaudage.tree</field>
+            <field name="model">product.kks.echafaudage</field>
+            <field name="arch" type="xml">
+                <tree string="KKS" editable="top">
+                    <field name="kks_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="echafaudage_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="qte"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_kks_echafaudage_action" model="ir.actions.act_window">
+            <field name="name">KKS Echafaudage</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.kks.echafaudage</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau kks echafaudage
+                </p>
+            </field>
+        </record>      
+        
+  <!-- KKS Piece-->
+	 	<record id="product_kks_piece_tree_view" model="ir.ui.view">
+            <field name="name">product.kks.piece.tree</field>
+            <field name="model">product.kks.piece</field>
+            <field name="arch" type="xml">
+                <tree string="KKS Pièce" editable="top">
+                    <field name="kks_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="appareil_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="choice"/>
+                    <field name="tarif"/>
+                    <field name="magasin_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="piece_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="ref_fab"/>
+                    <field name="ref_com"/>
+                    <field name="datetarif_id" options="{'no_create': True,'no_open': True}"/>
+                    <button class="oe_inline oe_stat_button" name="action_magasin" type="object" icon="fa-eye" string="Apperçu"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_kks_piece_action" model="ir.actions.act_window">
+            <field name="name">KKS Pièces</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.kks.piece</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau kks pièce
+                </p>
+            </field>
+        </record> 
+<!-- KKS Fournisseur-->
+	 	<record id="product_kks_supplier_tree_view" model="ir.ui.view">
+            <field name="name">product.kks.supplier.tree</field>
+            <field name="model">product.kks.supplier</field>
+            <field name="arch" type="xml">
+                <tree string="KKS Fournisseur" editable="top">
+                	<field name="code"/>
+                	<field name="magasin_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="price"/>
+                    <field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="contact_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="adress"/>
+                    <field name="tel"/>
+                    <field name="fax"/>
+                    <field name="gsm"/>
+                    <field name="email"/>
+                    <field name="date"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_kks_supplier_action" model="ir.actions.act_window">
+            <field name="name">KKS Fournisseurs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.kks.supplier</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau kks fournisseur
+                </p>
+            </field>
+        </record>         
+   <!-- KKS Stock-->
+	 	<record id="product_kks_stock_tree_view" model="ir.ui.view">
+            <field name="name">product.kks.stock.tree</field>
+            <field name="model">product.kks.stock</field>
+            <field name="arch" type="xml">
+                <tree string="KKS Stock" editable="top">
+                	<field name="magasin_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="info_id" options="{'no_create': True,'no_open': True}"/>
+                    <field name="value"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_kks_stock_action" model="ir.actions.act_window">
+            <field name="name">KKS Stock</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.kks.stock</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau kks stock
+                </p>
+            </field>
+        </record>     
+   <!-- KKS PPS-->
+	 	<record id="product_kks_pps_tree_view" model="ir.ui.view">
+            <field name="name">product.kks.pps.tree</field>
+            <field name="model">product.kks.pps</field>
+            <field name="arch" type="xml">
+                <tree string="KKS Stock" editable="top">
+                	<field name="type_file"/>
+                    <field name="kks_id"/>
+                    <field name="directory_id"/>
+                    <field name="file_id"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_kks_pps_action" model="ir.actions.act_window">
+            <field name="name">KKS PPS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.kks.pps</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau kks pps
+                </p>
+            </field>
+        </record>           
+ <!-- magasins -->
+ 	     <record id="product_magasin_search_view" model="ir.ui.view">
+            <field name="name">product.magasin.search</field>
+            <field name="model">product.magasin</field>
+            <field name="arch" type="xml">
+                <search string="magasins">
+                	<field name="code"/>
+                	<group expand="0" string="Group By">
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_magasin_tree_view" model="ir.ui.view">
+            <field name="name">product.magasin.tree</field>
+            <field name="model">product.magasin</field>
+            <field name="arch" type="xml">
+                <tree string="magasins">
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_magasin_photo_form_view" model="ir.ui.view">
+            <field name="name">product.magasin.photo.form</field>
+            <field name="model">product.magasin</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Product"   create="false" delete="false">
+                    <sheet>
+                    	
+                    	<div class="oe_title">
+                            <h1>
+                                <field name="code" placeholder="Code magasin" style="margin-top: 3%;margin-left: 3%;width: 80%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;"/>
+                            </h1>
+                        </div>
+                         <group style="width: 100%">
+                        	<group>
+		                    	<fieldset style="min-height: 370px;width: 98%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Avant :</legend> 
+								 	<field name="photo"  widget="image" class="img_product" filename="photo_name"/>
+							    	<field name="photo_name" select="1" invisible="1"/>
+								</fieldset>
+							</group>							
+                        </group>
+                        <group col="6">
+                        	<group colspan="4">
+                        		<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des fournisseurs :</legend> 
+										<field name="supplier_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="4" context="{'default_magasin_id': active_id,}">
+			                            	<tree editable="bottom">
+							                    <field name="magasin_id" invisible="1" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="price"/>
+							                    <field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="contact_id" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="adress"/>
+							                    <field name="tel"/>
+							                    <field name="fax"/>
+							                    <field name="gsm"/>
+							                    <field name="email"/>
+							                    <field name="date"/>
+			                            	</tree>
+		                    			</field> 
+	                    		</fieldset>
+                    		</group>
+                    		<group colspan="2">
+	                    		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Stock :</legend> 
+										 <button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" name="action_select_info"/>
+                						 <field name="stock_ids" style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="2" context="{'default_magasin_id': active_id,}">
+			                            	<tree editable="bottom" create="false"   limit="1000">
+							                    <field name="magasin_id"  invisible="1" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="info_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
+			                   					<field name="value"/>
+			                            	</tree>
+			                    		</field>
+			                    </fieldset>
+                    		</group>
+                    		
+                    		<group colspan="4">
+                        		<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des achats :</legend> 
+										<field name="purchase_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="4" context="{'default_magasin_id': active_id,}">
+			                            	<tree editable="bottom">
+							                    <field name="magasin_id" invisible="1" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="price_unit"/>
+							                    <field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="contact_id" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="qte"/>
+							                    <field name="montant"/>
+			                            	</tree>
+		                    			</field> 
+	                    		</fieldset>
+                    		</group>
+                    		<group colspan="2">
+	                    		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Pièces :</legend> 
+										 <field name="piece_ids" style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="2" context="{'default_magasin_id': active_id,}">
+			                            	<tree editable="bottom">
+							                    <field name="magasin_id"  invisible="1" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="piece_id" options="{'no_create': True,'no_open': True}"/>
+			                            	</tree>
+			                    		</field>
+			                    </fieldset>
+                    		</group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_magasin_form_view" model="ir.ui.view">
+            <field name="name">product.magasin.form</field>
+            <field name="model">product.magasin</field>
+            <field name="arch" type="xml">
+                <form string="Magasins">
+                    <header>
+                    </header>
+                    <sheet>
+                        <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="code" placeholder="Code" readonly="1"/></h1>
+                        </div>
+                        <group col="6">
+                        	<group colspan="4">
+                        		<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des fournisseurs :</legend> 
+										<field name="supplier_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="4" context="{'default_magasin_id': active_id,}">
+			                            	<tree editable="bottom">
+							                    <field name="magasin_id" invisible="1" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="price"/>
+							                    <field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="contact_id" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="adress"/>
+							                    <field name="tel"/>
+							                    <field name="fax"/>
+							                    <field name="gsm"/>
+							                    <field name="email"/>
+							                    <field name="date"/>
+			                            	</tree>
+		                    			</field> 
+	                    		</fieldset>
+                    		</group>
+                    		<group colspan="2">
+	                    		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Stock :</legend> 
+										  <field name="stock_ids" style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="2" context="{'default_magasin_id': active_id,}">
+			                            	<tree editable="bottom"  limit="1000">
+							                    <field name="magasin_id"  invisible="1" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="info_id" widget="selection" options="{'no_create': True,'no_open': True}"/>
+			                   					<field name="value"/>
+			                            	</tree>
+			                    		</field>
+			                    </fieldset>
+                    		</group>
+                    		<group colspan="4">
+                        		<fieldset style="width: 99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des achats :</legend> 
+										<field name="purchase_ids"  style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="4" context="{'default_magasin_id': active_id,}">
+			                            	<tree editable="bottom">
+							                    <field name="magasin_id" invisible="1" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="price_unit"/>
+							                    <field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="contact_id" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="qte"/>
+							                    <field name="montant"/>
+			                            	</tree>
+		                    			</field> 
+	                    		</fieldset>
+                    		</group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_magasin_action" model="ir.actions.act_window">
+            <field name="name">Magasins</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.magasin</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product_magasin_tree_view"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau magasin
+                </p>
+            </field>
+        </record>
+         <record model="ir.actions.act_window.view" id="product_magasin_action_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_magasin_tree_view"/>
+            <field name="act_window_id" ref="product_magasin_action"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="product_magasin_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_magasin_photo_form_view"/>
+            <field name="act_window_id" ref="product_magasin_action"/>
+        </record>
+        
+<!-- Facture -->
+
+    <record id="view_facture_tree" model="ir.ui.view">
+        <field name="name">product.kks.facture.tree</field>
+        <field name="model">product.kks.facture</field>
+        <field name="arch" type="xml">
+            <tree string="Leaves by Type">
+                <field name="date_facture"/>			
+			 </tree>
+        </field>
+    </record>
+    <record id="view_facture_form" model="ir.ui.view">
+        <field name="name">product.kks.facture.tree</field>
+        <field name="model">product.kks.facture</field>
+        <field name="arch" type="xml">
+            <form string="Leaves by Type">
+                <sheet> 
+                	<div class="oe_button_box" name="button_box">
+                		<!--  <button class="oe_inline oe_stat_button" string="PV de réception"  type="object" name="print_pv"   icon="fa-info"/>
+                		<button class="oe_inline oe_stat_button" string="Apperçu"  type="object" name="print_facture"   icon="fa-info"/>--> 
+                	</div>
+                	<group>
+	                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend> 
+				  			<group style="width : 50%">	
+	                		 	 <field name="no_facture"/>
+		                		 <field name="type_facture"/>
+		                		 <field name="no_contrat"/>
+		                		 <field name="type"/>
+		                		 <field name="no_devis"/>
+		                		 <field name="no_reference"/>
+		                	</group>
+		                	<group style="width : 50%"> 
+		                		<field name="date_facture"/>
+		                		<field name="customer_id"   options="{'no_create': True,'no_open': True}"/>
+		                		<field name="type_extraction" invisible="1"/>
+		                		<field name="unite_id"   options="{'no_create': True,'no_open': True}"/>
+		                		<field name="arret_id"   options="{'no_create': True,'no_open': True}"/>
+		                	</group>
+		               </fieldset> 	
+	                </group>
+	                <group>	
+                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Détail facture :</legend> 
+				  			<field name="facture_line" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree">  
+	            		 		<tree string="Lignes de facture" limit="10000">
+	            		 			<field name="facture_id" invisible="1"/>
+	            		 			<field name="unite_id"/>
+			                		<field name="item"/>
+			                		<field name="kks_id"/>
+			                		<field name="montant"/>
+			                		<field name="maker_id"/>
+			                		<field name="reference"/>
+	            		 		</tree>
+                		 	</field>
+                		</fieldset> 			
+                	</group>
+                	<group>
+	                	<group>
+	                		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Arrêtée de la présente facture à :</legend> 
+					  			<field name="montant_text" readonly="1" nolabel="1"/>
+		                    </fieldset>
+	                    </group>
+	                	
+	                	<group class="oe_subtotal_footer oe_right" name="total">
+	                        <field name="montant_ht"/>
+	                        <field name="tva"/>
+	                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+	                            <label for="montant_ttc" />
+	                        </div>
+	                        <field name="montant_ttc" nolabel="1" class="oe_subtotal_footer_separator"/>
+	                    </group>
+	                    <group>
+	                		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend> 
+					  			<button class="btn btn-primary" style="margin : 5px" string="PV de réception PDF"  type="object" name="print_pv"   icon="fa-file-pdf-o"/>
+                				<button class="btn btn-success" style="margin : 5px" string="Apperçu PDF"  type="object" name="print_facture"   icon="fa-file-pdf-o"/>
+                				<button class="btn btn-default" style="margin : 5px" string="PV de réception Excel" name="print_pv_excel" type="object"  icon="fa-file-excel-o"/>
+			                    <button class="btn btn-default" style="margin : 5px" string="Apperçu Excel" name="print_facture_excel" type="object" icon="fa-file-excel-o"/>
+		                    </fieldset>
+	                    </group>
+                    </group>
+                </sheet> 		
+			 </form>
+        </field>
+    </record>
+    <record id="view_facture_changement_form" model="ir.ui.view">
+        <field name="name">product.kks.facture.form</field>
+        <field name="model">product.kks.facture</field>
+        <field name="arch" type="xml">
+            <form string="Leaves by Type">
+                <sheet> 
+                	<div class="oe_button_box" name="button_box">
+                		<!--  <button class="oe_inline oe_stat_button" string="PV de réception"  type="object" name="print_pv"   icon="fa-info"/>
+                		<button class="oe_inline oe_stat_button" string="Apperçu"  type="object" name="print_facture"   icon="fa-info"/>--> 
+                	</div>
+                	<group>
+	                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend> 
+				  			<group style="width : 50%">	
+	                		 	 <field name="no_facture"/>
+		                		 <field name="type_facture"/>
+		                		 <field name="no_contrat"/>
+		                		 <field name="type"/>
+		                		 <field name="no_devis"/>
+		                		 <field name="no_reference"/>
+		                	</group>
+		                	<group style="width : 50%"> 
+		                		<field name="date_facture"/>
+		                		<field name="customer_id"   options="{'no_create': True,'no_open': True}"/>
+		                		<field name="type_extraction" invisible="1"/>
+		                		<field name="unite_id"   options="{'no_create': True,'no_open': True}"/>
+		                		<field name="arret_id"   options="{'no_create': True,'no_open': True}"/>
+		                	</group>
+		               </fieldset> 	
+	                </group>
+	                <group>	
+                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Détail facture :</legend> 
+				  			<field name="facture_line" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree">  
+	            		 		<tree string="Lignes de facture" limit="10000">
+	            		 			<field name="facture_id" invisible="1"/>
+	            		 			<field name="unite_id"/>
+			                		<field name="item"/>
+			                		<field name="kks_id"/>
+			                		<field name="montant"/>
+			                		<field name="maker_id"/>
+			                		<field name="reference"/>
+			                		<field name="nature_id"/>
+	            		 		</tree>
+                		 	</field>
+                		</fieldset> 			
+                	</group>
+                	<group>
+	                	<group>
+	                		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Arrêtée de la présente facture à :</legend> 
+					  			<field name="montant_text" readonly="1" nolabel="1"/>
+		                    </fieldset>
+	                    </group>
+	                	
+	                	<group class="oe_subtotal_footer oe_right" name="total">
+	                        <field name="montant_ht"/>
+	                        <field name="tva"/>
+	                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+	                            <label for="montant_ttc" />
+	                        </div>
+	                        <field name="montant_ttc" nolabel="1" class="oe_subtotal_footer_separator"/>
+	                    </group>
+	                    <group>
+	                		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend> 
+					  			<button class="btn btn-primary" style="margin : 5px" string="PV de réception PDF"  type="object" name="print_pv"   icon="fa-file-pdf-o"/>
+                				<button class="btn btn-success" style="margin : 5px" string="Apperçu PDF"  type="object" name="print_facture"   icon="fa-file-pdf-o"/>
+                				<button class="btn btn-default" style="margin : 5px" string="PV de réception Excel" name="print_pv_excel" type="object"  icon="fa-file-excel-o"/>
+			                    <button class="btn btn-default" style="margin : 5px" string="Apperçu Excel" name="print_facture_excel" type="object" icon="fa-file-excel-o"/>
+		                    </fieldset>
+	                    </group>
+                    </group>
+                </sheet> 		
+			 </form>
+        </field>
+    </record>   
+  
+        </data>
+</openerp>

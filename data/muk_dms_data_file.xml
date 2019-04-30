@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- <record model="muk_dms.file" id="database_file0">
+			<field name="directory" ref="database_directory_plan_prevention" />
+			<field name="filename">FO17_Rev.doc</field>
+			<field name="file" type="base64" file="arfi/static/data/plan_prevention/FO-HSE-17_Rev Vanne +Chauffe+Ech.doc"/>
+		</record> -->
+	</data>
+</openerp>

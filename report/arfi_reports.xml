@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+   
+         <report id="action_report_product_template_cartouche" string="Cartouche"
+            model="report.arfi.action_report_producttemplatecartouche"  report_type="qweb-pdf"   name="arfi.action_report_producttemplatecartouche"  file="arfi.action_report_producttemplatecartouche"  menu="False"/>
+        <report
+            id="report_product_template_cartouche"
+            string="Cartouche" 
+            model="product.template" report_type="qweb-pdf"  name="arfi.report_producttemplatecartouche" file="arfi.report_producttemplatecartouche"  menu="True"/>
+         		
+          <record id="report_product_template_cartouche" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref=""/>
+        </record>	 
+        <report
+            id="report_product_template_outillage"
+            string="Outillage"  
+            model="product.template"  
+            report_type="qweb-pdf"  
+            name="arfi.report_producttemplateoutillage"
+            file="arfi.report_producttemplateoutillage"  
+         	menu="False"/>  
+        <report
+            id="report_product_template_outillage_tarage"
+            string="Outillage Tarage"  
+            model="product.template"  
+            report_type="qweb-pdf"  
+            name="arfi.report_producttemplateoutillagetarage"
+            file="arfi.report_producttemplateoutillagetarage"  
+         	menu="False"/>     
+        <report
+            id="action_report_product_template_outillage"
+            string="Outillage"  
+            model="report.arfi.action_report_producttemplateoutillage"   
+            report_type="qweb-pdf"  
+            name="arfi.action_report_producttemplateoutillage"
+            file="arfi.action_report_producttemplateoutillage"  
+         	menu="False"/>   
+        <report
+            id="action_report_product_template_outillage_tarage"
+            string="Outillage Tarage"  
+            model="report.arfi.action_report_producttemplateoutillagetarage"   
+            report_type="qweb-pdf"  
+            name="arfi.action_report_producttemplateoutillagetarage"
+            file="arfi.action_report_producttemplateoutillagetarage"   
+         	menu="False"/>          	
+        <report 
+            id="action_report_product_order_operation" 
+            string="Opérations"  
+            model="report.arfi.action_report_productorderoperation"     
+            report_type="qweb-pdf"  
+            name="arfi.action_report_productorderoperation" 
+            file="arfi.action_report_productorderoperation"  
+        	menu="False"/> 
+        <report 
+            id="report_product_order_operation" 
+            string="Opérations"  
+            model="product.order"      
+            report_type="qweb-pdf"  
+            name="arfi.report_productorderoperation" 
+            file="arfi.report_productorderoperation"    
+        	menu="True"/> 
+        <report 
+            id="action_report_product_order_operation_empty" 
+            string="Fiche Op Vide"   
+            model="report.arfi.action_report_productorderoperationempty"   
+            report_type="qweb-pdf"  
+            name="arfi.action_report_productorderoperationempty" 
+            file="arfi.action_report_productorderoperationempty"  
+        	menu="False"/> 
+        <report 
+            id="report_product_order_operation_empty" 
+            string="Fiche Op Vide"    
+            model="product.order"   
+            report_type="qweb-pdf"  
+            name="arfi.report_productorderoperationempty" 
+            file="arfi.report_productorderoperationempty"   
+        	menu="True"/>
+        <report 
+            id="action_report_product_order_devis" 
+            string="Devis"    
+            model="report.arfi.action_report_productorderdevis"    
+            report_type="qweb-pdf"  
+            name="arfi.action_report_productorderdevis"  
+            file="arfi.action_report_productorderdevis"  
+        	menu="False"/> 
+        <report 
+            id="report_product_order_devis_empty" 
+            string="Devis"    
+            model="product.order"    
+            report_type="qweb-pdf"  
+            name="arfi.report_productorderdevisempty"  
+            file="arfi.report_productorderdevisempty"   
+        	menu="True"/> 
+        <report 
+            id="report_product_order_devis" 
+            string="Devis2"     
+            model="product.order"    
+            report_type="qweb-pdf"  
+            name="arfi.report_productorderdevis"  
+            file="arfi.report_productorderdevis"   
+        	menu="True"/> 
+        <report 
+            id="action_report_product_order_rapport" 
+            string="Rapport des travaux"    
+            model="report.arfi.action_report_productorderrapport"    
+            report_type="qweb-pdf"  
+            name="arfi.action_report_productorderrapport"  
+            file="arfi.action_report_productorderrapport"   
+        	menu="False"/> 
+        <report 
+            id="report_product_order_rapport" 
+            string="Rapport des travaux"    
+            model="product.order"     
+            report_type="qweb-pdf"  
+            name="arfi.report_productorderrapport"  
+            file="arfi.report_productorderrapport"    
+        	menu="True"/> 	
+        <report 
+            id="report_product_order_certificat" 
+            string="Certificat d'essai"     
+            model="product.order"     
+            report_type="qweb-pdf"    
+            name="arfi.report_productordercertificat"   
+            file="arfi.report_productordercertificat"     
+        	menu="True"/> 		 
+        <report 
+            id="report_product_order_realisation" 
+            string="Réalisations"     
+            model="product.order"      
+            report_type="qweb-pdf"  
+            name="arfi.report_productorderrealisation"   
+            file="arfi.report_productorderrealisation"   
+        	menu="True"/> 
+        <report 
+            id="report_order_customer"  
+            model="report.arfi.action_report_productordercustomer"     
+            string="Commandes"    
+            report_type="qweb-pdf" 
+            name="arfi.action_report_productordercustomer"  
+            file="arfi.action_report_productordercustomer"     
+        	menu="False"/>    
+        <report 
+            id="action_report_product_kks_echafaudage"   
+            string="Echafaudage"    
+            model="report.arfi.action_report_productkksechafaudage"   
+            report_type="qweb-pdf"   
+            name="arfi.action_report_productkksechafaudage" 
+            file="arfi.action_report_productkksechafaudage"     
+        	menu="False"/> 
+        <report 
+            id="report_product_kks_echafaudage"   
+            string="Echafaudage"    
+            model="product.kks"    
+            report_type="qweb-pdf"   
+            name="arfi.report_productkksechafaudage" 
+            file="arfi.report_productkksechafaudage"     
+        	menu="True"/> 
+        <report 
+            id="action_report_product_kks_pdr"   
+            model="report.arfi.action_report_productkkspdr"     
+            string="PDR"    
+            report_type="qweb-pdf" 
+            name="arfi.action_report_productkkspdr"  
+            file="arfi.action_report_productkkspdr"     
+        	menu="False"/> 
+        <record id="action_report_product_kks_pdr" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_arfi_landscape"/>
+        </record>
+  		<report 
+            id="action_report_product_kks_pdr_sortir"   
+            model="report.arfi.action_report_productkkspdrsortir"     
+            string="PDR à sortir"    
+            report_type="qweb-pdf" 
+            name="arfi.action_report_productkkspdrsortir"  
+            file="arfi.action_report_productkkspdrsortir"  
+        	menu="False"/> 
+         <record id="action_report_product_kks_pdr_sortir" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_arfi_landscape"/>
+        </record>
+        <report  
+            id="action_report_product_kks_echafaudage_arret"    
+            model="report.arfi.action_report_productkksechafaudagearret"     
+            string="Echafaudage"     
+            report_type="qweb-pdf" 
+            name="arfi.action_report_productkksechafaudagearret"  
+            file="arfi.action_report_productkksechafaudagearret"   
+        	menu="False"/> 
+        <report  
+            id="action_report_product_kks_facture_echafaudage_arret"    
+            model="report.arfi.action_report_productkksfactureechafaudagearret"      
+            string="Echafaudage"     
+            report_type="qweb-pdf" 
+            name="arfi.action_report_productkksfactureechafaudagearret"  
+            file="arfi.action_report_productkksfactureechafaudagearret"   
+        	menu="False"/> 		
+		<report  
+            id="action_report_product_kks_outillage"   
+            model="report.arfi.action_report_productkksoutillage"     
+            string="Outillage"    
+            report_type="qweb-pdf" 
+            name="arfi.action_report_productkksoutillage"  
+            file="arfi.action_report_productkksoutillage"  
+        	menu="False"/>  
+        <report 
+            id="action_report_product_kks_outillage_tarage"   
+            model="report.arfi.action_report_productkksoutillagetarage"     
+            string="Outillage"     
+            report_type="qweb-pdf" 
+            name="arfi.action_report_productkksoutillagetarage"  
+            file="arfi.action_report_productkksoutillagetarage"    
+        	menu="False"/> 
+        <report
+            id="report_product_kks_facture"
+            string="Facture"  
+            model="product.kks.facture"   
+            report_type="qweb-pdf"  
+            name="arfi.report_productkksfacture" 
+            file="arfi.report_productkksfacture"  
+         	menu="False"/>  	
+        <report
+            id="report_product_kks_pv"
+            string="PV"  
+            model="product.kks.facture"   
+            report_type="qweb-pdf"  
+            name="arfi.report_productkkspv" 
+            file="arfi.report_productkkspv"  
+         	menu="False"/> 
+        <report
+            id="report_product_kks_facture_changement" 
+            string="Facture Changement Vanne"   
+            model="product.kks.facture"   
+            report_type="qweb-pdf"  
+            name="arfi.report_productkksfacturechangement" 
+            file="arfi.report_productkksfacturechangement"    
+         	menu="False"/>  	
+        <report
+            id="report_product_kks_pv_changement" 
+            string="PV Changement Vanne"   
+            model="product.kks.facture"   
+            report_type="qweb-pdf"  
+            name="arfi.report_productkkspvchangement"
+            file="arfi.report_productkkspvchangement"  
+         	menu="False"/>    
+         <report
+            id="report_product_kks_pps" 
+            string="Liste PPS"   
+            model="product.kks"   
+            report_type="qweb-pdf"  
+            name="arfi.report_productkkspps"
+            file="arfi.report_productkkspps"  
+         	menu="True"/> 	        		
+		<report
+            id="action_report_product_kks_facture"
+            string="Facture"  
+            model="report.arfi.action_report_productkksfacture"   
+            report_type="qweb-pdf"  
+            name="arfi.action_report_productkksfacture"
+            file="arfi.action_report_productkksfacture"  
+         	menu="False"/>   
+         <report
+            id="action_report_product_invoice" 
+            string="Facture"  
+            model="report.arfi.action_report_productinvoice"    
+            report_type="qweb-pdf"   
+            name="arfi.action_report_productinvoice"
+            file="arfi.action_report_productinvoice"  
+         	menu="False" />     
+        <report
+            id="report_product_invoice_arfi"  
+            string="Document ARFI"   
+            model="product.invoice"      
+            report_type="qweb-pdf"   
+            name="arfi.report_productinvoicearfi"
+            file="arfi.report_productinvoicearfi"   
+         	menu="True" /> 
+         <record id="report_product_invoice_arfi" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_arfi_invoice"/>
+        </record>	
+        <report
+            id="report_product_invoice_meca"  
+            string="Document MECA ETANCHE"   
+            model="product.invoice"      
+            report_type="qweb-pdf"   
+            name="arfi.report_productinvoicemeca"
+            file="arfi.report_productinvoicemeca"   
+         	menu="True" /> 
+         <record id="report_product_invoice_meca" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_meca_invoice"/>
+        </record>	 
+          <report
+            id="report_product_devis_arfi"  
+            string="Devis ARFI"   
+            model="product.devis"      
+            report_type="qweb-pdf"   
+            name="arfi.report_productdevisarfi"
+            file="arfi.report_productdevisarfi"    
+         	menu="True" /> 
+         <record id="report_product_devis_arfi" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_arfi_invoice"/>           
+        </record>	  
+          <report
+            id="report_product_devis_meca"  
+            string="Devis MECA ETANCHE"   
+            model="product.devis"      
+            report_type="qweb-pdf"   
+            name="arfi.report_productdevismeca"
+            file="arfi.report_productdevismeca"    
+         	menu="True" /> 
+         <record id="report_product_devis_meca" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_meca_invoice"/>
+        </record>	  
+         <report
+            id="report_product_purchase_arfi"  
+            string="Achat"   
+            model="product.purchase"      
+            report_type="qweb-pdf"   
+            name="arfi.report_productpurchasearfi"
+            file="arfi.report_productpurchasearfi"    
+         	menu="True" /> 
+        <report
+            id="action_report_product_kks_pv"
+            string="PV"   
+            model="report.arfi.action_report_productkkspv"     
+            report_type="qweb-pdf"  
+            name="arfi.action_report_productkkspv"
+            file="arfi.action_report_productkkspv"  
+         	menu="False"/>       
+         <report
+            id="action_report_product_kks_facture_changement"
+            string="Facture"  
+            model="report.arfi.action_report_productkksfacturechangement"   
+            report_type="qweb-pdf"  
+            name="arfi.action_report_productkksfacturechangement"
+            file="arfi.action_report_productkksfacturechangement"  
+         	menu="False"/>      
+        <report
+            id="action_report_product_kks_pv_changement" 
+            string="PV"   
+            model="report.arfi.action_report_productkkspvchangement"     
+            report_type="qweb-pdf"   
+            name="arfi.action_report_productkkspvchangement"
+            file="arfi.action_report_productkkspvchangement"  
+         	menu="False"/> 	
+         <report 
+            id="report_product_affaire" 
+            string="Affaire"  
+            model="product.affaire"      
+            report_type="qweb-pdf"  
+            name="arfi.report_productaffaire" 
+            file="arfi.report_productaffaire"    
+        	menu="True"/> 
+         <record id="report_product_affaire" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_arfi_affaire"/>
+        </record>
+        <report
+            id="report_product_bc"
+            string="Bon de commande"
+            model="product.bc"
+            report_type="qweb-pdf"
+            name="arfi.report_productbc"
+            file="arfi.report_productbc"
+         	menu="True" />
+        <report
+            id="report_product_bc_piece_arfi"
+            string="Bon de commande"
+            model="product.bc"
+            report_type="qweb-pdf"
+            name="arfi.report_productbcpiecearfi"
+            file="arfi.report_productbcpiecearfi"
+         	menu="False" />
+        <record id="report_product_bc_piece_arfi" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_arfi_invoice"/>
+        </record>
+        <report
+            id="report_product_bc_piece_meca"
+            string="Bon de commande"
+            model="product.bc"
+            report_type="qweb-pdf"
+            name="arfi.report_productbcpiecemeca"
+            file="arfi.report_productbcpiecemeca"
+         	menu="False" />
+        <record id="report_product_bc_piece_meca" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_meca_invoice"/>
+        </record>
+    </data>
+</odoo>

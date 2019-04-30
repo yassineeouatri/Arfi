@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="product_kks_pdr_layout">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.product_kks_pdr_report_header" />
+    <t t-raw="0" />
+    <t t-call="report.external_layout_footer" />
+</template>
+
+<template id="product_kks_pdr_report_header">
+    <div class="header">
+         <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+            </div>
+            <div class="col-xs-6 text-center" style="padding-top: 40px;">
+            	<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste PDR Arrêt</h2> 
+            </div>
+            <div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+            
+        </div>
+        <div class="row zero_min_height" style="padding-top: 5px;">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+        <div class="row zero_min_height" >
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>    
+    </div>
+</template>		
+<template id="product_kks_pdr_sortir_layout">
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+    <t t-call="arfi.product_kks_pdr_sortir_report_header" />
+    <t t-raw="0" />
+    <t t-call="report.external_layout_footer" />
+</template>
+
+<template id="product_kks_pdr_sortir_report_header">
+    <div class="header">
+         <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+            </div>
+            <div class="col-xs-6 text-center" style="padding-top: 40px;">
+            	<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste des PDR à sortir du magasin</h2> 
+            </div>
+            <div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+            
+        </div>
+        <div class="row zero_min_height" style="padding-top: 5px;">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+        <div class="row zero_min_height" style="padding-bottom : 30px">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>    
+    </div>
+</template>	
+<template id="action_report_productkkspdr">
+	<t t-call="report.html_container">
+		<t t-foreach="docs" t-as="o">
+	        <t t-call="arfi.product_kks_pdr_layout">
+		        <div class="page" style="font-size : 10px;margin-top: 10px;">
+		        	<div class="oe_structure" style="padding-top: 30px;"/> 
+		        	<div class="row" style="border: solid 1px;width: 600px;margin: 0 auto;">
+	        			<div class="col-xs-4"  >
+		        			<p><strong>Unité : </strong><t t-esc="unite"/></p>
+				        </div> 
+				        <div class="col-xs-4"  >
+		        			<p><strong>Arrêt : </strong><span t-field="o.arret_id.date"  t-options ='{"format": "dd/MM/Y"}'/></p>
+				        </div> 
+				        <div class="col-xs-4"  >   
+				            <p><strong>Client : </strong><span t-field="o.customer_id.name"/></p>
+				        </div> 
+		       		</div>		
+		        	<div class="row" style="padding-top:15px;">
+			        	<table class="table table-bordered">
+			    			<thead style=" background-color: #3498DB; color : white" >
+			                    <tr>
+				        			<td class="text-center" style="width: 8%;"><strong>Code Mag</strong></td>
+						            <td class="text-center"><strong>Qté installée</strong></td>
+						            <td class="text-center"><strong>Stock</strong></td>
+						            <td class="text-center"><strong>Absolue</strong></td>
+									<td class="text-center"><strong>Nécessaire</strong></td>
+									<td class="text-center"><strong>Recommandée</strong></td>									
+									<td class="text-center"><strong>Sécurité</strong></td>
+									<td class="text-center"><strong>Quantité à sortir</strong></td>
+									<td class="text-center"><strong>Quantité à commander</strong></td>
+									<td class="text-center" style="width: 28%;"><strong>Désignation</strong></td>
+									<td class="text-center" style="width: 5%;"><strong>Item</strong></td>   
+									<td class="text-center" style="width: 10%;"><strong>KKS</strong></td>
+									<td class="text-center" style="width: 28%;"><strong>Référence</strong></td>
+									<td class="text-center" style="width: 10%;"><strong>Marque</strong></td>
+								</tr>
+		                	</thead> 
+							<tbody> 								
+								<t t-foreach="records" t-as="o">
+									<t t-if="o.nbr==o.row"> 
+										 <tr>
+									     	<td class="text-left"><strong><span t-field="o.magasin_id.code"/></strong></td>
+									     	<td class="text-center"><strong><span t-field="o.qte_installe"/></strong></td>
+								            <td class="text-center"><strong><span t-field="o.stock"/></strong></td>
+								            <td class="text-center"><strong><span t-field="o.absolue"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.necessaire"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.recommander"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.securite"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.qte_a_sortir"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.qte_a_commander"/></strong></td>
+											<td class="text-left"><span t-field="o.designation"/></td>
+											<td class="text-center"><span t-field="o.item"/></td>
+											<td class="text-left"><span t-field="o.kks"/></td>
+											<td class="text-left"><span t-field="o.reference"/></td>
+											<td class="text-left"><span t-field="o.maker_id.name"/></td>
+										</tr>
+						            </t>
+						            <t t-if="o.nbr!=o.row"> 
+							       		<tr>
+						                    <td class="text-left"><span t-field="o.magasin_id.code"/></td>
+									     	<td class="text-center"></td>
+								            <td class="text-center"></td>
+								            <td class="text-center"></td>
+											<td class="text-center"></td>
+											<td class="text-center"></td>
+											<td class="text-center"></td>
+											<td class="text-center"></td>
+											<td class="text-center"></td>
+											<td class="text-left"><span t-field="o.designation"/></td>
+											<td class="text-center"><span t-field="o.item"/></td>
+											<td class="text-left"><span t-field="o.kks"/></td>
+											<td class="text-left"><span t-field="o.reference"/></td>
+											<td class="text-left"><span t-field="o.maker_id.name"/></td>
+					                	</tr>
+					                </t>			                	
+								</t>
+			                </tbody>
+			       		</table>	
+		        	</div>
+		       </div>
+		  </t>   
+    </t>
+ </t>   
+ </template>
+<template id="action_report_productkkspdrsortir">
+	<t t-call="report.html_container">
+		<t t-foreach="docs" t-as="o">
+	        <t t-call="arfi.product_kks_pdr_sortir_layout">
+		        <div class="page" style="font-size : 10px">
+		        	<div class="oe_structure" style="padding-top: 30px;"/> 
+		        	<div class="row" style="border: solid 1px;width: 600px;margin: 0 auto;">
+	        			<div class="col-xs-4"  >
+		        			<p><strong>Unité : </strong><t t-esc="unite"/></p>
+				        </div> 
+				        <div class="col-xs-4"  >
+		        			<p><strong>Arrêt : </strong><span t-field="o.arret_id.date"  t-options ='{"format": "dd/MM/Y"}'/></p>
+				        </div> 
+				        <div class="col-xs-4"  >   
+				            <p><strong>Client : </strong><span t-field="o.customer_id.name"/></p>
+				        </div> 
+		       		</div>		
+		        	<div class="row" style="padding-top:10px;">
+			        	<table class="table table-bordered">
+			    			<thead style=" background-color: #3498DB; color : white" >
+			                    <tr>
+				        			<td class="text-center" style="width : 10%"><strong>Code Mag</strong></td>
+						            <td class="text-center" style="width : 5%"><strong>Qté demandée</strong></td>
+						            <td class="text-center" style="width : 5%"><strong>Qté Stock</strong></td>
+									<td class="text-center" style="width : 30%"><strong>Désignation</strong></td>
+									<td class="text-center" style="width : 5%"><strong>Item</strong></td>   
+									<td class="text-center" style="width : 10%"><strong>KKS</strong></td>
+									<td class="text-center" style="width : 25%"><strong>Référence</strong></td>
+									<td class="text-center" style="width : 10%"><strong>Marque</strong></td>
+								</tr>
+		                	</thead> 
+							<tbody>								
+								<t t-foreach="records" t-as="o">
+									<t t-if="o.nbr==o.row"> 
+							       		<tr>
+						                    <td class="text-left" style="width : 10%"><strong><span t-field="o.magasin_id.code"/></strong></td>
+								             <td class="text-center" style="width : 5%"><strong><span t-field="o.qte_a_sortir"/></strong></td>
+									        <td class="text-center" style="width : 5%"><strong><span t-field="o.stock"/></strong></td>
+											<td class="text-left" style="width : 30%"><strong><span t-field="o.designation"/></strong></td>
+											<td class="text-center" style="width : 5%"><strong><span t-field="o.item"/></strong></td>
+											<td class="text-left" style="width : 10%"><strong><span t-field="o.kks"/></strong></td>
+											<td class="text-left" style="width : 25%"><strong><span t-field="o.reference"/></strong></td>
+											<td class="text-left" style="width : 10%"><strong><span t-field="o.maker_id.name"/></strong></td>
+					                	</tr>
+					                </t>	
+						            <t t-if="o.nbr!=o.row"> 
+							       		<tr>
+						                    <td class="text-left" style="width : 10%"><span t-field="o.magasin_id.code"/></td>
+								             <td class="text-center" style="width : 5%"></td>
+									        <td class="text-center" style="width : 5%"></td>
+											<td class="text-left" style="width : 30%"><span t-field="o.designation"/></td>
+											<td class="text-center" style="width : 5%"><span t-field="o.item"/></td>
+											<td class="text-left" style="width : 10%"><span t-field="o.kks"/></td>
+											<td class="text-left" style="width : 25%"><span t-field="o.reference"/></td>
+											<td class="text-left" style="width : 10%"><span t-field="o.maker_id.name"/></td>
+					                	</tr>
+					                </t>	
+								</t>
+			                </tbody>
+			       		</table>	
+		        	</div>
+		       </div>
+		  </t>   
+    </t>
+ </t>   
+ </template> 
+</odoo>
+

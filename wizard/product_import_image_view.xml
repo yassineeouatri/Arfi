@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+      
+
+        	<!-- wizard view -->
+        <record id="view_product_import_image_form" model="ir.ui.view">
+            <field name="name">Importer les images</field>
+            <field name="model">product.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Importer les images">
+            	 	<group colspan="2">
+                        <!--  <field name="file" filename="file_name"/>
+          				<field name="file_name" select="1" invisible="1"/>-->
+                    </group>
+                    <footer>
+                        <button string="Importer Images Pièces" name="import_image_piece" type="object" class="btn-primary"/>
+                        <button string="Importer Images Appareils" name="import_image_appareil" type="object" class="btn-success"/>
+                        <button string="Annuler" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+         <record id="action_product_import_image" model="ir.actions.act_window">
+            <field name="name">Importer les images</field>
+            <field name="res_model">product.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_product_import_image_form"/>
+            <field name="target">new</field>
+        </record>
+		<!--  <menuitem  action="action_product_import_image"
+            id="menu_product_import_image"
+            parent="menu_arfi_appareil"
+ 			groups="base.group_no_one"           
+			sequence="95"/>-->
+	
+ 	     <record id="product_image_directory_search_view" model="ir.ui.view">
+            <field name="name">product.image.directory.search</field>
+            <field name="model">product.image.directory</field>
+            <field name="arch" type="xml">
+                <search string="Mesure Test">
+                	<group expand="0" string="Group By">
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_image_directory_tree_view" model="ir.ui.view">
+            <field name="name">product.image.directory.tree</field>
+            <field name="model">product.image.directory</field>
+            <field name="arch" type="xml">
+                <tree string="Mesure Service" editable="top">
+                	<field name="type"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_image_directory_action" model="ir.actions.act_window">
+            <field name="name">Dossiers des plans</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.image.directory</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product_image_directory_tree_view"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a new directory
+                </p>
+            </field>
+        </record>
+         
+
+         
+    </data>
+</openerp>
