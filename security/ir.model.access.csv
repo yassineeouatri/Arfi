@@ -1,4 +1,16 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_bc_piece_line_arfi_manager,product.bc.piece.line.arfi.manager,model_product_bc_piece_line,group_arfi_manager,1,1,1,1
+access_product_bc_piece_line_arfi_employee,product.bc.piece.line.arfi.employee,model_product_bc_piece_line,group_arfi_employee,1,1,1,1
+access_product_bc_piece_line_arfi_employee1,product.bc.piece.line.arfi.employee1,model_product_bc_piece_line,group_arfi_employee1,1,1,1,1
+access_product_bc_piece_line_arfi_employee2,product.bc.piece.line.arfi.employee2,model_product_bc_piece_line,group_arfi_employee2,1,1,1,1
+access_product_bc_piece_line_arfi_employee3,product.bc.piece.line.arfi.employee3,model_product_bc_piece_line,group_arfi_employee3,1,1,1,1
+access_product_bc_piece_line_arfi_atelier,product.bc.piece.line.arfi.atelier,model_product_bc_piece_line,group_arfi_atelier,1,1,1,1
+access_product_bc_piece_arfi_manager,product.bc.piece.arfi.manager,model_product_bc_piece,group_arfi_manager,1,1,1,1
+access_product_bc_piece_arfi_employee,product.bc.piece.arfi.employee,model_product_bc_piece,group_arfi_employee,1,1,1,1
+access_product_bc_piece_arfi_employee1,product.bc.piece.arfi.employee1,model_product_bc_piece,group_arfi_employee1,1,1,1,1
+access_product_bc_piece_arfi_employee2,product.bc.piece.arfi.employee2,model_product_bc_piece,group_arfi_employee2,1,1,1,1
+access_product_bc_piece_arfi_employee3,product.bc.piece.arfi.employee3,model_product_bc_piece,group_arfi_employee3,1,1,1,1
+access_product_bc_piece_arfi_atelier,product.bc.piece.arfi.atelier,model_product_bc_piece,group_arfi_atelier,1,1,1,1
 access_product_bc_line_arfi_manager,product.bc.line.arfi.manager,model_product_bc_line,group_arfi_manager,1,1,1,1
 access_product_bc_line_arfi_employee,product.bc.line.arfi.employee,model_product_bc_line,group_arfi_employee,1,1,1,1
 access_product_bc_line_arfi_employee1,product.bc.line.arfi.employee1,model_product_bc_line,group_arfi_employee1,1,1,1,1
