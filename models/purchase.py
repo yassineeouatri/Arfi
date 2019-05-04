@@ -119,7 +119,6 @@ class product_purchase_line(models.Model):
     price_unit = fields.Float('PU HT (Dhs)')
     montant =  fields.Float(string='Montant',
                                 store=True, readonly=True, compute='_compute_price')
-    
 class product_purchase_evaluation(models.Model):
 
     _name = "product.purchase.evaluation"
@@ -130,8 +129,6 @@ class product_purchase_evaluation(models.Model):
     purchase_id = fields.Many2one('product.purchase', 'Commande')
     type_evaluation_id = fields.Many2one('product.purchase.type.evaluation', 'Type évaluation')
     note_id = fields.Many2one('product.purchase.note', 'Note')
-    
-    
 class product_purchase_type_evaluation(models.Model):
 
     _name = "product.purchase.type.evaluation"
@@ -172,7 +169,6 @@ class product_purchase_note(models.Model):
     
     code = fields.Integer('Code',default=get_code)
     name = fields.Integer("Note")
-    
 class product_purchase_activity(models.Model):
 
     _name = "product.purchase.activity"
@@ -201,7 +197,6 @@ class product_purchase_activity(models.Model):
                     raise ValidationError(_("Attention! Le code est composé de 5 chiffres."))  
                 if not record.code.isdigit(): 
                     raise ValidationError(_("Attention! Le code ne doit contenir que des chiffres."))
-
 class product_bc(models.Model):
 
     _name = "product.bc"
@@ -355,7 +350,6 @@ class product_bc_piece(models.Model):
                             and substring(name,8,2)=to_char(now(),'YY')""")
         rslt = cr.fetchone()[0]
         return rslt
-
     def get_name(self):
         i = '1'
         cr = self.env.cr
@@ -378,11 +372,11 @@ class product_bc_piece(models.Model):
 
     @api.multi
     def print_bc_report_pdf(self):
-        if self.company_id:
-            if self.company_id.name == 'ARFI' :
-                return self.env['report'].get_action(self, 'arfi.report_productbcpiecearfi')
-            if self.company_id.name == 'MECA ETANCHE' :
-                return self.env['report'].get_action(self, 'arfi.report_productbcpiecemeca')
+        print self.company_id.name
+        if self.company_id.name == 'ARFI':
+            return self.env['report'].get_action(self, 'arfi.report_productbcpiecearfi')
+        if self.company_id.name == 'MECA ETANCHE':
+            return self.env['report'].get_action(self, 'arfi.report_productbcpiecemeca')
     def get_return(self,fichier):
         url = '/web/static/reporting/' + fichier
         if url:

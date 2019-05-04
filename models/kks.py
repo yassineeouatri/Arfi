@@ -171,6 +171,7 @@ class product_kks(models.Model):
         return self._print_product_kks_echafaudage(data)
     def _print_product_kks_echafaudage(self, data):
         data['form'].update(self.read(['id'])[0])
+        print data['form']
         return self.env['report'].get_action(self, 'arfi.action_report_productkksechafaudage', data=data)
     
     def action_observation(self):

@@ -364,7 +364,7 @@
         <report
             id="report_product_bc_piece_arfi"
             string="Bon de commande"
-            model="product.bc"
+            model="product.bc.piece"
             report_type="qweb-pdf"
             name="arfi.report_productbcpiecearfi"
             file="arfi.report_productbcpiecearfi"
@@ -375,7 +375,7 @@
         <report
             id="report_product_bc_piece_meca"
             string="Bon de commande"
-            model="product.bc"
+            model="product.bc.piece"
             report_type="qweb-pdf"
             name="arfi.report_productbcpiecemeca"
             file="arfi.report_productbcpiecemeca"
