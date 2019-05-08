@@ -1,4 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_plan_original_arfi_manager,product.plan.original.arfi.manager,model_product_plan_original,group_arfi_manager,1,1,1,1
+access_product_plan_original_arfi_employee,product.plan.original.arfi.employee,model_product_plan_original,group_arfi_employee,1,1,1,1
+access_product_plan_original_arfi_employee1,product.plan.original.arfi.employee1,model_product_plan_original,group_arfi_employee1,1,1,1,1
+access_product_plan_original_arfi_employee2,product.plan.original.arfi.employee2,model_product_plan_original,group_arfi_employee2,1,1,1,1
+access_product_plan_original_arfi_employee3,product.plan.original.arfi.employee3,model_product_plan_original,group_arfi_employee3,1,1,1,1
+access_product_plan_original_arfi_atelier,product.plan.original.arfi.atelier,model_product_plan_original,group_arfi_atelier,1,1,1,1
 access_product_bc_piece_line_arfi_manager,product.bc.piece.line.arfi.manager,model_product_bc_piece_line,group_arfi_manager,1,1,1,1
 access_product_bc_piece_line_arfi_employee,product.bc.piece.line.arfi.employee,model_product_bc_piece_line,group_arfi_employee,1,1,1,1
 access_product_bc_piece_line_arfi_employee1,product.bc.piece.line.arfi.employee1,model_product_bc_piece_line,group_arfi_employee1,1,1,1,1
