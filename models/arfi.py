@@ -11,6 +11,13 @@ import sys
 from odoo.osv import expression
 _logger = logging.getLogger(__name__)
 
+class product_plan_original(models.Model):
+    _name = 'product.plan.original'
+
+    appareil_id = fields.Many2one('product.template','Appareil', required=False)
+    file_name = fields.Char('Nom du fichier', size=256)
+    file = fields.Binary("Fichier")
+
 class product_procedure(models.Model):
     _name = 'product.procedure'
 

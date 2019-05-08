@@ -70,7 +70,7 @@ class plans(base.DMSModel):
     
     variant = fields.Boolean('Variant',default=True)
     type_file = fields.Selection([('prev','Plan Prévention'),('ins','Instruction de travail'),
-                             ('ope','Mode Opératoire'),('man','Manuel de Maintenance'),
+                             ('ope','Mode Opératoire'),('man','Manuel de Maintenance'),('orig','Plan Original')
                              ] ,'Type du fichier' , required=True)
     
     
