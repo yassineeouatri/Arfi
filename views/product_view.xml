@@ -4,7 +4,7 @@
     	   
         
 <!-- Liste des pièces -->     
-	   	   <record id="product_piece_tree_view" model="ir.ui.view">
+        <record id="product_piece_tree_view" model="ir.ui.view">
             <field name="name">product.piece.tree</field>
             <field name="model">product.piece</field>
             <field name="arch" type="xml">
@@ -361,7 +361,6 @@
                   </search>
             </field>
         </record>
-
         <record id="product_template_appareil_tree_view" model="ir.ui.view">
             <field name="name">product.template.product.tree</field>
             <field name="model">product.template</field>
@@ -528,6 +527,78 @@
                         	</group>
                         	<group>
                         		
+                        	</group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_template_colmatage_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Product">
+                    <sheet>
+                    	<field name="id" invisible="True"/>
+                    	<field name="type" invisible="True"/>
+
+                    	<div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" placeholder="Référence" /></h1>
+                        </div>
+
+                        <group col="6" colspan="2">
+                        	<field name="maker_id" string="Fabriquant" options="{'no_create': True,'no_open': True}"/>
+                            <field name="categ_id" string="Type d'appareil" widget="selection"/>
+            				<field name="ss_categ_id" widget="selection" string="Sous type d'appareil"/>
+                        </group>
+                        <group>
+                        	<group >
+                        		<fieldset style="min-height: 370px;width: 98%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Plan :</legend>
+								 	<group width="50%">
+                        				<field name="image"  widget="image" class="img_product" nolabel="1"/>
+                        			</group>
+								</fieldset>
+                        		<newline/>
+                        		<div class="oe_button_box" name="button_box" style="text-align: center;">
+                        			<button class="btn btn-info" style="margin : 5px" string="Visualiser" name="action_image" type="object"/>
+		                    		<button class="btn btn-primary" style="margin : 5px" string="Procédures Opérations" name="action_procedure" type="object"/>
+		                    	</div>
+                        	</group>
+                        	<group>
+                        		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Composants :</legend>
+							 			<field style="overflow-y: auto;max-height: 150px;padding-left: 0px;" name="piece_ids" nolabel="1"  mode="tree" context="{'default_appareil_id': active_id, 'default_type': 'piece','form_view_ref': 'arfi.product_piece_form_view'}">
+	                                		<tree string="Pièces" editable="bottom" limit="1000" delete="false">
+	                                			<button class="oe_edit_only" name="action_piece" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" icon="fa-pencil-square-o" string="Modifier"/>
+							                    <field name="no_piece"/>
+							                    <field name="order_" invisible="1"/>
+							                    <field name="name"/>
+							                    <field name="appareil_id"  options="{'no_create': True,'no_open': True}" invisible="1"/>
+							                    <field name="material_id"  options="{'no_create': True,'no_open': True}"/>
+							                    <button class="oe_edit_only" name="action_material" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" icon="fa-pencil-square-o" string="Matière"/>
+							                	<button class="oe_edit_only" name="action_delete" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" icon="fa fa-trash-o" string="Supprimer"/>
+							        		</tree>
+	                            		</field>
+	                            </fieldset>
+	                            <newline/>
+	                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations techniques :</legend>
+									 	<button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager"  type="object" name="action_select_attribute"/>
+                						<field style="overflow-y: auto;max-height: 150px;padding-left: 0px;" name="attribute_line_ids" nolabel="1" mode="tree" context="{'default_product_tmpl_id': active_id}">
+					                        <tree string="Variants" editable="bottom" create="false" delete="false" limit="1000">
+					                        	<field name="product_tmpl_id"  options="{'no_create': True,'no_open': True}" invisible="1"/>
+					                            <field name="attribute_id"  options="{'no_open': True}" readonly="1"/>
+					                            <field name="reference" invisible="1"/>
+					                            <field name="value"/>
+					                            <button class="oe_edit_only" name="action_delete" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" icon="fa fa-trash-o" string="Supprimer"/>
+					                        </tree>
+					                    </field>
+					            </fieldset>
+                        	</group>
+                        	<group>
+
                         	</group>
                         </group>
                     </sheet>
@@ -742,7 +813,7 @@
                 </form>
             </field>
         </record>
-    	  <record id="product_template_appareil_kanban_view" model="ir.ui.view">
+        <record id="product_template_appareil_kanban_view" model="ir.ui.view">
             <field name="name">Product.template.product.kanban</field>
             <field name="model">product.template</field>
             <field name="arch" type="xml">
@@ -777,7 +848,6 @@
                 </kanban>
             </field>
         </record>
-
         <record id="product_template_appareil_action" model="ir.actions.act_window">
             <field name="name">Appareils</field>
             <field name="type">ir.actions.act_window</field>
@@ -812,6 +882,41 @@
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="product_template_appareil_kanban_view"/>
             <field name="act_window_id" ref="product_template_appareil_action"/>
+        </record>
+        <record id="product_template_colmatage_action" model="ir.actions.act_window">
+            <field name="name">Appareils Colmatage</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_type">form</field>
+            <field name="limit">500</field>
+            <field name="view_id" ref="product_template_appareil_kanban_view"/>
+            <field name="search_view_id" ref="product_template_appareil_search_view"/>
+            <field name="context">{"default_type":'colmatage'}</field>
+            <field name="domain">[('type','=','colmatage')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau appareil colmatage.
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window.view" id="product_template_colmatage_action_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_template_appareil_tree_view"/>
+            <field name="act_window_id" ref="product_template_colmatage_action"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="product_template_colmatage_action_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_template_colmatage_form_view"/>
+            <field name="act_window_id" ref="product_template_colmatage_action"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="product_template_colmatage_action_kanban">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="product_template_appareil_kanban_view"/>
+            <field name="act_window_id" ref="product_template_colmatage_action"/>
         </record>
 <!-- Open Action procédures        
         <record id="open_appareil_procedure_action" model="ir.actions.server">

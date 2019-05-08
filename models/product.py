@@ -25,9 +25,9 @@ class product_template(models.Model):
         group_data = dict((data['appareil_id'][0], data['appareil_id_count']) for data in read_group_res)
         for obj in self:
             obj.outillage_count = group_data.get(obj.id, 0) 
-            
+
     no_app = fields.Char('N° Appareil')
-    type = fields.Selection([('appareil','Appareil'), ('piece','Pièce')], 'Type de produit', help="")   
+    type = fields.Selection([('appareil','Appareil'), ('piece','Pièce'),('colmatage','Colmatage')], 'Type de produit', help="")
     categ_id = fields.Many2one('product.category','Type Appareil', required=False, change_default=True, domain="[('type','=','type')]" ,help="")
     ss_categ_id = fields.Many2one('product.category','Sous Type Appareil', required=False, 
                                   domain="[('parent_id','=',categ_id),('type','=','ss_type')]",

@@ -157,5 +157,10 @@
    		<menuitem id='menu_product_contract_customer_' name='Clients'  parent="menu_product_contract_customer" action="res_partner_contract_action" sequence="1"/>
        --> <!-- <menuitem name="Contrats" id="menu_product_contrats"          parent="menu_product_contrat_customer" action="product_kks_tarif_action" sequence="2"  />-->
 
+        <menuitem id="menu_arfi_colmatage" name="Colmatage" sequence="3" groups="group_arfi_employee,group_arfi_employee1,group_arfi_employee2,group_arfi_employee3,group_arfi_atelier,group_arfi_manager"/>
+        <menuitem id="menu_arfi_colmatage_appareil" name="Appareils" parent="menu_arfi_colmatage"  action="product_template_colmatage_action" sequence="1"/>
+        <menuitem id="menu_arfi_colmatage_category" name="Types Appareils" parent="menu_arfi_colmatage"  action="arfi_product_category_action_form" sequence="2"/>
+        <menuitem id="menu_arfi_colmatage_ss_category" name="Sous Types Appareils"  parent="menu_arfi_colmatage"  action="arfi_product_ss_category_action_form" sequence="3"/>
+
    </data>
 </openerp>
