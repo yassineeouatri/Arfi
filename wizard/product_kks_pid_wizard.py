@@ -191,9 +191,14 @@ class product_kks_pid_annotation(models.Model):
             if info["title"] != self.title:
                 page.deleteAnnot(annot1)
         path_out = directory + file_name +'_'+ str(time.strftime('%H%M%S')) + '.' + extension
+        fichier = file_name +'_'+ str(time.strftime('%H%M%S')) + '.' + extension
         doc.save(path_out, garbage=4, deflate=True, clean=True)
-
-        return webbrowser.open_new(r'file://' + path_out)
+        url = '/web/static/reporting/' + fichier
+        if url:
+            return {'type': 'ir.actions.act_url', 'target': 'new', 'url': url, 'nodestroy': True}
+        else:
+            return True
+        #return webbrowser.open_new(r'file://' + path_out)
     def action_view_annotation(self):
         results = self.env['product.image.directory'].search([('type', '=', 'reporting')])
         for result in results:
