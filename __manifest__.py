@@ -31,6 +31,7 @@ Arfi Management
         'views/affaire_view.xml',
         'views/purchase_view.xml',
         'views/contract_view.xml',
+        'views/colmatage_view.xml',
         'views/report_invoice.xml',
         'wizard/product_import_view.xml',
         'wizard/product_import_image_view.xml',

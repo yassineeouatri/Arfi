@@ -98,6 +98,7 @@ class product_kks_pid_file(models.Model):
         while annot:
             i += 1  # increase counter
             d = annot.info  # get annot's info dictionary
+            print d
             self.env['product.kks.pid.annotation'].create({'file_id': self.id,
                                                            'title': d['title'],
                                                            'content': d['content'],
@@ -138,6 +139,7 @@ class product_kks_pid_annotation(models.Model):
         self.write_file(path, file_data)
         doc = fitz.open(path)  # open the PDF
         page = doc[0]  # access page n (0-based)
+
         annot = page.firstAnnot  # get first annotation
         i = 0  # counter for file idents
         # loop through the page's annotations
@@ -145,17 +147,53 @@ class product_kks_pid_annotation(models.Model):
         while annot:
             i += 1  # increase counter
             info = annot.info  # get annot's info dictionary
+            print info
             if info["title"] == self.title:
                 info["content"] = self.content
-                print('update annotation {} with content {}'.format(self.title, self.content))
-            annot.setInfo(info)
-            annot.update()
+                annot.setInfo(info)
+                annot.update()
+
+            annot1 = annot
             annot = annot.next  # get next annot on page
+            if info["title"] != self.title:
+                page.deleteAnnot(annot1)
         path_out = directory + file_name + '.' + extension
         doc.save(path_out, garbage=4, deflate=True, clean=True)
         self.download_file(path_out, self.file_id.id)
         return True
+    def action_find_annotation(self):
+        results = self.env['product.image.directory'].search([('type', '=', 'reporting')])
+        for result in results:
+            directory = result.name
+        file_name= self.file_id.filename.split('.')[0]
+        extension = self.file_id.filename.split('.')[1]
+        file_data = self.file_id.file
+        path = directory + file_name + str(time.strftime('%H%M%S')) + '.' + extension
+        self.write_file(path, file_data)
+        doc = fitz.open(path)  # open the PDF
+        page = doc[0]  # access page n (0-based)
 
+        annot = page.firstAnnot  # get first annotation
+        i = 0  # counter for file idents
+        # loop through the page's annotations
+        Liste = []
+        while annot:
+            i += 1  # increase counter
+            info = annot.info  # get annot's info dictionary
+            print info
+            if info["title"] == self.title:
+                info["content"] = self.content
+                annot.setInfo(info)
+                annot.update(text_color=1, fill_color=1)
+
+            annot1 = annot
+            annot = annot.next  # get next annot on page
+            if info["title"] != self.title:
+                page.deleteAnnot(annot1)
+        path_out = directory + file_name +'_'+ str(time.strftime('%H%M%S')) + '.' + extension
+        doc.save(path_out, garbage=4, deflate=True, clean=True)
+
+        return webbrowser.open_new(r'file://' + path_out)
     def action_view_annotation(self):
         results = self.env['product.image.directory'].search([('type', '=', 'reporting')])
         for result in results:
@@ -167,10 +205,7 @@ class product_kks_pid_annotation(models.Model):
         self.write_file(path_file, file_data)
         pdf_file = PdfFileReader(open(path_file, "rb"))
         page = pdf_file.getPage(0)
-        print(page.cropBox.getLowerLeft())
-        print(page.cropBox.getLowerRight())
-        print(page.cropBox.getUpperLeft())
-        print(page.cropBox.getUpperRight())
+
 
         with open(path_file, "rb") as in_f:
             input1 = PdfFileReader(in_f)
@@ -187,6 +222,7 @@ class product_kks_pid_annotation(models.Model):
                 page.cropBox.lowerLeft = (0, 0)
                 page.cropBox.upperRight = (2592, 1686)
                 output.addPage(page)
+
             path_out = directory + file_name + time.strftime('%H%M%S')+'.' + extension
             with open(path_out, "wb") as out_f:
                 output.write(out_f)

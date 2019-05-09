@@ -70,6 +70,7 @@
                                         <field name="title"/>
                                         <field name="subject"/>
                                         <field name="content"/>
+                                        <button class="btn btn-primary" icon="fa-search" string="Trouver" type="object" name="action_find_annotation"/>
                                      </tree>
                                 </field>
                             </fieldset>
@@ -93,13 +94,12 @@
             <field name="model">product.kks.pid.annotation</field>
             <field name="arch" type="xml">
                 <tree string="Annotations" editable="top">
-                	<field name="file_id"/>
+                	<field name="file_id" readonly="1"/>
                     <field name="title"/>
                     <field name="name"/>
                     <field name="subject"/>
                     <field name="content"/>
-                    <button class="btn btn-primary" string="Visualiser" type="object" name="action_view_annotation"/>
-                    <button class="btn btn-primary" string="MAJ" type="object" name="action_update_annotation"/>
+                    <button class="btn btn-primary" icon="fa-search" string="Trouver" type="object" name="action_find_annotation"/>
                 </tree>
             </field>
         </record>
