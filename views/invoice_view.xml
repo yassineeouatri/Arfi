@@ -44,6 +44,7 @@
                     <field name="no_order"/>
                     <field name="company_id"/>
                     <field name="customer_id"/>
+                    <field name="montant_ttc"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -60,6 +61,7 @@
                     <field name="customer_id"/>
                     <field name="date_paiement"/>
                     <field name="mode_paiement"/>
+                    <field name="montant_ttc"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -75,6 +77,7 @@
                     <field name="company_id"/>
                     <field name="customer_id"/>
                     <field name="date_echeance"/>
+                    <field name="montant_ttc"/>
                     <field name="state"/>
                 </tree>
             </field>
