@@ -98,10 +98,11 @@
 						            <td class="text-center"><strong>Stock</strong></td>
 						            <td class="text-center"><strong>Absolue</strong></td>
 									<td class="text-center"><strong>Nécessaire</strong></td>
-									<td class="text-center"><strong>Recommandée</strong></td>									
 									<td class="text-center"><strong>Sécurité</strong></td>
+									<td class="text-center"><strong>Recommandée</strong></td>
 									<td class="text-center"><strong>Quantité à sortir</strong></td>
 									<td class="text-center"><strong>Quantité à commander</strong></td>
+									<td class="text-center"><strong>Quantité commandée</strong></td>
 									<td class="text-center" style="width: 28%;"><strong>Désignation</strong></td>
 									<td class="text-center" style="width: 5%;"><strong>Item</strong></td>   
 									<td class="text-center" style="width: 10%;"><strong>KKS</strong></td>
@@ -118,10 +119,11 @@
 								            <td class="text-center"><strong><span t-field="o.stock"/></strong></td>
 								            <td class="text-center"><strong><span t-field="o.absolue"/></strong></td>
 											<td class="text-center"><strong><span t-field="o.necessaire"/></strong></td>
-											<td class="text-center"><strong><span t-field="o.recommander"/></strong></td>
 											<td class="text-center"><strong><span t-field="o.securite"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.recommander"/></strong></td>
 											<td class="text-center"><strong><span t-field="o.qte_a_sortir"/></strong></td>
 											<td class="text-center"><strong><span t-field="o.qte_a_commander"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.qte_commander"/></strong></td>
 											<td class="text-left"><span t-field="o.designation"/></td>
 											<td class="text-center"><span t-field="o.item"/></td>
 											<td class="text-left"><span t-field="o.kks"/></td>
@@ -135,6 +137,7 @@
 									     	<td class="text-center"></td>
 								            <td class="text-center"></td>
 								            <td class="text-center"></td>
+											<td class="text-center"></td>
 											<td class="text-center"></td>
 											<td class="text-center"></td>
 											<td class="text-center"></td>
