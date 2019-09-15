@@ -114,8 +114,8 @@ class product_kks_pid_annotation(models.Model):
 
     file_id = fields.Many2one('product.kks.pid.file', 'Fichier')
     name = fields.Char('Type', readonly=True)
-    title = fields.Char('Titre', readonly=True)
-    content = fields.Char('Contenue', )
+    title = fields.Char('KKS', readonly=True)
+    content = fields.Char('Contenu', readonly=True )
     subject = fields.Char('Sujet', readonly=True)
 
     def write_file(self, path, file):
@@ -199,6 +199,49 @@ class product_kks_pid_annotation(models.Model):
         else:
             return True
         #return webbrowser.open_new(r'file://' + path_out)
+    def action_open_annotation(self,title):
+        results = self.env['product.image.directory'].search([('type', '=', 'reporting')])
+        for result in results:
+            directory = result.name
+        obj_id = self.search([('title', '=', title)])
+        if obj_id:
+            file_name = obj_id.file_id.filename.split('.')[0]
+            extension = obj_id.file_id.filename.split('.')[1]
+            file_data = obj_id.file_id.file
+            path = directory + file_name + str(time.strftime('%H%M%S')) + '.' + extension
+            self.write_file(path, file_data)
+            doc = fitz.open(path)  # open the PDF
+            page = doc[0]  # access page n (0-based)
+
+            annot = page.firstAnnot  # get first annotation
+            i = 0  # counter for file idents
+            # loop through the page's annotations
+            Liste = []
+            while annot:
+                i += 1  # increase counter
+                info = annot.info  # get annot's info dictionary
+                print info
+                if info["title"] == title:
+                    info["content"] = self.content
+                    annot.setInfo(info)
+                    annot.update(text_color=1, fill_color=1)
+
+                annot1 = annot
+                annot = annot.next  # get next annot on page
+                if info["title"] != title:
+                    page.deleteAnnot(annot1)
+            path_out = directory + file_name + '_' + str(time.strftime('%H%M%S')) + '.' + extension
+            fichier = file_name + '_' + str(time.strftime('%H%M%S')) + '.' + extension
+            doc.save(path_out, garbage=4, deflate=True, clean=True)
+            url = '/web/static/reporting/' + fichier
+            if url:
+                return {'type': 'ir.actions.act_url', 'target': 'new', 'url': url, 'nodestroy': True}
+            else:
+                return True
+        else :
+            raise ValidationError(_("Attention! KKS INCONNU."))
+        # return webbrowser.open_new(r'file://' + path_out)
+
     def action_view_annotation(self):
         results = self.env['product.image.directory'].search([('type', '=', 'reporting')])
         for result in results:
