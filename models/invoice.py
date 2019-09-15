@@ -325,6 +325,198 @@ class product_invoice_line(models.Model):
     price_unit = fields.Float('PU HT (Dhs)')
     montant =  fields.Float(string='Montant',
                                 store=True, readonly=True, compute='_compute_price')
+class product_invoice_arret(models.Model):
+    _name = "product.invoice.arret"
+    _description = "Invoice Arret"
+    _inherit = ['ir.needaction_mixin']
+    _order = 'name desc'
+
+    @api.depends('invoice_line_ids')
+    def _amount_all(self):
+        """
+        Compute the total amounts of the SO.
+        """
+        for obj in self:
+            montant = 0.0
+            for line in obj.invoice_line_ids:
+                montant += line.montant
+            obj.update({
+                'montant': montant,
+                'montant_ht': montant,
+                'tva': montant *  0.2,
+                'montant_ttc': montant * 1.2,
+                'montant_text': self.trad(montant * 1.2, 'dirham', 'centime')
+            })
+
+
+
+    name = fields.Char('Facture N°', copy=False)
+    company_id = fields.Many2one('res.company', 'Société', copy=True, required=True)
+    date_invoice = fields.Date('Date Facture', default=fields.Date.today, copy=False)
+    customer_id = fields.Many2one('res.partner', 'Client', domain=[('customer', '=', True)], copy=True)
+    no_ol = fields.Char('OL N°')
+    arret_id = fields.Many2one('product.arret', 'Arrêt', readonly=False)
+    unite_id = fields.Many2one('product.unite', 'Unité', readonly=False)
+    ice = fields.Char('ICE', size=15, copy=True)
+    city = fields.Char('Adresse', copy=True)
+    designation = fields.Char('Désignation', copy=True)
+    customer_name = fields.Char(related='customer_id.name', store=True)
+    montant = fields.Float(compute='_amount_all', string='Montant HT', readonly=True, store=True)
+    montant_ht = fields.Float(compute='_amount_all', string='Montant Global HT', readonly=True, store=True)
+    montant_ttc = fields.Float(compute='_amount_all', string='TTC', readonly=True, store=True)
+    montant_text = fields.Text(compute='_amount_all', string='Montant', readonly=True, store=True)
+    invoice_line_ids = fields.One2many('product.invoice.arret.line', 'invoice_id', 'Lignes', copy=True)
+    tva = fields.Float(compute='_amount_all', string='TVA (20%)', readonly=True, store=True)
+    rib = fields.Char('RIB', copy=True)
+    swift = fields.Char('SWIFT', copy=True)
+
+    def tradd(self, num):
+        global t1, t2
+        ch = ''
+        if num == 0:
+            ch = ''
+        elif num < 20:
+            ch = t1[num]
+        elif num >= 20:
+            if (num >= 70 and num <= 79) or (num >= 90):
+                z = int(num / 10) - 1
+            else:
+                z = int(num / 10)
+            ch = t2[z]
+            num = num - z * 10
+            if (num == 1 or num == 11) and z < 8:
+                ch = ch + ' et'
+            if num > 0:
+                ch = ch + ' ' + self.tradd(num)
+            else:
+                ch = ch + self.tradd(num)
+        return ch
+    def tradn(self, num):
+        global t1, t2
+        ch = ''
+        flagcent = False
+        if num >= 1000000000:
+            z = int(num / 1000000000)
+            ch = ch + self.tradn(z) + ' milliard'
+            if z > 1:
+                ch = ch + 's'
+            num = num - z * 1000000000
+        if num >= 1000000:
+            z = int(num / 1000000)
+            ch = ch + self.tradn(z) + ' million'
+            if z > 1:
+                ch = ch + 's'
+            num = num - z * 1000000
+        if num >= 1000:
+            if num >= 100000:
+                z = int(num / 100000)
+                if z > 1:
+                    ch = ch + ' ' + self.tradd(z)
+                ch = ch + ' cent'
+                flagcent = True
+                num = num - z * 100000
+                if int(num / 1000) == 0 and z > 1:
+                    ch = ch + 's'
+            if num >= 1000:
+                z = int(num / 1000)
+                if (z == 1 and flagcent) or z > 1:
+                    ch = ch + ' ' + self.tradd(z)
+                num = num - z * 1000
+            ch = ch + ' mille'
+        if num >= 100:
+            z = int(num / 100)
+            if z > 1:
+                ch = ch + ' ' + self.tradd(z)
+            ch = ch + " cent"
+            num = num - z * 100
+            if num == 0 and z > 1:
+                ch = ch + 's'
+        if num > 0:
+            ch = ch + " " + self.tradd(num)
+        return ch
+    def trad(self, nb, unite="euro", decim="centime"):
+        global t1, t2
+        nb = round(nb, 2)
+        t1 = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze",
+              "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"]
+        t2 = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "septante", "quatre-vingt", "nonante"]
+        z1 = int(nb)
+        z3 = (nb - z1) * 100
+        z2 = int(round(z3, 0))
+        if z1 == 0:
+            ch = "zéro"
+        else:
+            ch = self.tradn(abs(z1))
+        if z1 > 1 or z1 < -1:
+            if unite != '':
+                ch = ch + " " + unite + 's'
+        else:
+            ch = ch + " " + unite
+        if z2 > 0:
+            ch = ch + self.tradn(z2)
+            if z2 > 1 or z2 < -1:
+                if decim != '':
+                    ch = ch + " " + decim + 's'
+            else:
+                ch = ch + " " + decim
+        if nb < 0:
+            ch = "moins " + ch
+        return ch.upper()
+
+    @api.onchange('customer_id')
+    def _onchange_kks(self):
+        if self.customer_id:
+            self.city = self.customer_id.city
+            self.ice = self.customer_id.barcode
+
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        if self.company_id:
+            i = '1'
+            cr = self.env.cr
+            cr.execute("""select cast(max(cast(substring(name,0,7) as numeric))+1  as text)
+                                    from product_invoice
+                                    where length(name)=9
+                                    and substring(name,8,2)=to_char(now(),'YY')
+                                    and company_id={}""".format(self.company_id.id))
+            for res in cr.fetchall():
+                if res[0]:
+                    i = res[0]
+            self.swift = self.company_id.swift
+            self.rib = self.company_id.rib
+
+    @api.constrains('ice')
+    def _check_ice(self):
+        for record in self:
+            if record.ice:
+                if len(record.ice) != 15:
+                    raise ValidationError(_("Attention! Le numéro ICE est composé de 15 chiffres."))
+                if not record.ice.isdigit():
+                    raise ValidationError(_("Attention! L'ICE ne doit contenir que des chiffres."))
+
+    _sql_constraints = [
+        ('name_uniq', 'unique (name)', "Attention! Enregistrement unique"),
+    ]
+class product_invoice_arret_line(models.Model):
+    _name = "product.invoice.arret.line"
+    _description = "Invoice Arret Line"
+    _order = 'kks'
+
+    @api.one
+    @api.depends('price_unit', 'qte')
+    def _compute_price(self):
+        self.montant = self.price_unit * self.qte
+
+    invoice_id = fields.Many2one('product.invoice.arret', 'Facture')
+    item = fields.Integer('N° Ligne Contrat')
+    qte = fields.Float('Qte', default=1)
+    kks = fields.Char('KKS')
+    magasin_id = fields.Many2one('product.magasin', 'Nomenclature')
+    description = fields.Char('Desciption')
+    price_unit = fields.Float('PU HT (Dhs)')
+    montant = fields.Float(string='Montant',store=True, readonly=True, compute='_compute_price')
+
+
 class product_devis(models.Model):
 
     _name = "product.devis"
@@ -636,7 +828,6 @@ class product_devis_line(models.Model):
     price_unit = fields.Float('PU HT (Dhs)')
     montant =  fields.Float(string='Montant',
                                 store=True, readonly=True, compute='_compute_price')
-
 class res_company(models.Model):
     _name = 'res.company'
     _inherit = 'res.company'
@@ -656,8 +847,6 @@ class res_company(models.Model):
     cle_rib = fields.Char('Clé Rib',size=2)
     rib = fields.Char(compute='_compute_rib',string='RIB', readonly=True, store=True)
     swift = fields.Char(compute='_compute_rib',string='SWIFT', readonly=True, store=True)
-    
-   
 class product_bank(models.Model):
 
     _name = "product.bank"
@@ -671,7 +860,6 @@ class product_bank(models.Model):
     code_country = fields.Char('Code Pays',size=2)
     code_emplacement = fields.Char('Code Emplacement',size=2)
     code_branche = fields.Char('Code Branche',size=3)
-    
 class product_city(models.Model):
 
     _name = "product.city"

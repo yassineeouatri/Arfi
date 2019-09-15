@@ -103,6 +103,7 @@
         <menuitem id='menu_product_sale_board_' name='Vente' sequence="1" parent="menu_product_sale_board" groups="" action="action_board_sale"/>
         <menuitem id='menu_product_invoice' name='Ventes' sequence="1" parent="menu_product_comptability_root" groups="group_arfi_invoice"/>
         <menuitem id='menu_product_invoice_' name='Factures' sequence="1" parent="menu_product_invoice" action="action_product_invoice" groups="group_arfi_invoice"/>
+        <menuitem id='menu_product_invoice_arret' name='Factures Arrêts' sequence="1" parent="menu_product_invoice" action="action_product_invoice_arret" groups="group_arfi_invoice"/>
         <menuitem id='menu_product_devis_customer' name='Devis' sequence="2" parent="menu_product_invoice" action="action_product_devis"  groups="group_arfi_invoice"/>
         <menuitem id='menu_product_avoir_customer' name='Avoirs' sequence="3" parent="menu_product_invoice" action="action_product_avoir"  groups="group_arfi_invoice"/>
         <menuitem id='menu_product_invoice_customer' name='Clients' parent="menu_product_comptability_root" sequence="2"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png"  groups="group_arfi_invoice"/>
