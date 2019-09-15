@@ -583,6 +583,8 @@ access_product_kks_stock_wizard_arfi_atelier,product.kks.stock.wizard.arfi.ateli
 access_product_report_arfi_atelier,product.report.arfi.atelier,model_product_report,group_arfi_atelier,1,0,0,0
 access_product_invoice_arfi_invoice,product.invoice.arfi.invoice,model_product_invoice,group_arfi_invoice,1,1,1,1
 access_product_invoice_line_arfi_invoice,product.invoice.line.arfi.invoice,model_product_invoice_line,group_arfi_invoice,1,1,1,1
+access_product_invoice_arret_arfi_invoice,product.invoice.arfi.invoice,model_product_invoice_arret,group_arfi_invoice,1,1,1,1
+access_product_invoice_arret_line_arfi_invoice,product.invoice.line.arfi.invoice,model_product_invoice_arret_line,group_arfi_invoice,1,1,1,1
 access_product_devis_arfi_invoice,product.devis.arfi.invoice,model_product_devis,group_arfi_invoice,1,1,1,1
 access_product_devis_line_arfi_invoice,product.devis.line.arfi.invoice,model_product_devis_line,group_arfi_invoice,1,1,1,1
 access_res_company_arfi_invoice,res.company.arfi.invoice,base.model_res_company,group_arfi_invoice,1,1,1,0
