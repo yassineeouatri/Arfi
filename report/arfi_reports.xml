@@ -268,7 +268,7 @@
          	menu="False" />     
         <report
             id="report_product_invoice_arfi"  
-            string="Document ARFI"   
+            string="FACTURE ARFI"
             model="product.invoice"      
             report_type="qweb-pdf"   
             name="arfi.report_productinvoicearfi"
@@ -279,7 +279,7 @@
         </record>	
         <report
             id="report_product_invoice_meca"  
-            string="Document MECA ETANCHE"   
+            string="FACTURE MECA ETANCHE"
             model="product.invoice"      
             report_type="qweb-pdf"   
             name="arfi.report_productinvoicemeca"
@@ -287,7 +287,29 @@
          	menu="True" /> 
          <record id="report_product_invoice_meca" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="arfi.paperformat_meca_invoice"/>
-        </record>	 
+        </record>
+        <report
+            id="report_product_invoice_arret_arfi"
+            string="FACTURE ARFI"
+            model="product.invoice.arret"
+            report_type="qweb-pdf"
+            name="arfi.report_productinvoicearretarfi"
+            file="arfi.report_productinvoicearretarfi"
+         	menu="True" />
+         <record id="report_product_invoice_arret_arfi" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_arfi_invoice"/>
+        </record>
+        <report
+            id="report_product_invoice_arret_meca"
+            string="FACTURE MECA ETANCHE"
+            model="product.invoice.arret"
+            report_type="qweb-pdf"
+            name="arfi.report_productinvoicearretmeca"
+            file="arfi.report_productinvoicearretmeca"
+         	menu="True" />
+         <record id="report_product_invoice_meca" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_meca_invoice"/>
+        </record>
           <report
             id="report_product_devis_arfi"  
             string="Devis ARFI"   
