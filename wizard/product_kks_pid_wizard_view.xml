@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <openerp>
     <data>
 		 <record id="view_product_kks_pid_wizard_form" model="ir.ui.view">
@@ -89,6 +88,22 @@
         </record>
 
          <!-- Liste des commentaires -->
+        <record id="view_product_kks_pid_annotation_search" model="ir.ui.view">
+            <field name="name">product.kks.pid.annotation.search</field>
+            <field name="model">product.kks.pid.annotation</field>
+            <field name="arch" type="xml">
+                <search string="Implantation">
+                	<field name="file_id"/>
+                    <field name="title"/>
+                    <field name="name"/>
+                    <field name="subject"/>
+                	<group expand="0" string="Grouper Par">
+                		<filter string="Fichier" domain="[]" context="{'group_by':'file_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record id="view_product_kks_pid_annotation_tree" model="ir.ui.view">
             <field name="name">product.kks.pid.annotation.tree</field>
             <field name="model">product.kks.pid.annotation</field>
