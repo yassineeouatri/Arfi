@@ -307,7 +307,12 @@ class product_order(models.Model):
             
                 return action
             raise ValidationError(_("Attention! Cette commande n'est affecté à aucun KKS."))
-    
+
+    @api.multi
+    def action_pid(self):
+        if self.kks_id:
+            return  self.env['product.kks.pid.annotation'].action_open_annotation(self.kks_id.name)
+        raise ValidationError(_("Attention! Cette commande n'est affecté à aucun KKS."))
     def action_realisation(self):        
         return {
             'type': 'ir.actions.act_window',
@@ -414,7 +419,6 @@ class product_order(models.Model):
         
         result = super(product_order, self).create(vals)
         return result
-    
 class product_order_piece_image(models.Model):
 
     _name = "product.order.piece.image"
@@ -467,7 +471,6 @@ class product_order_service(models.Model):
     _sql_constraints = [
             ('name_uniq', 'unique (order_id,service_id)', "Attention! Enregistrement unique"),
     ]
-    
 class product_order_test(models.Model):
 
     _name = "product.order.test"
@@ -578,8 +581,6 @@ class product_order_operation(models.Model):
         self._cr.execute("""insert into product_order_piece_image(order_id,piece_id)
                             select distinct order_id,piece_id from product_order_operation 
                             where piece_id is not null
-                            and intervenant is not null
-                            and intervenant not like ''
                             and concat(order_id,piece_id) not in
                             (select concat(order_id,piece_id) from product_order_piece_image);""")
         self._cr.execute("""insert into product_order_appareil_image(order_id,appareil_id)
@@ -595,8 +596,6 @@ class product_order_operation(models.Model):
         self._cr.execute("""insert into product_order_piece_image(order_id,piece_id)
                             select distinct order_id,piece_id from product_order_operation 
                             where piece_id is not null
-                            and intervenant is not null
-                            and intervenant not like '' 
                             and concat(order_id,piece_id) not in
                             (select concat(order_id,piece_id) from product_order_piece_image);""")
         self._cr.execute("""insert into product_order_appareil_image(order_id,appareil_id)
@@ -640,7 +639,6 @@ class operation(models.Model):
     intervenant = fields.Char('Intervenant')
     mat_sal = fields.Char('Intervenant')
     marge = fields.Float(compute='_compute_amount', string='Marge', readonly=True, store=True)
-    
 class commande(models.Model):
 
     _name = "commande"
@@ -680,7 +678,6 @@ class commande_kks(models.Model):
 
     code_order = fields.Char('Code commande')
     code_kks = fields.Char('Code commande')
-
 class commande_appareil(models.Model):
 
     _name = "commande.appareil"
@@ -689,7 +686,6 @@ class commande_appareil(models.Model):
 
     code_order = fields.Char('Code commande')
     code_appareil = fields.Char('Code appareil')
-    
 class commande_update(models.Model):
  
     _name = 'commande.update'

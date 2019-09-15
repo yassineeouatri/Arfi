@@ -278,6 +278,7 @@
             <field name="model">product.info</field>
             <field name="arch" type="xml">
                 <tree string="Infos" editable="top">
+                    <field name="sequence"/>
                     <field name="name"/>
                 </tree>
             </field>

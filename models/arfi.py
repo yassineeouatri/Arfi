@@ -156,11 +156,12 @@ class product_info(models.Model):
 
     _name = "product.info"
     _description = "Product Info"
-    _order = "name"
+    _order = "sequence"
     
-    code =  fields.Char("Code", required=False)
+    code = fields.Char("Code", required=False)
     name = fields.Char("Libellé", required=False)
     variant = fields.Boolean('Variant',default=True)
+    sequence = fields.Integer('Sequence')
   
     _sql_constraints = [
             ('name_uniq', 'unique (name)', "Attention! Enregistrement unique"),

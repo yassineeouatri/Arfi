@@ -106,6 +106,7 @@
                         		<button class="btn btn-primary" style="margin : 5px" string="Analyse des risques"  type="object" name="action_pps"/>
                     	    	<button class="btn btn-success" style="margin : 5px" string="Echafaudage"  type="object" name="action_echafaudage"/>
                     			<button class="btn btn-info" style="margin : 5px" string="PDR"  type="object" name="action_pdr"/>
+                                <button class="btn" style="margin : 5px" string="PID"  type="object" name="action_pid"/>
                         	</div>	
                         </group>
                     </sheet>
@@ -288,6 +289,7 @@
                         		<button class="btn btn-primary" style="margin : 5px" string="Analyse des risques"  type="object" name="action_pps"/>
                     	    	<button class="btn btn-success" style="margin : 5px" string="Echafaudage"  type="object" name="action_echafaudage"/>
                     			<button class="btn btn-info" style="margin : 5px" string="PDR"  type="object" name="action_pdr"/>
+                                <button class="btn btn-default" style="margin : 5px" string="PID"  type="object" name="action_pid"/>
                         	</div>	
                         </group>
                     </sheet>
@@ -577,6 +579,7 @@
                 	<field name="magasin_id" options="{'no_create': True,'no_open': True}"/>
                     <field name="info_id" options="{'no_create': True,'no_open': True}"/>
                     <field name="value"/>
+                    <field name="sequence"/>
 			   </tree>
             </field>
         </record>
@@ -694,6 +697,7 @@
 							                    <field name="magasin_id"  invisible="1" options="{'no_create': True,'no_open': True}"/>
 							                    <field name="info_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
 			                   					<field name="value"/>
+                                                <field name="sequence" invisible="1"/>
 			                            	</tree>
 			                    		</field>
 			                    </fieldset>
@@ -763,12 +767,14 @@
                     		</group>
                     		<group colspan="2">
 	                    		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
-							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Stock :</legend> 
-										  <field name="stock_ids" style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="2" context="{'default_magasin_id': active_id,}">
-			                            	<tree editable="bottom"  limit="1000">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Stock :</legend>
+										 <button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" name="action_select_info"/>
+                						 <field name="stock_ids" style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="2" context="{'default_magasin_id': active_id,}">
+			                            	<tree editable="bottom" create="false"   limit="1000">
 							                    <field name="magasin_id"  invisible="1" options="{'no_create': True,'no_open': True}"/>
-							                    <field name="info_id" widget="selection" options="{'no_create': True,'no_open': True}"/>
+							                    <field name="info_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
 			                   					<field name="value"/>
+                                                <field name="sequence" invisible="1"/>
 			                            	</tree>
 			                    		</field>
 			                    </fieldset>

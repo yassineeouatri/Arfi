@@ -285,6 +285,12 @@ class product_kks(models.Model):
             'views': [(self.env.ref('arfi.product_kks_pdr_create_view_form').id, 'form')],
             'target': 'self',
             'flags': {'form': {'action_buttons': True}}}
+
+    @api.multi
+    def action_pid(self):
+        if self:
+            return self.env['product.kks.pid.annotation'].action_open_annotation(self.name)
+        raise ValidationError(_("Attention! Cette commande n'est affecté à aucun KKS."))
 class product_kks_arret(models.Model):
 
     _name = "product.kks.arret"
@@ -421,10 +427,12 @@ class product_kks_stock(models.Model):
 
     _name = "product.kks.stock"
     _description = "KKS Stock"
-    
+    _order = 'sequence'
+
     magasin_id = fields.Many2one('product.magasin','Magasin')
     info_id = fields.Many2one('product.info','Info')
     value = fields.Char('Valeur')
+    sequence = fields.Integer(related='info_id.sequence', string="Sequence", store=True, readonly=True)
     
 class product_magasin(models.Model):
     _name = 'product.magasin'

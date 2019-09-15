@@ -326,8 +326,9 @@
                         </group>
                         <group>
                         	<div name="button_box" style="text-align: center;"> 
-                        		<button class="btn"  style="margin : 5px" string="Détail Appareil" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager,arfi.group_arfi_atelier" type="object" name="action_appareil"/>
-		                        <button class="btn btn-default" style="margin : 5px"  string="Détail KKS" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager,arfi.group_arfi_atelier"   type="object" name="action_kks"/>
+                        		<button class="btn"  style="margin : 5px" string="Détail Appareil" type="object" name="action_appareil"/>
+		                        <button class="btn btn-default" style="margin : 5px"  string="KKS" type="object" name="action_kks"/>
+		                        <button class="btn btn-success" style="margin : 5px"  string="PID" type="object" name="action_pid"/>
 		                        <button class="btn btn-info" style="margin : 5px" string="Constat d'expertise"  type="object" name="action_expertise"/>
                     	    	<button class="btn btn-primary" style="margin : 5px" string="Observations"  type="object" name="action_observation"/>
                     	    	<button class="btn btn-success" style="margin : 5px" string="Certificat essai"  type="object" name="action_certificate"/>
