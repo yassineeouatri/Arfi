@@ -690,5 +690,140 @@
                 </p>
             </field>
         </record>
+
+        <!-- Factures Arrêts-->
+        <record id="product_invoice_arret_search_view" model="ir.ui.view">
+            <field name="name">product.invoice.arret.search</field>
+            <field name="model">product.invoice.arret</field>
+            <field name="arch" type="xml">
+                <search string="Factures">
+                	<field name="name"/>
+                	<field name="date_invoice"/>
+                    <field name="arret_id"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                    <group expand="0" string="Group By"/>
+
+                </search>
+            </field>
+        </record>
+		<record id="product_invoice_arret_tree_view" model="ir.ui.view">
+            <field name="name">product.invoice.arret.tree</field>
+            <field name="model">product.invoice.arret</field>
+            <field name="arch" type="xml">
+                <tree string="Facture">
+                    <field name="date_invoice"/>
+                    <field name="name"/>
+                    <field name="arret_id"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                    <field name="montant_ttc" sum="Montant TTC"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_invoice_arret_form_view" model="ir.ui.view">
+            <field name="name">product.invoice.arret.form</field>
+            <field name="model">product.invoice.arret</field>
+            <field name="arch" type="xml">
+                <form string="Facture">
+                	<sheet>
+                        <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="company_id" widget="selection"/></h1>
+                        </div>
+                    	<group>
+		                	<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations :</legend>
+					  			<group style="width : 50%">
+			                		 <field name="name"/>
+			                		 <field name="no_ol"/>
+                    				 <field name="arret_id" options="{'no_create': True,'no_open': True}"/>
+			                		 <field name="unite_id" options="{'no_create': True,'no_open': True}"/>
+			                		 <field name="designation"/>
+			                	</group>
+			                	<group style="width : 50%">
+			                		<field name="date_invoice"/>
+                                    <field name="customer_id" options="{'no_create': True}"  context="{'form_view_ref': 'arfi.arfi_customer_ice_form_view'}"/>
+			                		<field name="ice"/>
+			                		<field name="city" />
+			                	</group>
+			               </fieldset>
+		                </group>
+
+		                <group>
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Détail facture :</legend>
+					  			<field name="invoice_line_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree" context="{'default_invoice_id': active_id}">
+		            		 		<tree string="Lignes de facture" limit="10000" editable="bottom">
+		            		 			<field name="invoice_id" invisible="1"/>
+		            		 			<field name="item"/>
+				                		<field name="magasin_id"/>
+				                		<field name="description"/>
+                                        <field name="price_unit"/>
+				                		<field name="qte"/>
+				                		<field name="montant"/>
+		            		 		</tree>
+	                		 	</field>
+	                		</fieldset>
+	                	</group>
+	                	<group>
+		                	<group>
+		                		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+									<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Arrêtée la présente facture à la somme de :</legend>
+						  			<field name="montant_text" readonly="1" nolabel="1"/>
+			                    </fieldset>
+			                    <newline/>
+			                    <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+									<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Coordonnées Bancaires :</legend>
+						  			<group>
+						  				<field name="rib"/>
+						  				<field name="swift"/>
+						  			</group>
+			                    </fieldset>
+		                    </group>
+
+		                	<group class="oe_subtotal_footer oe_right" name="total">
+		                        <field name="montant"/>
+		                        <field name="montant_ht"/>
+		                        <field name="tva"/>
+		                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+		                            <label for="montant_ttc" />
+		                        </div>
+		                        <field name="montant_ttc" nolabel="1" class="oe_subtotal_footer_separator"/>
+		                    </group>
+	                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_devis_tree_view" model="ir.ui.view">
+            <field name="name">product.devis.tree</field>
+            <field name="model">product.devis</field>
+            <field name="arch" type="xml">
+                <tree string="Facture">
+                    <field name="type"/>
+                    <field name="date_devis"/>
+                    <field name="name" string="Devis N°"/>
+                    <field name="no_order"/>
+                    <field name="company_id"/>
+                    <field name="customer_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_invoice_arret" model="ir.actions.act_window">
+            <field name="name">Factures</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.invoice.arret</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouvelle facture
+                </p>
+            </field>
+        </record>
+
     </data>
 </openerp>
