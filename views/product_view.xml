@@ -305,7 +305,7 @@
                 </p>
             </field>
         </record>
-    	 <record model="ir.actions.act_window.view" id="product_piece_create_action_tree">
+		<record model="ir.actions.act_window.view" id="product_piece_create_action_tree">
             <field name="sequence" eval="1"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="product_piece_tree_view"/>
@@ -506,8 +506,10 @@
 					                        	<field name="product_tmpl_id"  options="{'no_create': True,'no_open': True}" invisible="1"/>
 					                            <field name="attribute_id"  options="{'no_open': True}" readonly="1"/>
 					                            <field name="reference" invisible="1"/>
-					                            <field name="value"/>
-					                            <button class="oe_edit_only" name="action_delete" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" icon="fa fa-trash-o" string="Supprimer"/>
+					                            <field name="value"  attrs="{'readonly': [('attribute', '=', 'Section Moyenne Portées')]}"/>
+												<field name="attribute" invisible="1"/>
+					                            <button class="oe_edit_only" name="action_smp"  attrs="{'invisible': [('attribute', '!=', 'Section Moyenne Portées')]}" type="object" icon="fa-gear" string="SMP"/>
+							                	<button class="oe_edit_only" name="action_delete" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" icon="fa fa-trash-o" string="Supprimer"/>
 					                        </tree>
 					                    </field>
 					            </fieldset>
@@ -596,9 +598,14 @@
 					                        </tree>
 					                    </field>
 					            </fieldset>
-                        	</group>
-                        	<group>
-
+								<newline/>
+	                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							    	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Fichier Autocad :</legend>
+									 	<group style="overflow-y: auto;max-height: 150px;padding-left: 0px;">
+											<field	name="colmatage_name" select="1" invisible="1"/>
+											<field	name="colmatage_file" filename="colmatage_name"/>
+										</group>
+					            </fieldset>
                         	</group>
                         </group>
                     </sheet>
@@ -809,6 +816,103 @@
 	                            </fieldset>
 	                        </page>
                         </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_template_appareil_procedure_create_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Product" create="false" delete="false">
+                    <sheet>
+                    	<div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <notebook>
+	                        <page string="Instructions de Travail">
+	                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0em 0em 0em !important;margin: 0 0 1em 0 !important;">
+								    <button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager"  type="object" name="action_select_procedure_it"/>
+                					<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend>
+									<field name="instruction_ids" colspan="2" nolabel="1" style="overflow-y: auto;max-height: 200px;"  mode="tree" context="{'default_appareil_id': active_id,'default_type_file' : 'ins'}">
+		                                <tree string="Product" editable="bottom" create="false"  limit="1000">
+		                                	<field name="appareil_id" options="{'no_create': True,'no_open': True}" invisible="1"/>
+		                                	<field name="piece_id" options="{'no_create': True,'no_open': True}" invisible="1" />
+		                                	<field name="type_file"  invisible="1"/>
+		                                	<field name="directory_id" options="{'no_create': True,'no_open': True}"  invisible="1"/>
+						                    <field name="file_id" options="{'no_create': True,'no_open': True}" readonly="1"/>
+						                    <button class="oe_inline oe_stat_button" name="download_file" type="object" icon="fa-download" string="Télécharger"/>
+						                 </tree>
+	                            	</field>
+	                            </fieldset>
+	                        </page>
+	                        <page string="Manuel de Maintenance">
+	                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0em 0em 0em !important;margin: 0 0 1em 0 !important;">
+								    <button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager"  type="object" name="action_select_procedure_mm"/>
+                					<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend>
+									<field name="maitenance_ids" colspan="2" nolabel="1"  style="overflow-y: auto;max-height: 200px;"  mode="tree" context="{'default_appareil_id': active_id,'default_type_file' : 'man'}">
+		                                <tree string="Product" editable="bottom" create="false" limit="1000">
+		                                	<field name="appareil_id" options="{'no_create': True,'no_open': True}" invisible="1"/>
+		                                	<field name="piece_id" options="{'no_create': True,'no_open': True}" invisible="1" />
+		                                	<field name="type_file"  invisible="1"/>
+		                                	<field name="directory_id" options="{'no_create': True,'no_open': True}"  invisible="1"/>
+						                    <field name="file_id" options="{'no_create': True,'no_open': True}" readonly="1"/>
+						                    <button class="oe_inline oe_stat_button" name="download_file" type="object" icon="fa-download" string="Télécharger"/>
+						                 </tree>
+	                            	</field>
+	                            </fieldset>
+	                        </page>
+	                        <page string="Mode Opératoire">
+	                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0em 0em 0em !important;margin: 0 0 1em 0 !important;">
+								    <button class="btn btn-primary" string="Multiple Séléction" groups="arfi.group_arfi_employee,arfi.group_arfi_employee1,arfi.group_arfi_employee2,arfi.group_arfi_employee3,arfi.group_arfi_manager" type="object" name="action_select_procedure_ope"/>
+                					<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend>
+									<field name="operatoire_ids" colspan="2" nolabel="1" style="overflow-y: auto;max-height: 200px;"  mode="tree" context="{'default_appareil_id': active_id,'default_type_file' : 'ope'}">
+		                                <tree string="Product" editable="bottom" create="false"  limit="1000">
+		                                	<field name="appareil_id" options="{'no_create': True,'no_open': True}" invisible="1"/>
+		                                	<field name="piece_id" options="{'no_create': True,'no_open': True}" invisible="1" />
+		                                	<field name="type_file"  invisible="1"/>
+		                                	<field name="directory_id" options="{'no_create': True,'no_open': True}"  invisible="1"/>
+						                    <field name="file_id" options="{'no_create': True,'no_open': True}" readonly="1"/>
+						                    <button class="oe_inline oe_stat_button" name="download_file" type="object" icon="fa-download" string="Télécharger"/>
+						                 </tree>
+	                            	</field>
+	                            </fieldset>
+	                        </page>
+							<page string="Plan Original">
+	                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0em 0em 0em !important;margin: 0 0 1em 0 !important;">
+								    <legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend>
+									<field name="original_ids" colspan="2" nolabel="1" style="overflow-y: auto;max-height: 200px;"  mode="tree" context="{'default_appareil_id': active_id}">
+		                                <tree string="Product" editable="bottom"   limit="1000">
+		                                	<field name="appareil_id" options="{'no_create': True,'no_open': True}" invisible="1"/>
+		                                	<field name="file"  filename="file_name"/>
+							    			<field name="file_name" select="1" invisible="1"/>
+										</tree>
+	                            	</field>
+	                            </fieldset>
+	                        </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="product_template_appareil_smp_create_form_view" model="ir.ui.view">
+            <field name="name">product.template.smp.form</field>
+            <field name="model">product.template</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Product" create="false" delete="false">
+                    <sheet>
+                    	<div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+						<group>
+							<table style="width : 100%;">
+								<tr><td></td><td>Clapet</td><td>Buse</td></tr>
+								<tr><td>Diamètre Exterieur</td><td><field name="clapet_ext" nolabel="1"/></td><td><field name="buse_ext" nolabel="1"/></td></tr>
+								<tr><td>Diamètre Intérieur</td><td><field name="clapet_int" nolabel="1"/></td><td><field name="buse_int" nolabel="1"/></td></tr>
+							</table>
+						</group>
                     </sheet>
                 </form>
             </field>

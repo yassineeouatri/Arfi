@@ -64,10 +64,26 @@ class product_template(models.Model):
     piece_count = fields.Integer(compute="_compute_piece_count",type='integer', string="# of Pieces",method=True) 
     procedure_count = fields.Integer(compute="_compute_procedure_count",type='integer', string="# of Procedures",method=True) 
     outillage_count = fields.Integer(compute="_compute_outillage_count",type='integer', string="# of Outillages",method=True) 
-    
+    ###########Calcul SMP
+    clapet_ext = fields.Float('Clapet Exterieur')
+    clapet_int = fields.Float('Clapet Interieur')
+    buse_ext = fields.Float('Buse Exterieur')
+    buse_int = fields.Float('Buse Interieur')
+    ########### File colmatage
+    colmatage_name = fields.Char('Nom du fichier', size=256)
+    colmatage_file = fields.Binary("Fichier")
+
     _sql_constraints = [
             #('name_uniq', 'unique (name)', "La référence de l'appareil est unique !"),
     ]
+
+    @api.onchange('clapet_ext', 'clapet_int', 'buse_ext', 'buse_int')  # if these fields are changed, call method
+    def _onchange_diametre(self):
+        if self.clapet_ext and self.clapet_int and self.buse_ext and self.buse_int:
+            section = self.clapet_ext + self.clapet_int + self.buse_ext + self.buse_int
+            self._cr.execute(""" UPDATE product_attribute_line a SET value={0} 
+                                  WHERE product_tmpl_id={1} AND attribute='{2}'""".format(section, self._origin.id, 'Section Moyenne Portées'))
+
     def action_select_attribute(self):
         self._cr.execute("update product_attribute set create_variant='t'")
         self._cr.commit()
@@ -77,7 +93,6 @@ class product_template(models.Model):
         res=self.env['ir.actions.act_window'].for_xml_id('arfi','open_product_template_information')
         res['context'] ={'default_appareil_id' : self.id}
         return  res
-    
     def action_select_operation(self):
         self._cr.execute("update product_operation set variant='t'")
         self._cr.commit()
@@ -88,7 +103,6 @@ class product_template(models.Model):
         res['context'] ={'default_appareil_id' : self.id,'default_order_id' : self.order_id.id}
 
         return  res
-
     def action_select_nature(self):
         self._cr.execute("update product_nature set variant='t'")
         self._cr.commit()
@@ -99,7 +113,6 @@ class product_template(models.Model):
         res['context'] = {'default_appareil_id': self.id}
 
         return res
-
     def return_directory_id(self,name):
         rslt=None
         results = self.env['muk_dms.directory'].search([('name', '=', name)])
@@ -600,13 +613,25 @@ class ProductAttributeLine(models.Model):
     value = fields.Char("Valeur")
     reference =  fields.Char("Réference Appareil")
     attribute_sequence = fields.Integer(related='attribute_id.sequence', store=True)
+    attribute = fields.Char(related='attribute_id.name', store=True)
     
     def action_delete(self):
         
         res=self.env['ir.actions.act_window'].for_xml_id('arfi','open_product_attribute_delete_wizard')
         res['context'] ={'default_attribute_line_id' : self.id}       
-        
-        return  res
+        return res
+
+    def action_smp(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'product.template',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'target': 'new',
+            'res_id': self.product_tmpl_id.id,
+            'views': [(self.env.ref('arfi.product_template_appareil_smp_create_form_view').id, 'form')],
+
+        }
     
     @api.onchange('product_tmpl_id') # if these fields are changed, call method
     def check_change(self):
@@ -614,7 +639,7 @@ class ProductAttributeLine(models.Model):
     _sql_constraints = [
             ('name_uniq', 'unique (product_tmpl_id,attribute_id)', "Attention! Enregistrement unique"),
     ]
-    
+
 class product_appareil_outillage(models.Model):
     _name = 'product.appareil.outillage'   
    
