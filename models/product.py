@@ -80,7 +80,11 @@ class product_template(models.Model):
     @api.onchange('clapet_ext', 'clapet_int', 'buse_ext', 'buse_int')  # if these fields are changed, call method
     def _onchange_diametre(self):
         if self.clapet_ext and self.clapet_int and self.buse_ext and self.buse_int:
-            section = self.clapet_ext + self.clapet_int + self.buse_ext + self.buse_int
+            print (self.clapet_ext)
+            print (self.buse_ext)
+            min_ = min(self.clapet_ext, self.buse_ext)
+            max_ = max(self.clapet_int, self.buse_int)
+            section = round((((min_+max_)/2)*(min_+max_)/2)*3.14159/400,2)
             self._cr.execute(""" UPDATE product_attribute_line a SET value={0} 
                                   WHERE product_tmpl_id={1} AND attribute='{2}'""".format(section, self._origin.id, 'Section Moyenne Portées'))
 
