@@ -145,7 +145,6 @@ class product_kks_magasin_report(models.Model):
                     group by id,magasin) as t
             )
         """)
-
 class product_kks_pdr_report(models.Model):
 
     _name = "product.kks.pdr.report"
@@ -320,7 +319,6 @@ class product_kks_pdr_sortir_report(models.Model):
                 order by customer_id,arret_id,magasin,kks) as t
             )
         """)        
-        
 class product_kks_echafaudage_arret(models.Model):
 
     _name = "product.kks.echafaudage.arret"
@@ -345,8 +343,6 @@ class product_kks_echafaudage_arret(models.Model):
                     group by k.customer_id,ka.arret_id,ke.echafaudage_id) as t
             )
         """)
-    
-
 class product_kks_outillage_arret(models.Model):
 
     _name = "product.kks.outillage.arret"
@@ -371,7 +367,6 @@ class product_kks_outillage_arret(models.Model):
                     group by arret_id,customer_id,outillage_id) as t
             )
         """)
-
 class product_kks_outillage_tarage_arret(models.Model):
 
     _name = "product.kks.outillage.tarage.arret"
@@ -397,9 +392,6 @@ class product_kks_outillage_tarage_arret(models.Model):
                     ) as t
             )
         """)
-
-   
-    
 class product_kks_facture_arret(models.Model):
 
     _name = "product.kks.facture.arret"
