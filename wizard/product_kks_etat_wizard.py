@@ -52,8 +52,6 @@ class product_kks_etat_wizard(models.Model):
             else:
                 ch=ch+self.tradd(num)
         return ch
-
-
     def tradn(self,num):
         global t1,t2
         ch=''
@@ -97,8 +95,6 @@ class product_kks_etat_wizard(models.Model):
         if num>0:
             ch=ch+" "+self.tradd(num)
         return ch
-
-
     def trad(self,nb, unite="euro", decim="centime"):
         global t1,t2
         nb=round(nb,2)
@@ -132,6 +128,7 @@ class product_kks_etat_wizard(models.Model):
             return { 'type': 'ir.actions.act_url','target': 'new', 'url': url, 'nodestroy': True }
         else:
             return True
+    
     @api.multi
     def print_pdr_report_excel(self):
         data = {}
@@ -320,7 +317,6 @@ class product_kks_etat_wizard(models.Model):
             return self._print_pdr_report(data)
         else :
             raise UserError(_('Merci de remplir le champs (Type PDR)'))
-    
     def _print_pdr_report(self, data):
         data['form'].update(self.read(['customer_id', 'arret_id'])[0])
         return self.env['report'].get_action(self, 'arfi.action_report_productkkspdr', data=data)
@@ -347,7 +343,6 @@ class product_kks_etat_wizard(models.Model):
             return self._print_outillage_report(data)
         else :
             raise UserError(_('Merci de remplir le champs (Type Outillage)'))
-    
     def _print_outillage_report(self, data):
         data['form'].update(self.read(['customer_id', 'arret_id'])[0])
         return self.env['report'].get_action(self, 'arfi.action_report_productkksoutillage', data=data)
@@ -508,3 +503,99 @@ class product_kks_etat_wizard(models.Model):
     def _print_facture_report_(self, data):
         data['form'].update(self.read(['customer_id', 'arret_id','type_travaux','type_contrat'])[0])
         return self.env['report'].get_action(self, 'arfi.action_report_productkksfactureechafaudagearret', data=data)
+
+    @api.multi
+    def print_appelCommande_report(self):
+        data = {}
+        data['form'] = self.read(['customer_id', 'arret_id'])[0]
+        return True        
+    def print_appelCommande_report_(self,data):
+        reload(sys)
+        sys.setdefaultencoding("UTF8")
+        results = self.env['product.image.directory'].search([('type','=','reporting')])
+        for result in results:
+            directory=result.name
+        arret_id=data['form']['arret_id'][0]
+        arret = self.env['product.arret'].search([('id','=',arret_id)])
+        customer_id=data['form']['customer_id'][0]
+        customer = self.env['res.partner'].search([('id','=',customer_id)])
+        fichier="Appel de Commande _"+time.strftime('%H%M%S')+".xlsx"
+        workbook = xlsxwriter.Workbook(directory + fichier)
+        style_title = workbook.add_format({'bg_color' : '#003366','color' : 'white','text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter',
+                                                          'top' : 1, 'bottom' : 1,})
+        style_titre = workbook.add_format({'color' : '#003366','text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter',
+                                                          'font_size' : 18, 'font_name' : 'tahoma'})
+        style_titre2 = workbook.add_format({'text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter',
+                                                          'font_size' : 14, 'font_name' : 'tahoma' ,'border' : 2})
+        style = workbook.add_format({'text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter','top' : 1, 'bottom' : 1, })
+        style_ = workbook.add_format({'text_wrap' : True,'bold' :1,   'top' : 1, 'bottom' : 1,})
+        style1 = workbook.add_format({  'text_wrap' : True,  'align' : 'center','valign' : 'vcenter','top' : 1, 'bottom' : 1,})
+        style1_ = workbook.add_format({  'text_wrap' : True,  'top' : 1, 'bottom' : 1,})
+        feuille=workbook.add_worksheet('PDR')
+        feuille.set_zoom(85)
+        feuille.freeze_panes(5, 0)
+        feuille.set_tab_color('yellow')
+        feuille.set_column('A:A', 16.71)
+        feuille.set_column('B:J', 10)
+        feuille.set_column('K:K', 76)
+        feuille.set_column('L:L', 6)
+        feuille.set_column('M:M', 15)
+        feuille.set_column('N:N', 53)
+        feuille.set_column('O:O', 22)
+        feuille.merge_range('A1:O1', 'LISTE PDR ARRET', style_titre)
+        record = self.env['product.kks.arret'].search([('arret_id', '=', arret_id)],limit=1)
+        titre='Unité : '+record.unite_id.code+'           Arrêt : '+arret.name+'            Client : '+customer.name
+        feuille.merge_range('E3:L3', titre, style_titre2)
+        x=5		 		 
+        feuille.write('A'+str(x),'N°',style_title)
+        feuille.write('B'+str(x),'ITEM',style_title)
+        feuille.write('C'+str(x),'Code Article',style_title)
+        feuille.write('D'+str(x),'KKS',style_title)
+        feuille.write('E'+str(x),'Désignation  Pièce',style_title)
+        feuille.write('F'+str(x),'CU',style_title)
+        feuille.write('G'+str(x),'QTE',style_title)
+        feuille.write('H'+str(x),'PU-DH-HT',style_title)
+        feuille.write('I'+str(x),'PRIX Total',style_title)
+        feuille.write('J'+str(x),'BL N°', style_title)
+        
+        records = self.env['product.kks.pdr.full.report'].search([('customer_id', '=', customer_id),
+                                                        ('arret_id', '=', arret_id)])
+        x=x+1
+        for record in records:            
+            if record.row==record.nbr:
+                feuille.write('A'+str(x),record.magasin_id.code,style)
+                feuille.write('B'+str(x),record.qte_installe,style)
+                feuille.write('C'+str(x),record.stock,style)
+                feuille.write('D'+str(x),record.absolue,style)
+                feuille.write('E'+str(x),record.necessaire,style)
+                feuille.write('F' + str(x), record.securite, style)
+                feuille.write('G'+str(x),record.recommander,style)
+                feuille.write('H'+str(x),record.qte_a_sortir,style)
+                feuille.write('I'+str(x),record.qte_a_commander,style)
+                feuille.write('J'+str(x),record.qte_commander, style)
+                feuille.write('K'+str(x),record.designation,style_)
+                feuille.write('L'+str(x),record.item,style)
+                feuille.write('M'+str(x),record.kks,style)
+                feuille.write('N'+str(x),record.reference,style_)
+                feuille.write('O'+str(x),record.maker_id.name,style)
+            else :
+                feuille.write('A'+str(x),record.magasin_id.code,style1)
+                feuille.write('B'+str(x),'',style1)
+                feuille.write('C'+str(x),'',style1)
+                feuille.write('D'+str(x),'',style1)
+                feuille.write('E'+str(x),'',style1)
+                feuille.write('F'+str(x),'',style1)
+                feuille.write('G'+str(x),'',style1)
+                feuille.write('H'+str(x),'',style1)
+                feuille.write('I'+str(x),'',style1)
+                feuille.write('J' + str(x), '', style1)
+                feuille.write('K'+str(x),record.designation,style1_)
+                feuille.write('L'+str(x),record.item,style1)
+                feuille.write('M'+str(x),record.kks,style1)
+                feuille.write('N'+str(x),record.reference,style1_)
+                feuille.write('O'+str(x),record.maker_id.name,style1)
+            x=x+1
+
+        workbook.close()
+        return self.get_return(fichier)
+    
