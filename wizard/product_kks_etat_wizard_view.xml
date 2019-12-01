@@ -53,6 +53,14 @@
 	                        		</group>
 			                    </fieldset>
 	              			</group>
+							<group>
+	                        	 <fieldset style="width:99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Appel de commande :</legend> 
+			  						<group>
+						         		<button string="Appel de Commande" name="print_appelCommande_report" type="object" class="btn-info"/>
+	                        		</group>
+			                    </fieldset>
+	              			</group>
 	                    </group>
                     </sheet>
                 </form>
