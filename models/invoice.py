@@ -29,7 +29,7 @@ class product_invoice(models.Model):
         rslt= cr.fetchone()[0]
         return rslt
     
-    @api.depends('invoice_line_ids','remise_pourcentage','tva_transport_pourcentage','retenue_pourcentage')
+    @api.depends('invoice_line_ids','remise_pourcentage','tva_transport_pourcentage','retenue_pourcentage', 'has_tva')
     def _amount_all(self):
         """
         Compute the total amounts of the SO.
@@ -38,15 +38,20 @@ class product_invoice(models.Model):
             montant = 0.0
             for line in obj.invoice_line_ids:
                 montant+=line.montant
+            montant_ht = (montant*(1-((obj.retenue_pourcentage+obj.tva_transport_pourcentage+obj.remise_pourcentage)*1.00/100)))
+            if obj.has_tva:
+                tva = montant_ht * 0.2
+            else :
+                tva = 0
             obj.update({
                 'montant' : montant,
                 'retenue' : (montant*(((obj.retenue_pourcentage)*1.00/100))),
                 'tva_transport' : (montant*(((obj.tva_transport_pourcentage)*1.00/100))),
                 'remise' : (montant*(((obj.remise_pourcentage)*1.00/100))),
-                'montant_ht': (montant*(1-((obj.retenue_pourcentage+obj.tva_transport_pourcentage+obj.remise_pourcentage)*1.00/100))),
-                'tva': (montant*(1-((obj.retenue_pourcentage+obj.tva_transport_pourcentage+obj.remise_pourcentage)*1.00/100)))*0.2,
-                'montant_ttc': (montant*(1-((obj.retenue_pourcentage+obj.tva_transport_pourcentage+obj.remise_pourcentage)*1.00/100)))*1.2,
-                'montant_text' : self.trad((montant*(1-((obj.retenue_pourcentage+obj.tva_transport_pourcentage+obj.remise_pourcentage)*1.00/100)))*1.2,'dirham','centime')
+                'montant_ht': montant_ht,
+                'tva': tva ,
+                'montant_ttc': montant_ht + tva,
+                'montant_text' : self.trad(montant_ht + tva,'dirham','centime')
             })
 
     @api.depends('date_invoice')
@@ -109,6 +114,7 @@ class product_invoice(models.Model):
     mode_paiement = fields.Selection([('Cheque', 'Chèque'),('Virement','Virement'),('Espece','Espèce')], 'Mode Paiement')
     no_cheque = fields.Char('N° Chèque')
     no_virement = fields.Char('N° Virement')
+    has_tva = fields.Boolean('TVA (Oui/Non)', default = True)
     state = fields.Selection([
             ('draft','Non Payée'),
             ('open', 'Payée'),

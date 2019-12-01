@@ -167,6 +167,7 @@
 		                        <field name="tva_transport_pourcentage"/>
 		                        <field name="remise_pourcentage"/>
 		                        <field name="montant_ht"/>
+                                <field name="has_tva"/>
 		                        <field name="tva"/>
 		                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
 		                            <label for="montant_ttc" />
