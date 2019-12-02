@@ -66,7 +66,7 @@ class product_invoice(models.Model):
                     'date_echeance': date_echeance,
                 })
 
-            
+
     def get_name(self):
         i = '1'
         cr = self.env.cr
@@ -876,3 +876,16 @@ class product_city(models.Model):
     name = fields.Char('Libellée')
     code = fields.Char('Code',size=3)
     province = fields.Char('Province', size= 64)
+
+
+class product_invoice_recovery(models.Model):
+    _name = "product.invoice.recovery"
+    _description = "Invoice Recovery"
+
+    company_id = fields.Many2one('res.company', 'Société', copy=True, required=True)
+    customer_id = fields.Many2one('res.partner', 'Client', domain=[('customer', '=', True)], copy=True)
+    invoice_id = fields.Many2one('product.invoice', 'Facture')
+    date_invoice = fields.Date(related='invoice_id.date_invoice', string='Date Facture', copy=False)
+    date_paiement = fields.Date('Date Paiement', copy=False)
+    mode_paiement = fields.Selection([('Cheque', 'Chèque'), ('Virement', 'Virement'), ('Espece', 'Espèce')],'Mode Paiement')
+    montant_ttc = fields.Float(related='invoice_id.montant_ttc', string='Montant Facture', readonly=True, store=True)

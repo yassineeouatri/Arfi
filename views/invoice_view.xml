@@ -824,6 +824,17 @@
         </record>
 
         <!-- Recouvrement-->
+        <record id="product_invoice_recovery_search_view" model="ir.ui.view">
+            <field name="name">product.invoice.recovery.search</field>
+            <field name="model">product.invoice.recovery</field>
+            <field name="arch" type="xml">
+                <search string="Dégat">
+                	<field name="customer_id"/>
+                    <field name="invoice_id"/>
+                    <group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
         <record id="product_invoice_recovery_tree_view" model="ir.ui.view">
             <field name="name">product.invoice.recovery.tree</field>
             <field name="model">product.invoice.recovery</field>
