@@ -21,6 +21,8 @@ class res_partner(models.Model):
     purchase_ids = fields.One2many('product.purchase','customer_id','Achats',readonly=True)
     affaire_ids = fields.One2many('product.affaire','customer_id','Affaires',readonly=True)
     contrat_ids = fields.One2many('product.kks.tarif','customer_id','Contrats',readonly=True)
+    invoice_ids = fields.One2many('product.invoice', 'customer_id', 'Factures', readonly=True)
+    recovery_ids = fields.One2many('product.invoice.recovery', 'customer_id', 'Recouvrement', readonly=True)
     contract_appareil_ids = fields.One2many('product.contract.appareil', 'customer_id', 'Contrats Appareils', readonly=True)
     contract_piece_ids = fields.One2many('product.contract.piece', 'customer_id', 'Contrats Pièces', readonly=True)
     price = fields.Float('Prix')
