@@ -279,6 +279,7 @@
 						                    <field name="montant" sum="Prix de vente"/>
                                             <field name="montant2" sum="Prix d'achat"/>
 						                    <field name="fact"/>
+                                            <field name="ligne"/>
 						                 </tree>
 								     </field>
 								 </group>   
@@ -875,6 +876,7 @@
 	            		 			<field name="facture_id" invisible="1"/>
 	            		 			<field name="unite_id"/>
 			                		<field name="item"/>
+                                    <field name="ligne"/>
 			                		<field name="kks_id"/>
 			                		<field name="montant"/>
 			                		<field name="maker_id"/>
@@ -951,6 +953,7 @@
 	            		 			<field name="facture_id" invisible="1"/>
 	            		 			<field name="unite_id"/>
 			                		<field name="item"/>
+                                    <field name="ligne"/>
 			                		<field name="kks_id"/>
 			                		<field name="montant"/>
 			                		<field name="maker_id"/>

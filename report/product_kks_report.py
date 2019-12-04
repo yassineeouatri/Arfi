@@ -413,14 +413,15 @@ class product_kks_facture_arret(models.Model):
     implantation_id = fields.Many2one('product.implantation', 'Implantation')
     type_implantation_id = fields.Many2one('product.type.implantation', 'Type Implantation')
     repere = fields.Float('Métrage(m3)')
-    
+    ligne = fields.Integer('N° Ligne Contrat')
+
     def init(self):
         tools.drop_view_if_exists(self._cr, 'product_kks_facture_arret')
         self._cr.execute("""
             CREATE or REPLACE view product_kks_facture_arret as (
                   select row_number() OVER () as id,t.*
                 FROM (
-                    select k.id as kks_id,k.repere,type_implantation_id,implantation_id,k.ss_type_appareil_id,k.item,k.reference,ka.unite_id,k.maker_id,k.customer_id,ka.arret_id,kt.fact,kt.nature_id,kt.choice,kt.montant,ka.travaux_id
+                    select k.id as kks_id,k.repere,type_implantation_id,implantation_id,k.ss_type_appareil_id,k.item,k.reference,ka.unite_id,k.maker_id,k.customer_id,ka.arret_id,kt.fact,kt.nature_id,kt.choice,kt.montant,ka.travaux_id,kt.ligne
                     from product_kks k
                     left join product_kks_arret ka on k.id=ka.kks_id
                     left join product_kks_tarif kt on kt.kks_id=k.id

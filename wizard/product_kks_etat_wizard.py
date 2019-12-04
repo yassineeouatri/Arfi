@@ -440,7 +440,7 @@ class product_kks_etat_wizard(models.Model):
                     type_implantation_id=self.env['product.type.implantation'].search([('name','=','Chaudière')],limit=1).id
                     if type_implantation_id:
                         requete=requete+' and type_implantation_id='+str(type_implantation_id)
-                if   data['form']['type_travaux'] in ('13') :   
+                if data['form']['type_travaux'] in ('13') :
                     type_extraction="Changement Vannes Machine"
                     type_implantation_id=self.env['product.type.implantation'].search([('name','=','Machine')],limit=1).id
                     if type_implantation_id:
@@ -462,7 +462,7 @@ class product_kks_etat_wizard(models.Model):
                                 values('Facture',date(now()),"+str(data['form']['arret_id'][0])+","+str(data['form']['customer_id'][0])+",'"+type_extraction+"','"+self.trad(134552.30,'dirham','centime')+"','DEM')")
             facture_id=self.env['product.kks.facture'].search([('name','=','Facture')],limit=1)
             self.write({'facture_id' : facture_id.id})
-            self._cr.execute("select item,reference,maker_id,montant,kks_id,unite_id,travaux_id,nature_id from product_kks_facture_arret\
+            self._cr.execute("select item,reference,maker_id,montant,kks_id,unite_id,travaux_id,nature_id,ligne from product_kks_facture_arret\
                                 where customer_id="+str(data['form']['customer_id'][0])+"\
                                 and arret_id="+str(data['form']['arret_id'][0])+requete)
             for res in self.env.cr.fetchall():
@@ -474,7 +474,8 @@ class product_kks_etat_wizard(models.Model):
                                     'kks_id' : res[4],
                                     'unite_id' : res[5],
                                     'travaux_id' : res[6],
-                                    'nature_id':res[7]
+                                    'nature_id':res[7],
+                                    'ligne' : res[8]
                                     })
         
             self._cr.execute("select distinct unite_id from product_kks_facture_arret\

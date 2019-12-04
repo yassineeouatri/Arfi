@@ -314,6 +314,7 @@ class product_kks_tarif(models.Model):
     montant2 = fields.Float("Prix d'achat")
     choice = fields.Boolean('Choix')
     fact = fields.Selection([('Contrat','Contrat'),('BC','BC')],'Fact')
+    ligne = fields.Integer('N° Ligne Contrat')
     
 class product_kks_echafaudage(models.Model):
 
@@ -562,19 +563,21 @@ class product_kks_facture(models.Model):
         feuille.merge_range('A3:E3', titre, style_titre2)
         x=5
         feuille.write('A'+str(x),'item',style_title)
-        feuille.write('B'+str(x),'KKS',style_title)
-        feuille.write('C'+str(x),'Réference',style_title)
-        feuille.write('D'+str(x),'Marque',style_title)
-        feuille.write('E'+str(x),'Nature Travaux',style_title)
+        feuille.write('B'+str(x),'N° Ligne', style_title)
+        feuille.write('C'+str(x),'KKS',style_title)
+        feuille.write('D'+str(x),'Réference',style_title)
+        feuille.write('E'+str(x),'Marque',style_title)
+        feuille.write('F'+str(x),'Nature Travaux',style_title)
         
         records = self.env['product.kks.facture.line'].search([])
         x=x+1
         for record in records:         
             feuille.write('A'+str(x),record.item,style)
-            feuille.write('B'+str(x),record.kks,style)
-            feuille.write('C'+str(x),record.reference,style_)
-            feuille.write('D'+str(x),record.maker_id.name,style)
-            feuille.write('E'+str(x),record.nature_id.name,style)
+            feuille.write('B'+str(x),record.ligne,style)
+            feuille.write('C'+str(x),record.kks,style)
+            feuille.write('D'+str(x),record.reference,style_)
+            feuille.write('E'+str(x),record.maker_id.name,style)
+            feuille.write('F'+str(x),record.nature_id.name,style)
             x=x+1
 
         workbook.close()
@@ -617,21 +620,23 @@ class product_kks_facture(models.Model):
         feuille.merge_range('A3:F3', titre, style_titre2)
         x=5
         feuille.write('A'+str(x),'item',style_title)
-        feuille.write('B'+str(x),'KKS',style_title)
-        feuille.write('C'+str(x),'Réference',style_title)
-        feuille.write('D'+str(x),'Marque',style_title)
-        feuille.write('E'+str(x),'Nature Travaux',style_title)
-        feuille.write('F'+str(x),'Montant',style_title)
+        feuille.write('B'+str(x),'N° Ligne', style_title)
+        feuille.write('C'+str(x),'KKS',style_title)
+        feuille.write('D'+str(x),'Réference',style_title)
+        feuille.write('E'+str(x),'Marque',style_title)
+        feuille.write('F'+str(x),'Nature Travaux',style_title)
+        feuille.write('G'+str(x),'Montant',style_title)
         
         records = self.env['product.kks.facture.line'].search([])
         x=x+1
         for record in records:         
             feuille.write('A'+str(x),record.item,style)
-            feuille.write('B'+str(x),record.kks,style)
-            feuille.write('C'+str(x),record.reference,style_)
-            feuille.write('D'+str(x),record.maker_id.name,style)
-            feuille.write('E'+str(x),record.nature_id.name,style)
-            feuille.write('F'+str(x),record.montant,style_nombre)
+            feuille.write('B'+str(x),record.ligne, style)
+            feuille.write('C'+str(x),record.kks,style)
+            feuille.write('D'+str(x),record.reference,style_)
+            feuille.write('E'+str(x),record.maker_id.name,style)
+            feuille.write('F'+str(x),record.nature_id.name,style)
+            feuille.write('G'+str(x),record.montant,style_nombre)
             x=x+1
 
         workbook.close()
@@ -672,6 +677,8 @@ class product_kks_facture_line(models.Model):
     nature_id = fields.Many2one('product.nature','Nature Travaux')
     travaux_id = fields.Many2one('product.travaux','Travaux')
     fact = fields.Selection([('Contrat','Contrat'),('BC','BC')],'Fact')
+    ligne = fields.Integer('N° Ligne Contrat')
+
 class product_kks_pps(models.Model):
     _name = 'product.kks.pps'
 
