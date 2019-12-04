@@ -363,7 +363,7 @@
 											<field name="date_invoice"/>
 											<field name="name" string = "N° Facture"/>
 											<field name="no_order"/>
-											<field name="montant_ttc"/>
+											<field name="montant_ttc" sum="Montant TTC"/>
 										</tree>
                                      </field>
                             </fieldset>
@@ -376,7 +376,7 @@
 											<field name="customer_id" invisible="1"/>
 											<field name="company_id"/>
 											<field name="date_invoice"/>
-											<field name="montant_ttc"/>
+											<field name="montant_ttc" sum="Montant TTC"/>
 											<field name="invoice_id" string = "N° Facture"/>
 											<field name="mode_paiement"/>
 											<field name="date_paiement"/>
