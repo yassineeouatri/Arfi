@@ -56,7 +56,7 @@
             id="report_product_order_operation" 
             string="Opérations"  
             model="product.order"      
-            report_type="qweb-pdf"  
+            report_type="qweb-html"
             name="arfi.report_productorderoperation" 
             file="arfi.report_productorderoperation"    
         	menu="True"/> 
@@ -72,7 +72,7 @@
             id="report_product_order_operation_empty" 
             string="Fiche Op Vide"    
             model="product.order"   
-            report_type="qweb-pdf"  
+            report_type="qweb-html"
             name="arfi.report_productorderoperationempty" 
             file="arfi.report_productorderoperationempty"   
         	menu="True"/>
@@ -88,7 +88,7 @@
             id="report_product_order_devis_empty" 
             string="Devis"    
             model="product.order"    
-            report_type="qweb-pdf"  
+            report_type="qweb-html"
             name="arfi.report_productorderdevisempty"  
             file="arfi.report_productorderdevisempty"   
         	menu="True"/> 
@@ -96,7 +96,7 @@
             id="report_product_order_devis" 
             string="Devis2"     
             model="product.order"    
-            report_type="qweb-pdf"  
+            report_type="qweb-html"
             name="arfi.report_productorderdevis"  
             file="arfi.report_productorderdevis"   
         	menu="True"/> 
@@ -112,7 +112,7 @@
             id="report_product_order_rapport" 
             string="Rapport des travaux"    
             model="product.order"     
-            report_type="qweb-pdf"  
+            report_type="qweb-html"
             name="arfi.report_productorderrapport"  
             file="arfi.report_productorderrapport"    
         	menu="True"/> 	
@@ -120,7 +120,7 @@
             id="report_product_order_certificat" 
             string="Certificat d'essai"     
             model="product.order"     
-            report_type="qweb-pdf"    
+            report_type="qweb-html"
             name="arfi.report_productordercertificat"   
             file="arfi.report_productordercertificat"     
         	menu="True"/> 		 
@@ -128,7 +128,7 @@
             id="report_product_order_realisation" 
             string="Réalisations"     
             model="product.order"      
-            report_type="qweb-pdf"  
+            report_type="qweb-html"
             name="arfi.report_productorderrealisation"   
             file="arfi.report_productorderrealisation"   
         	menu="True"/> 
