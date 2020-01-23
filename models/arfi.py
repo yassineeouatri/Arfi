@@ -18,6 +18,13 @@ class product_plan_original(models.Model):
     file_name = fields.Char('Nom du fichier', size=256)
     file = fields.Binary("Fichier")
 
+class product_plan_codification(models.Model):
+    _name = 'product.plan.codification'
+
+    appareil_id = fields.Many2one('product.template','Appareil', required=False)
+    file_name = fields.Char('Nom du fichier', size=256)
+    file = fields.Binary("Fichier")
+
 class product_procedure(models.Model):
     _name = 'product.procedure'
 

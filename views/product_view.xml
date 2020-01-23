@@ -815,6 +815,18 @@
 	                            	</field>
 	                            </fieldset>
 	                        </page>
+							<page string="Codification d'appareil">
+	                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0em 0em 0em !important;margin: 0 0 1em 0 !important;">
+								    <legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend>
+									<field name="codification_ids" colspan="2" nolabel="1" style="overflow-y: auto;max-height: 200px;"  mode="tree" context="{'default_appareil_id': active_id}">
+		                                <tree string="Product" editable="bottom"   limit="1000">
+		                                	<field name="appareil_id" options="{'no_create': True,'no_open': True}" invisible="1"/>
+		                                	<field name="file"  filename="file_name"/>
+							    			<field name="file_name" select="1" invisible="1"/>
+										</tree>
+	                            	</field>
+	                            </fieldset>
+	                        </page>
                         </notebook>
                     </sheet>
                 </form>
@@ -883,6 +895,18 @@
 	                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0em 0em 0em !important;margin: 0 0 1em 0 !important;">
 								    <legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend>
 									<field name="original_ids" colspan="2" nolabel="1" style="overflow-y: auto;max-height: 200px;"  mode="tree" context="{'default_appareil_id': active_id}">
+		                                <tree string="Product" editable="bottom"   limit="1000">
+		                                	<field name="appareil_id" options="{'no_create': True,'no_open': True}" invisible="1"/>
+		                                	<field name="file"  filename="file_name"/>
+							    			<field name="file_name" select="1" invisible="1"/>
+										</tree>
+	                            	</field>
+	                            </fieldset>
+	                        </page>
+							<page string="Codification d'Appareil">
+	                        	<fieldset style="border: 1px solid #ddd !important;padding: 0 0em 0em 0em !important;margin: 0 0 1em 0 !important;">
+								    <legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" ></legend>
+									<field name="codification_ids" colspan="2" nolabel="1" style="overflow-y: auto;max-height: 200px;"  mode="tree" context="{'default_appareil_id': active_id}">
 		                                <tree string="Product" editable="bottom"   limit="1000">
 		                                	<field name="appareil_id" options="{'no_create': True,'no_open': True}" invisible="1"/>
 		                                	<field name="file"  filename="file_name"/>
