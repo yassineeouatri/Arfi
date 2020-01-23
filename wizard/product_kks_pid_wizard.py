@@ -112,7 +112,7 @@ class product_kks_pid_annotation(models.Model):
     _name = 'product.kks.pid.annotation'
     _description = 'Annotations'
 
-    file_id = fields.Many2one('product.kks.pid.file', 'Fichier')
+    file_id = fields.Many2one('product.kks.pid.file', 'Fichier', ondelete='cascade')
     name = fields.Char('Type', readonly=True)
     title = fields.Char('KKS', readonly=True)
     content = fields.Char('Contenu', readonly=True )
