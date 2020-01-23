@@ -85,8 +85,8 @@ class product_template(models.Model):
             min_ = min(self.clapet_ext, self.buse_ext)
             max_ = max(self.clapet_int, self.buse_int)
             section = round((((min_+max_)/2)*(min_+max_)/2)*3.14159/400,2)
-            self._cr.execute(""" UPDATE product_attribute_line a SET value={0} 
-                                  WHERE product_tmpl_id={1} AND attribute='{2}'""".format(section, self._origin.id, 'Section Moyenne Portées'))
+            self._cr.execute(""" UPDATE product_attribute_line a SET value='{0}'
+                                  WHERE product_tmpl_id={1} AND attribute='{2}'""".format(str(section)+ ' cm3', self._origin.id, 'Section Moyenne Portées'))
 
     def action_select_attribute(self):
         self._cr.execute("update product_attribute set create_variant='t'")
