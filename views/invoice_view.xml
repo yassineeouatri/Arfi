@@ -12,6 +12,9 @@
                     <field name="no_order"/>
                     <field name="company_id"/>
                     <field name="customer_id"/>
+                    <field name="date_paiement"/>
+                    <field name="montant_paiement"/>
+                    <field name="mode_paiement"/>
                     <filter string="Année en cours" name = "year" domain="[('date_invoice', '&gt;=', (datetime.date(datetime.date.today().year, 1, 1)).strftime('%%Y-%%m-%%d')),('date_invoice', '&lt;=', (datetime.date(datetime.date.today().year, 12, 31)).strftime('%%Y-%%m-%%d'))]"/>
                     <!--<filter name="invoice_paied" string="Payée" domain="[('state','=','open')]"/>
                     <filter name="invoice_not_paied" string="Non Payée" domain="[('state','=','draft')]"/> -->
@@ -39,13 +42,16 @@
             <field name="model">product.invoice</field>
             <field name="arch" type="xml">
                 <tree string="Facture">
-                    <field name="type"/>
+                    <field name="type" invisible="1"/>
                     <field name="date_invoice"/>
                     <field name="name"/>
-                    <field name="no_order"/>
+                    <field name="no_order" invisible="1"/>
                     <field name="company_id"/>
                     <field name="customer_id"/>
                     <field name="montant_ttc"/>
+                    <field name="date_paiement"/>
+                    <field name="mode_paiement"/>
+                    <field name="montant_paiement"/>
                     <!--<field name="state"/> -->
                 </tree>
             </field>
@@ -830,10 +836,15 @@
             <field name="model">product.invoice.recovery</field>
             <field name="arch" type="xml">
                 <search string="Dégat">
+                    <field name="company_id"/>
                 	<field name="customer_id"/>
                     <field name="invoice_id"/>
+                    <field name="company_id"/>
+                    <field name="no_cheque"/>
+                    <field name="no_virement"/>
+                    <field name="date_paiement"/>
                     <field name="mode_paiement"/>
-                    <field name="montant_ttc"/>
+                    <field name="montant_paiement"/>
                     <group expand="0" string="Group By"/>
                 </search>
             </field>
@@ -849,7 +860,7 @@
                     <field name="date_invoice"/>
                     <field name="date_paiement"/>
                     <field name="mode_paiement"/>
-                    <field name="montant_ttc"/>
+                    <field name="montant_paiement"/>
                 </tree>
             </field>
         </record>
@@ -867,12 +878,14 @@
                             <group>
                                 <field name="date_paiement"/>
                                 <field name="mode_paiement"/>
+                                <field name="no_cheque" attrs="{'invisible' : [('mode_paiement','!=','Cheque')]}"/>
+                                <field name="no_virement" attrs="{'invisible' : [('mode_paiement','!=','Virement')]}"/>
                                 <field name="montant_paiement"/>
                             </group>
                         </group>
-                        <group colspan="2" cols="4">
-                            <field name="invoice_id"/>
-                            <button class="btn btn-primary" string="Ajouter une facture"  type="object" name="action_add_invoice"/>
+                        <group>
+                            <group><field name="invoice_id"/></group>
+                            <group><button class="btn btn-primary" string="Ajouter une facture"  type="object" name="action_add_invoice"/></group>
                         </group>
                         <group>
                             <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">

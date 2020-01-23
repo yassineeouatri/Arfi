@@ -87,7 +87,6 @@ class product_invoice(models.Model):
     company_id = fields.Many2one('res.company','Société',copy= True, required = True)
     date_invoice = fields.Date('Date Facture',default=fields.Date.today,copy= False)
     date_echeance = fields.Date(compute='compute_date_echeance',string= 'Date Facture',  copy=False, store=True)
-    date_paiement = fields.Date('Date Paiement', copy=False)
     customer_id = fields.Many2one('res.partner','Client',domain=[('customer','=',True)],copy= True)
     order_id = fields.Many2one('product.order','Commande N°',copy= True)
     recovery_id = fields.Many2one('product.invoice.recovery' , 'Recouvrement')
@@ -112,10 +111,13 @@ class product_invoice(models.Model):
     tva = fields.Float(compute='_amount_all',string='TVA (20%)', readonly=True, store=True)
     rib = fields.Char('RIB',copy= True)
     swift = fields.Char('SWIFT',copy= True)
-    mode_paiement = fields.Selection([('Cheque', 'Chèque'),('Virement','Virement'),('Espece','Espèce')], 'Mode Paiement')
     no_cheque = fields.Char('N° Chèque')
     no_virement = fields.Char('N° Virement')
     has_tva = fields.Boolean('TVA (Oui/Non)', default = True)
+    date_paiement = fields.Date(related='recovery_id.date_paiement', string='Date Paiement', copy=False)
+    mode_paiement = fields.Selection(related='recovery_id.mode_paiement', string='Mode Paiement', copy=False)
+    montant_paiement = fields.Float(related='recovery_id.montant_paiement', string='Montant Paiement', copy=False)
+
     state = fields.Selection([
             ('draft','Non Payée'),
             ('open', 'Payée'),
@@ -883,6 +885,7 @@ class product_invoice_recovery(models.Model):
     _name = "product.invoice.recovery"
     _description = "Invoice Recovery"
 
+
     company_id = fields.Many2one('res.company', 'Société', copy=True, required=True)
     customer_id = fields.Many2one('res.partner', 'Client', domain=[('customer', '=', True)], copy=True)
     invoice_id = fields.Many2one('product.invoice', 'Facture')
@@ -891,4 +894,16 @@ class product_invoice_recovery(models.Model):
     date_paiement = fields.Date('Date Paiement', copy=False)
     montant_paiement = fields.Float('Montant Payé')
     mode_paiement = fields.Selection([('Cheque', 'Chèque'), ('Virement', 'Virement'), ('Espece', 'Espèce')],'Mode Paiement')
+    no_cheque = fields.Char('N° Chèque')
+    no_virement = fields.Char('N° Virement')
     montant_ttc = fields.Float(related='invoice_id.montant_ttc', string='Montant Facture', readonly=True, store=True)
+
+    def action_add_invoice(self):
+        if self.invoice_id:
+            self._cr.execute("update product_invoice set recovery_id="+str(self.id)+"\
+                                where id="+str(self.invoice_id.id)+"")
+            self._cr.commit()
+            self.write({'invoice_id': None})
+
+        else :
+            raise ValidationError(_("Merci de sélectionner la facture à ajouter"))
