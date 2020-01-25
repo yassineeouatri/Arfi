@@ -181,7 +181,7 @@ class product_kks(models.Model):
         text1='<p width="100%" style="font-size:13px;">NB: Piéces de rechange à prévoir Pour Révision : </p>'
         text2='<br/><br/><p width="100%" style="font-size:13px;">NB: Piéces de rechange Changée Pour Révision : </p>'
         for record in self.piece_ids:
-            magasin=ref_fab=piece=no_piece=''
+            magasin=ref_fab=piece=no_piece=stock=''
             if record.magasin_id.code:
                 magasin=record.magasin_id.code
             if record.piece_id.no_piece:
@@ -190,11 +190,21 @@ class product_kks(models.Model):
                 piece=record.piece_id.name
             if record.ref_fab:
                 ref_fab=record.ref_fab
+            info_id = self.env['product.info'].search([('name', '=', 'Stock')],limit=1).id
+            if record.magasin_id and info_id:
+                stock = self.env['product.kks.stock'].search([('info_id', '=', info_id), ('magasin_id', '=', record.magasin_id.id)]).value
             if record.piece_prevoir==True:
-                text1+='<span width="100%" style="font-size:13px;"><span style="width:15%;display: inline-block;"> -Rep : '+no_piece.replace("'", "''")+' </span><span style="width:40%;display: inline-block;"> '+piece.replace("'", "''")+' </span><span style="width:15%;display: inline-block;"> Réf : '+ref_fab.replace("'", "''")+' </span><span style="display: inline-block;"> code : '+magasin.replace("'", "''")+' </span></span></br>'
+                text1+='<span width="100%" style="font-size:13px;">\
+                        <span style="width:7%;display: inline-block;"> -Rep : '+no_piece.replace("'", "''")+' </span>\
+                        <span style="width:40%;display: inline-block;"> '+piece.replace("'", "''")+' </span>\
+                        <span style="width:10%;display: inline-block;"> Réf : '+ref_fab.replace("'", "''")+' </span>\
+                        <span style="width:15%;display: inline-block;"> code : '+magasin.replace("'", "''")+' </span>\
+                        <span style="width:10%;display: inline-block;"> Stock : '+str(stock)+' </span>\
+                        <span style="width:10%;display: inline-block;"> N° Caisse :  </span>\
+                        </span></br>'
             if record.piece_changee==True:
                 text2+='<span width="100%" style="font-size:13px;"><span style="width:15%;display: inline-block;"> -Rep : '+no_piece.replace("'", "''")+' </span><span style="width:40%;display: inline-block;"> '+piece.replace("'", "''")+' </span><span style="width:15%;display: inline-block;"> Réf : '+ref_fab.replace("'", "''")+' </span><span style="display: inline-block;"> code : '+magasin.replace("'", "''")+' </span></span></br>'
-            order_id=record.kks_id.order_id.id
+        order_id=self.order_id.id
         text1+=''
         text2+=''
         if order_id:
