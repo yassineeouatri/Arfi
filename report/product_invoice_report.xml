@@ -79,6 +79,7 @@
 						   </table>
 						</div>
 						<div class="col-xs-6">
+							<p class="text-center" style ="padding-bottom: 35px;"><strong></strong> </p>
 							<p class="text-center"><strong></strong> <span t-field="o.customer_id.name"/></p>
 							<p class="text-center"><strong></strong> <span t-field="o.city"/></p>
 							<p class="text-center">I.C.E : <strong></strong> <span t-field="o.ice"/></p>
@@ -167,6 +168,7 @@
 			           </table>
 		            </div>
 		            <div class="col-xs-6">
+						<p class="text-center" style ="padding-bottom: 35px;"><strong></strong></p>
 		                <p class="text-center"><strong></strong> <span t-field="o.customer_id.name"/></p>
 		                <p class="text-center"><strong></strong> <span t-field="o.city"/></p>
 		                <p class="text-center">I.C.E : <strong></strong> <span t-field="o.ice"/></p>
@@ -262,6 +264,7 @@
 			           </table>
 		            </div>
 		            <div class="col-xs-6">
+						<p class="text-center" style ="padding-bottom: 35px;"><strong></strong></p>
 		                <p class="text-center"><strong></strong> <span t-field="o.customer_id.name"/></p>
 		                <p class="text-center"><strong></strong> <span t-field="o.city"/></p>
 		                <p class="text-center">I.C.E : <strong></strong> <span t-field="o.ice"/></p>
