@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<template id="product_kks_pdr_layout">
-    <t t-if="o and 'company_id' in o">
-        <t t-set="company" t-value="o.company_id"></t>
-    </t>
-    <t t-if="not o or not 'company_id' in o">
-        <t t-set="company" t-value="res_company"></t>
-    </t>
-    <t t-call="arfi.product_kks_pdr_report_header" />
-    <t t-raw="0" />
-    <t t-call="report.external_layout_footer" />
-</template>
+	<template id="product_kks_pdr_layout">
+		<t t-if="o and 'company_id' in o">
+			<t t-set="company" t-value="o.company_id"></t>
+		</t>
+		<t t-if="not o or not 'company_id' in o">
+			<t t-set="company" t-value="res_company"></t>
+		</t>
+		<t t-call="arfi.product_kks_pdr_report_header" />
+		<t t-raw="0" />
+		<t t-call="report.external_layout_footer" />
+	</template>
 
-<template id="product_kks_pdr_report_header">
-    <div class="header">
-         <div class="row">
-            <div class="col-xs-3">
-                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
-            </div>
-            <div class="col-xs-6 text-center" style="padding-top: 40px;">
-            	<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste PDR Arrêt</h2> 
-            </div>
-            <div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
-            
-        </div>
-        <div class="row zero_min_height" style="padding-top: 5px;">
-            <div class="col-xs-12">
-                <div style="border-bottom: 1px solid black;"></div>
-            </div>
-        </div>
-        <div class="row zero_min_height" >
-            <div class="col-xs-12">
-                <div style="border-bottom: 1px solid black;"></div>
-            </div>
-        </div>    
-    </div>
-</template>		
-<template id="product_kks_pdr_sortir_layout">
+	<template id="product_kks_pdr_report_header">
+		<div class="header">
+			 <div class="row">
+				<div class="col-xs-3">
+					<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+				</div>
+				<div class="col-xs-6 text-center" style="padding-top: 40px;">
+					<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste PDR Arrêt</h2>
+				</div>
+				<div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+
+			</div>
+			<div class="row zero_min_height" style="padding-top: 5px;">
+				<div class="col-xs-12">
+					<div style="border-bottom: 1px solid black;"></div>
+				</div>
+			</div>
+			<div class="row zero_min_height" >
+				<div class="col-xs-12">
+					<div style="border-bottom: 1px solid black;"></div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template id="product_kks_pdr_sortir_layout">
     <t t-if="o and 'company_id' in o">
         <t t-set="company" t-value="o.company_id"></t>
     </t>
@@ -48,31 +48,31 @@
     <t t-call="report.external_layout_footer" />
 </template>
 
-<template id="product_kks_pdr_sortir_report_header">
-    <div class="header">
-         <div class="row">
-            <div class="col-xs-3">
-                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
-            </div>
-            <div class="col-xs-6 text-center" style="padding-top: 40px;">
-            	<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste des PDR à sortir du magasin</h2> 
-            </div>
-            <div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
-            
-        </div>
-        <div class="row zero_min_height" style="padding-top: 5px;">
-            <div class="col-xs-12">
-                <div style="border-bottom: 1px solid black;"></div>
-            </div>
-        </div>
-        <div class="row zero_min_height" style="padding-bottom : 30px">
-            <div class="col-xs-12">
-                <div style="border-bottom: 1px solid black;"></div>
-            </div>
-        </div>    
-    </div>
-</template>	
-<template id="action_report_productkkspdr">
+	<template id="product_kks_pdr_sortir_report_header">
+		<div class="header">
+			 <div class="row">
+				<div class="col-xs-3">
+					<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+				</div>
+				<div class="col-xs-6 text-center" style="padding-top: 40px;">
+					<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste des PDR à sortir du magasin</h2>
+				</div>
+				<div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+
+			</div>
+			<div class="row zero_min_height" style="padding-top: 5px;">
+				<div class="col-xs-12">
+					<div style="border-bottom: 1px solid black;"></div>
+				</div>
+			</div>
+			<div class="row zero_min_height" style="padding-bottom : 30px">
+				<div class="col-xs-12">
+					<div style="border-bottom: 1px solid black;"></div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<template id="action_report_productkkspdr">
 	<t t-call="report.html_container">
 		<t t-foreach="docs" t-as="o">
 	        <t t-call="arfi.product_kks_pdr_layout">
@@ -159,7 +159,7 @@
     </t>
  </t>   
  </template>
-<template id="action_report_productkkspdrsortir">
+	<template id="action_report_productkkspdrsortir">
 	<t t-call="report.html_container">
 		<t t-foreach="docs" t-as="o">
 	        <t t-call="arfi.product_kks_pdr_sortir_layout">
@@ -224,6 +224,71 @@
 		  </t>   
     </t>
  </t>   
- </template> 
+ </template>
+
+	<template id="report_productkkspdr">
+    	<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="arfi.product_kks_pdr_layout">
+					<div class="page">
+						<div class="row">
+							<div class="col-xs-6" style="font:15px lucida-console,sans-serif !important;" >
+								<p><strong>KKS : </strong><span t-field="o.name"/></p>
+							</div>
+						</div>
+						<div class="row" style="padding-top:15px;">
+                            <p>Piéces de rechange à prévoir Pour Révision</p>
+							<table class="table table-condensed table table-bordered" style="width : 100%">
+								<thead>
+									<tr>
+										<th class="text-center">Rép</th>
+										<th class="text-center">Désignation</th>
+										<th class="text-center">Réf </th>
+										<th class="text-center">Code Magasin</th>
+									</tr>
+								</thead>
+								<tbody class="invoice_tbody">
+									<div t-foreach="o.piece_ids.sorted(key=lambda b: b.piece_id.name)" t-as="l">
+										<t t-if="l.piece_prevoir">
+											<tr>
+												<td  class="text-center"><span t-field="l.no_piece"/></td>
+												<td><span t-field="l.piece_id.name"/></td>
+												<td  class="text-center"><span t-field="l.ref_fab"/></td>
+												<td  class="text-center"><span t-field="l.magasin_id.code"/></td>
+											</tr>
+										</t>
+									</div>
+								</tbody>
+							</table>
+							<p>Piéces de rechange Changée Pour Révision : </p>
+							<table class="table table-condensed table table-bordered" style="width : 100%">
+								<thead>
+									<tr>
+										<th class="text-center">Rép</th>
+										<th class="text-center">Désignation</th>
+										<th class="text-center">Réf </th>
+										<th class="text-center">Code Magasin</th>
+									</tr>
+								</thead>
+								<tbody class="invoice_tbody">
+									<div t-foreach="o.piece_ids.sorted(key=lambda b: b.piece_id.name)" t-as="l">
+										<t t-if="l.piece_changee">
+											<tr>
+												<td  class="text-center"><span t-field="l.no_piece"/></td>
+												<td><span t-field="l.piece_id.name"/></td>
+												<td  class="text-center"><span t-field="l.ref_fab"/></td>
+												<td  class="text-center"><span t-field="l.magasin_id.code"/></td>
+											</tr>
+										</t>
+									</div>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+
 </odoo>
 

@@ -152,11 +152,19 @@
             id="report_product_kks_echafaudage"   
             string="Echafaudage"    
             model="product.kks"    
-            report_type="qweb-pdf"   
+            report_type="qweb-html"
             name="arfi.report_productkksechafaudage" 
             file="arfi.report_productkksechafaudage"     
         	menu="True"/> 
-        <report 
+        <report
+            id="report_product_kks_pdr"
+            string="Liste PDR"
+            model="product.kks"
+            report_type="qweb-html"
+            name="arfi.report_productkkspdr"
+            file="arfi.report_productkkspdr"
+        	menu="True"/>
+        <report
             id="action_report_product_kks_pdr"   
             model="report.arfi.action_report_productkkspdr"     
             string="PDR"    
