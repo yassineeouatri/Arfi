@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import time
+from datetime import date
 import logging
 import xlsxwriter
 import sys
@@ -509,7 +510,7 @@ class product_kks_etat_wizard(models.Model):
     def print_appelCommande_report(self):
         data = {}
         data['form'] = self.read(['customer_id', 'arret_id'])[0]
-        return True        
+        return self.print_appelCommande_report_(data)       
     def print_appelCommande_report_(self,data):
         reload(sys)
         sys.setdefaultencoding("UTF8")
@@ -528,75 +529,144 @@ class product_kks_etat_wizard(models.Model):
                                                           'font_size' : 18, 'font_name' : 'tahoma'})
         style_titre2 = workbook.add_format({'text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter',
                                                           'font_size' : 14, 'font_name' : 'tahoma' ,'border' : 2})
+        style_titre3 = workbook.add_format({'text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter', 'border' : 2})
         style = workbook.add_format({'text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter','top' : 1, 'bottom' : 1, })
         style_ = workbook.add_format({'text_wrap' : True,'bold' :1,   'top' : 1, 'bottom' : 1,})
         style1 = workbook.add_format({  'text_wrap' : True,  'align' : 'center','valign' : 'vcenter','top' : 1, 'bottom' : 1,})
         style1_ = workbook.add_format({  'text_wrap' : True,  'top' : 1, 'bottom' : 1,})
-        feuille=workbook.add_worksheet('PDR')
-        feuille.set_zoom(85)
-        feuille.freeze_panes(5, 0)
-        feuille.set_tab_color('yellow')
-        feuille.set_column('A:A', 16.71)
-        feuille.set_column('B:J', 10)
-        feuille.set_column('K:K', 76)
-        feuille.set_column('L:L', 6)
-        feuille.set_column('M:M', 15)
-        feuille.set_column('N:N', 53)
-        feuille.set_column('O:O', 22)
-        feuille.merge_range('A1:O1', 'LISTE PDR ARRET', style_titre)
-        record = self.env['product.kks.arret'].search([('arret_id', '=', arret_id)],limit=1)
-        titre='Unité : '+record.unite_id.code+'           Arrêt : '+arret.name+'            Client : '+customer.name
-        feuille.merge_range('E3:L3', titre, style_titre2)
-        x=5		 		 
-        feuille.write('A'+str(x),'N°',style_title)
-        feuille.write('B'+str(x),'ITEM',style_title)
-        feuille.write('C'+str(x),'Code Article',style_title)
-        feuille.write('D'+str(x),'KKS',style_title)
-        feuille.write('E'+str(x),'Désignation  Pièce',style_title)
-        feuille.write('F'+str(x),'CU',style_title)
-        feuille.write('G'+str(x),'QTE',style_title)
-        feuille.write('H'+str(x),'PU-DH-HT',style_title)
-        feuille.write('I'+str(x),'PRIX Total',style_title)
-        feuille.write('J'+str(x),'BL N°', style_title)
         
-        records = self.env['product.kks.pdr.full.report'].search([('customer_id', '=', customer_id),
-                                                        ('arret_id', '=', arret_id)])
-        x=x+1
-        for record in records:            
-            if record.row==record.nbr:
-                feuille.write('A'+str(x),record.magasin_id.code,style)
-                feuille.write('B'+str(x),record.qte_installe,style)
-                feuille.write('C'+str(x),record.stock,style)
-                feuille.write('D'+str(x),record.absolue,style)
-                feuille.write('E'+str(x),record.necessaire,style)
-                feuille.write('F' + str(x), record.securite, style)
-                feuille.write('G'+str(x),record.recommander,style)
-                feuille.write('H'+str(x),record.qte_a_sortir,style)
-                feuille.write('I'+str(x),record.qte_a_commander,style)
-                feuille.write('J'+str(x),record.qte_commander, style)
-                feuille.write('K'+str(x),record.designation,style_)
-                feuille.write('L'+str(x),record.item,style)
-                feuille.write('M'+str(x),record.kks,style)
-                feuille.write('N'+str(x),record.reference,style_)
-                feuille.write('O'+str(x),record.maker_id.name,style)
-            else :
-                feuille.write('A'+str(x),record.magasin_id.code,style1)
-                feuille.write('B'+str(x),'',style1)
-                feuille.write('C'+str(x),'',style1)
-                feuille.write('D'+str(x),'',style1)
-                feuille.write('E'+str(x),'',style1)
-                feuille.write('F'+str(x),'',style1)
-                feuille.write('G'+str(x),'',style1)
-                feuille.write('H'+str(x),'',style1)
-                feuille.write('I'+str(x),'',style1)
-                feuille.write('J' + str(x), '', style1)
-                feuille.write('K'+str(x),record.designation,style1_)
-                feuille.write('L'+str(x),record.item,style1)
-                feuille.write('M'+str(x),record.kks,style1)
-                feuille.write('N'+str(x),record.reference,style1_)
-                feuille.write('O'+str(x),record.maker_id.name,style1)
-            x=x+1
+        feuille=workbook.add_worksheet('Appel de commande Hors Contrat')
+        feuille.set_zoom(85)
+        feuille.freeze_panes(21, 0)
+        feuille.set_tab_color('yellow')
+        feuille.set_column('A:A', 7.86)
+        feuille.set_column('B:B', 6)
+        feuille.set_column('C:C', 7.43)
+        feuille.set_column('D:D', 14.86)
+        feuille.set_column('E:E', 14.29)
+        feuille.set_column('F:F', 10.71)
+        feuille.set_column('G:G', 54)
+        feuille.set_column('H:H', 6.71)
+        feuille.set_column('I:I', 4.71)
+        feuille.set_column('J:J', 9.29)
+        feuille.set_column('K:K', 7)
+        feuille.set_column('L:L', 8)
+        
+        record = self.env['product.kks.arret'].search([('arret_id', '=', arret_id)],limit=1)
+        titre='PDR pour Arrêt : '+arret.name+' Unité : '+record.unite_id.code
 
+        feuille.write('G2', date.today().strftime('%d/%m/%Y'))
+        feuille.write('G3', customer.name)
+        feuille.write('G4', customer.city)
+        feuille.write('D5', 'Contrat')
+        feuille.write('D7', 'Unité')
+        feuille.write('E7', record.unite_id.code)
+        feuille.write('D9', 'Date')
+        feuille.write('D10', 'Demandeur')
+        feuille.write('D11', 'Preparateur')
+        feuille.write('D12', 'N°  OL')
+        feuille.write('D13', 'BL N°')
+        feuille.write('D14', 'Désignation')
+        feuille.merge_range('E14:L16', titre, style_titre2)
+        feuille.merge_range('B19:L19', 'Liste PDR', style_titre2)
+        x=21	 		 
+        feuille.write('B'+str(x),'N°',style_title)
+        feuille.write('C'+str(x),'ITEM',style_title)
+        feuille.write('D'+str(x),'Code Article',style_title)
+        feuille.write('E'+str(x),'KKS',style_title)
+        feuille.merge_range('F'+str(x) +':G'+str(x),'Désignation Pièce',style_title)
+        feuille.write('H'+str(x),'CU',style_title)
+        feuille.write('I'+str(x),'QTE',style_title)
+        feuille.write('J'+str(x),'PU-DH-HT',style_title)
+        feuille.write('K'+str(x),'PRIX Total',style_title)
+        feuille.write('L'+str(x),'BL N°', style_title)
+        pdr = self.env['product.kks.piece'].search([('id','=',arret_id)])
+        records = self.env['product.kks.appel.commande.report'].search([('customer_id', '=', customer_id),
+                                                        ('arret_id', '=', arret_id),
+                                                        ('contrat', '=', 'hors')])
+        x=x+1
+        for record in records :
+            feuille.write('B'+str(x),'',style1)
+            feuille.write('C'+str(x),record.item,style1)
+            feuille.write('D'+str(x),record.code,style1)
+            feuille.write('E'+str(x),record.kks,style1)
+            feuille.merge_range('F'+str(x) +':G'+str(x),record.designation,style1)
+            feuille.write('H'+str(x),'PIECE',style1)
+            feuille.write('I'+str(x),record.qte,style1)
+            feuille.write('J'+str(x),record.price,style1)
+            feuille.write_formula('K'+str(x),'I'+str(x)+'*J'+str(x),style1)
+            feuille.write('L'+str(x),'', style1)
+            x = x + 1
+
+        
+        feuille.merge_range('F'+str(x+1) +':G'+str(x+1),'Total Hors Taxe',style_titre3)
+        feuille.write_formula('K'+str(x+1), '=SUM(K22:K'+str(x-1)+')',style_titre3)
+
+        feuille=workbook.add_worksheet('Appel de commande')
+        feuille.set_zoom(85)
+        feuille.freeze_panes(21, 0)
+        feuille.set_tab_color('yellow')
+        feuille.set_column('A:A', 7.86)
+        feuille.set_column('B:B', 6)
+        feuille.set_column('C:C', 7.43)
+        feuille.set_column('D:D', 14.86)
+        feuille.set_column('E:E', 14.29)
+        feuille.set_column('F:F', 10.71)
+        feuille.set_column('G:G', 54)
+        feuille.set_column('H:H', 6.71)
+        feuille.set_column('I:I', 4.71)
+        feuille.set_column('J:J', 9.29)
+        feuille.set_column('K:K', 7)
+        feuille.set_column('L:L', 8)
+        
+        record = self.env['product.kks.arret'].search([('arret_id', '=', arret_id)],limit=1)
+        titre='PDR pour Arrêt : '+arret.name+' Unité : '+record.unite_id.code
+
+        feuille.write('G2', date.today().strftime('%d/%m/%Y'))
+        feuille.write('G3', customer.name)
+        feuille.write('G4', customer.city)    
+        feuille.write('D5', 'Contrat')
+        feuille.write('D7', 'Unité')
+        feuille.write('E7', record.unite_id.code)
+        feuille.write('D9', 'Date')
+        feuille.write('D10', 'Demandeur')
+        feuille.write('D11', 'Preparateur')
+        feuille.write('D12', 'N°  OL')
+        feuille.write('D13', 'BL N°')
+        feuille.write('D14', 'Désignation')
+        feuille.merge_range('E14:L16', titre, style_titre2)
+        feuille.merge_range('B19:L19', 'Liste PDR Hors Contrat', style_titre2)
+        x=21	 		 
+        feuille.write('B'+str(x),'N°',style_title)
+        feuille.write('C'+str(x),'ITEM',style_title)
+        feuille.write('D'+str(x),'Code Article',style_title)
+        feuille.write('E'+str(x),'KKS',style_title)
+        feuille.merge_range('F'+str(x) +':G'+str(x),'Désignation Pièce',style_title)
+        feuille.write('H'+str(x),'CU',style_title)
+        feuille.write('I'+str(x),'QTE',style_title)
+        feuille.write('J'+str(x),'PU-DH-HT',style_title)
+        feuille.write('K'+str(x),'PRIX Total',style_title)
+        feuille.write('L'+str(x),'BL N°', style_title)
+        pdr = self.env['product.kks.piece'].search([('id','=',arret_id)])
+        records = self.env['product.kks.appel.commande.report'].search([('customer_id', '=', customer_id),
+                                                        ('arret_id', '=', arret_id),
+                                                        ('contrat', '=', 'avec')])
+        x=x+1
+        for record in records :
+            feuille.write('B'+str(x),'',style1)
+            feuille.write('C'+str(x),record.item,style1)
+            feuille.write('D'+str(x),record.code,style1)
+            feuille.write('E'+str(x),record.kks,style1)
+            feuille.merge_range('F'+str(x) +':G'+str(x),record.designation,style1)
+            feuille.write('H'+str(x),'PIECE',style1)
+            feuille.write('I'+str(x),record.qte,style1)
+            feuille.write('J'+str(x),record.price,style1)
+            feuille.write_formula('K'+str(x),'I'+str(x)+'*J'+str(x),style1)
+            feuille.write('L'+str(x),'', style1)
+            x = x + 1
+
+        feuille.merge_range('F'+str(x+1) +':G'+str(x+1),'Total Hors Taxe',style_titre3)
+        feuille.write_formula('K'+str(x+1), '=SUM(K22:K'+str(x-1)+')',style_titre3)
         workbook.close()
         return self.get_return(fichier)
     

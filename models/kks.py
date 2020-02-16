@@ -28,11 +28,11 @@ class product_kks(models.Model):
     implantation_id = fields.Many2one('product.implantation', 'Implantation')
     type_implantation_id = fields.Many2one('product.type.implantation', 'Type Implantation')
     tarif = fields.Float('Prix m(DH)')
-    arret_ids = fields.One2many('product.kks.arret','kks_id','Arrêts')
-    tarif_ids = fields.One2many('product.kks.tarif','kks_id','Tarifs')
-    echafaudage_ids = fields.One2many('product.kks.echafaudage','kks_id','Echafaudages') 
-    piece_ids = fields.One2many('product.kks.piece','kks_id','Pièces') 
-    pps_ids = fields.One2many('product.kks.pps','kks_id','PPS') 
+    arret_ids = fields.One2many('product.kks.arret','kks_id','Arrêts', copy =True)
+    tarif_ids = fields.One2many('product.kks.tarif','kks_id','Tarifs', copy =True)
+    echafaudage_ids = fields.One2many('product.kks.echafaudage','kks_id','Echafaudages', copy =True) 
+    piece_ids = fields.One2many('product.kks.piece','kks_id','Pièces', copy =True) 
+    pps_ids = fields.One2many('product.kks.pps','kks_id','PPS', copy =True) 
     piece_prevoir_ = fields.Boolean('A Prévoir')
     piece_changee_ = fields.Boolean('Changée')
     choice_ = fields.Boolean('Choix')
@@ -203,7 +203,11 @@ class product_kks(models.Model):
                         <span style="width:10%;display: inline-block;"> N° Caisse :  </span>\
                         </span></br>'
             if record.piece_changee==True:
-                text2+='<span width="100%" style="font-size:13px;"><span style="width:15%;display: inline-block;"> -Rep : '+no_piece.replace("'", "''")+' </span><span style="width:40%;display: inline-block;"> '+piece.replace("'", "''")+' </span><span style="width:15%;display: inline-block;"> Réf : '+ref_fab.replace("'", "''")+' </span><span style="display: inline-block;"> code : '+magasin.replace("'", "''")+' </span></span></br>'
+                text2+='<span width="100%" style="font-size:13px;">\
+                        <span style="width:15%;display: inline-block;"> -Rep : '+no_piece.replace("'", "''")+' </span>\
+                        <span style="width:40%;display: inline-block;"> '+piece.replace("'", "''")+' </span>\
+                        <span style="width:15%;display: inline-block;"> Réf : '+ref_fab.replace("'", "''")+' </span>\
+                        <span style="display: inline-block;"> code : '+magasin.replace("'", "''")+' </span></span></br>'
         order_id=self.order_id.id
         text1+=''
         text2+=''
@@ -354,7 +358,8 @@ class product_kks_piece(models.Model):
     ########## Copier et coller
     piece_prevoir = fields.Boolean('A Prévoir')
     piece_changee = fields.Boolean('Changée')
-    
+    appel_commande = fields.Boolean('Appel commande')
+
     @api.multi
     def bulk_verify(self):
         text='<table>'

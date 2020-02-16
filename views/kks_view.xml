@@ -199,6 +199,7 @@
 					                    <field name="appareil_id"  invisible="1"/>
 					                    <field name="piece_prevoir"/>
 					                    <field name="piece_changee"/>
+					                    <field name="appel_commande"/>
 					                    <field name="choice"/>
 					                    <field name="magasin_id"  options="{'no_create': True,'no_open': True}"/>
 					                    <button name="open_magasin" type="object" icon="fa fa-external-link" string="Ouvrir magasin"/>      
