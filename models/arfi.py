@@ -35,7 +35,8 @@ class product_procedure(models.Model):
                                 domain="[('directory','=',directory_id)]",
                                 change_default=True,help="")
     type_file = fields.Selection([('ins','Instruction de travail'),
-                             ('ope','Mode Opératoire'),('man','Manuel de Maintenance')] ,'Type du fichier' , required=False)
+                             ('ope','Mode Opératoire'),('man','Manuel de Maintenance'),
+                             ('codif','Codification'),] ,'Type du fichier' , required=False)
     
     def download_file_(self):
         url="/dms/file/download/"+str(self.file_id.id)

@@ -58,6 +58,24 @@
                </form>
             </field>
         </record>
-
+		<record id="view_product_template_procedure_codif_form" model="ir.ui.view">
+            <field name="name">product.template.procedure.codif.form</field>
+            <field name="model">product.template.procedure</field>
+            <field name="arch" type="xml">
+                <form string="reporting">
+                	<group col="4" colspan="2">
+						<field name="appareil_id" required="1" invisible="1"/>
+						<field name="directory_id" required="1" invisible="1"/>
+						<field name="type_file" required="1" invisible="1"/>
+						<field name="procedure_ids" domain="[('variant', '=', True),('type_file','=','codif')]" nolabel="1" options="{'no_create': True}"  widget="many2many_checkboxes" colspan="4"/>	     
+	                 </group>
+	                  <footer>
+	                    <button name="action_procedure_codif_execute" string="Valider" type="object" class="oe_highlight"/>
+	                    ou
+	                    <button string="Annuler" class="btn-default" special="cancel"/>   
+                	</footer>
+               </form>
+            </field>
+        </record>
     </data>
 </openerp>

@@ -57,7 +57,8 @@ class product_template(models.Model):
     operatoire_ids = fields.One2many('product.procedure', 'appareil_id', string='Mode Opératoire' ,
                                       domain=[('type_file','=','ope')])
     original_ids = fields.One2many('product.plan.original', 'appareil_id', string='Plans Original')
-    codification_ids = fields.One2many('product.plan.codification', 'appareil_id', string='Codification Appareil')
+    codification_ids = fields.One2many('product.procedure', 'appareil_id', string='Codification Appareil' ,
+                                      domain=[('type_file','=','codif')])
     operation_ids = fields.One2many('product.order.operation', 'appareil_id', string='Opérations' ,domain=[('piece_id','=',None),('order_','=',1)])
     outillage_ids = fields.One2many('product.appareil.outillage', 'appareil_id', string='Outillages')
     outillage_tarage_ids = fields.One2many('product.appareil.outillage.tarage', 'appareil_id', string='Outillages Tarages')
@@ -175,7 +176,23 @@ class product_template(models.Model):
                          'default_type_file' : 'ope'},
                 'target': 'new',
                  }    
-        
+    def action_select_procedure_codif(self):
+        self._cr.execute("update muk_dms_file set variant='t'")
+        self._cr.commit()
+        for obj in self.codification_ids:
+            self._cr.execute("update muk_dms_file set variant='f' where id="+str(obj.file_id.id))
+            self._cr.commit()
+        return  {
+                'type': 'ir.actions.act_window',
+                'res_model': 'product.template.procedure',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'views': [(self.env.ref('arfi.view_product_template_procedure_codif_form').id, 'form')],
+                'context' : {'default_appareil_id' : self.id,
+                         'default_directory_id' : self.return_directory_id("Codification"),
+                         'default_type_file' : 'codif'},
+                'target': 'new',
+                 }  
     def action_image(self):
         self._cr.execute("select id from ir_attachment where res_id="+str(self.id)+" and res_model='product.template' and res_field='image'")
         for res in self.env.cr.fetchall():
@@ -267,9 +284,6 @@ class product_template(models.Model):
             default['child_ids'] = _("%s (copy)") % self.name
         
         return super(product_template, self).copy(default=default)
-
-
-
     
 class product_piece(models.Model):
     _name = 'product.piece'   
@@ -580,6 +594,7 @@ class product_piece(models.Model):
         tools.image_resize_images(vals)
         res = super(product_piece, self).write(vals)
         return res
+
 class product_category(models.Model):
     _inherit = 'product.category'
     _order = 'complete_name'    
