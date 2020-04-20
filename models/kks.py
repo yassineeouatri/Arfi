@@ -28,11 +28,11 @@ class product_kks(models.Model):
     implantation_id = fields.Many2one('product.implantation', 'Implantation')
     type_implantation_id = fields.Many2one('product.type.implantation', 'Type Implantation')
     tarif = fields.Float('Prix m(DH)')
-    arret_ids = fields.One2many('product.kks.arret','kks_id','Arrêts', copy =True)
+    arret_ids = fields.One2many('product.kks.arret','kks_id','Arrêts', copy =False)
     tarif_ids = fields.One2many('product.kks.tarif','kks_id','Tarifs', copy =True)
-    echafaudage_ids = fields.One2many('product.kks.echafaudage','kks_id','Echafaudages', copy =True) 
+    echafaudage_ids = fields.One2many('product.kks.echafaudage','kks_id','Echafaudages', copy =False) 
     piece_ids = fields.One2many('product.kks.piece','kks_id','Pièces', copy =True) 
-    pps_ids = fields.One2many('product.kks.pps','kks_id','PPS', copy =True) 
+    pps_ids = fields.One2many('product.kks.pps','kks_id','PPS', copy =False) 
     piece_prevoir_ = fields.Boolean('A Prévoir')
     piece_changee_ = fields.Boolean('Changée')
     choice_ = fields.Boolean('Choix')
@@ -431,6 +431,7 @@ class product_kks_supplier(models.Model):
     email = fields.Char('Email')
     price = fields.Float('Prix')
     date = fields.Date('Date')
+    no_ligne = fields.Char('N° Ligne')
     
     @api.onchange('contact_id') # if these fields are changed, call method
     def onchange_contact_id(self):

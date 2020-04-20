@@ -586,7 +586,7 @@ class product_kks_etat_wizard(models.Model):
                                                         ('contrat', '=', 'hors')])
         x=x+1
         for record in records :
-            feuille.write('B'+str(x),'',style1)
+            feuille.write('B'+str(x),record.no_ligne,style1)
             feuille.write('C'+str(x),record.item,style1)
             feuille.write('D'+str(x),record.code,style1)
             feuille.write('E'+str(x),record.kks,style1)
@@ -635,7 +635,7 @@ class product_kks_etat_wizard(models.Model):
         feuille.write('D13', 'BL N°')
         feuille.write('D14', 'Désignation')
         feuille.merge_range('E14:L16', titre, style_titre2)
-        feuille.merge_range('B19:L19', 'Liste PDR Hors Contrat', style_titre2)
+        feuille.merge_range('B19:L19', 'Liste PDR', style_titre2)
         x=21	 		 
         feuille.write('B'+str(x),'N°',style_title)
         feuille.write('C'+str(x),'ITEM',style_title)
@@ -653,7 +653,7 @@ class product_kks_etat_wizard(models.Model):
                                                         ('contrat', '=', 'avec')])
         x=x+1
         for record in records :
-            feuille.write('B'+str(x),'',style1)
+            feuille.write('B'+str(x),record.no_ligne,style1)
             feuille.write('C'+str(x),record.item,style1)
             feuille.write('D'+str(x),record.code,style1)
             feuille.write('E'+str(x),record.kks,style1)

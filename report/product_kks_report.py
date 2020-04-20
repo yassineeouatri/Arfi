@@ -470,55 +470,47 @@ class product_kks_appel_commande_report(models.Model):
     arret_id = fields.Many2one('product.arret','Code Arrêt')
     qte = fields.Char('Qte')
     price = fields.Float('Prix H.T')
+    no_ligne = fields.Char('N Ligne')
     contrat = fields.Char('Contrat')
     
     def init(self):
         tools.drop_view_if_exists(self._cr, 'product_kks_appel_commande_report')
         self._cr.execute("""
                 CREATE or REPLACE view product_kks_appel_commande_report as (
-                SELECT
-                    row_number() OVER () as id,t.*
-                    from (select pm.code,pm.id as magasin_id,pk.name as kks,
-                    concat('- REP: ',pp.no_piece,' ',pp.name) as designation,arret_id,item,customer_id,stock.qte qte, supplier.price,'hors' as contrat
+                SELECT row_number() OVER () as id,t.*
+                    from (
+                        select pksp.no_ligne,pm.code,pm.id as magasin_id,max(pk.name) as kks,
+                            concat('- REP: ',pp.no_piece,' ',pp.name) as designation,arret_id,max(item) as item,customer_id,stock.qte qte,
+                            pksp.price,'avec' as contrat
                         from product_kks as pk
-                    left join product_kks_arret pka on pk.id=pka.kks_id
-                    inner join product_kks_piece pkp on pka.kks_id=pkp.kks_id
-                    left join product_magasin pm on pm.id=pkp.magasin_id
-                    left join product_piece pp on pp.id=pkp.piece_id
-                    left join (select pks.magasin_id,pks.supplier_id,pks.price,case when pks.date is not null then pks.date else date(now()) end from product_kks_supplier pks
-                        inner join res_supplier rs on rs.id=pks.supplier_id
-                        inner join (select magasin_id,supplier_id,max(case when date is not null then date else date(now()) end ) as date from product_kks_supplier
-                        group by magasin_id,supplier_id) as t 
-                        on t.magasin_id=pks.magasin_id and t.supplier_id=pks.supplier_id 
-                        and (case when pks.date is not null then pks.date else date(now()) end )=t.date
-                        where rs.name like 'ARFI') as supplier on supplier.magasin_id=pm.id
-                    left join (select magasin_id,value as qte from product_kks_stock pks 
-                        inner join product_info pi on pi.id=pks.info_id
-                        and pi.name like 'Qté instalée'	) as stock on stock.magasin_id=pm.id
-                    where pkp.appel_commande = 't'
-                union
-
-                select pm.code,pm.id as magasin_id,pk.name as kks,
-                    concat('- REP: ',pp.no_piece,' ',pp.name) as designation,arret_id,item,customer_id,stock.qte qte, supplier.price, 'avec' 
+                        left join product_kks_arret pka on pk.id=pka.kks_id
+                        inner join product_kks_piece pkp on pka.kks_id=pkp.kks_id
+                        left join product_magasin pm on pm.id=pkp.magasin_id
+                        left join product_piece pp on pp.id=pkp.piece_id
+                        left join product_kks_supplier pksp  on pksp.magasin_id=pm.id
+                        left join (select magasin_id,value as qte from product_kks_stock pks 
+                            inner join product_info pi on pi.id=pks.info_id
+                            and pi.name like 'Quantité à commander'	) as stock on stock.magasin_id=pm.id
+                        where pkp.appel_commande = 't'
+                        and pksp.no_ligne is not null 
+                        and pksp.no_ligne not like ''
+                        group by pksp.no_ligne,pm.code,pm.id,pp.no_piece,pp.name,arret_id,customer_id,stock.qte,pksp.price
+                        union
+                        select '',pm.code,pm.id as magasin_id,max(pk.name) as kks,
+                            concat('- REP: ',pp.no_piece,' ',pp.name) as designation,arret_id,max(item) as item,customer_id,stock.qte qte,
+                            pksp.price,'hors' as contrat
                         from product_kks as pk
-                    left join product_kks_arret pka on pk.id=pka.kks_id
-                    inner join product_kks_piece pkp on pka.kks_id=pkp.kks_id
-                    left join product_magasin pm on pm.id=pkp.magasin_id
-                    left join product_piece pp on pp.id=pkp.piece_id
-                    left join (select pks.magasin_id,pks.supplier_id,pks.price,case when pks.date is not null then pks.date else date(now()) end from product_kks_supplier pks
-                        inner join res_supplier rs on rs.id=pks.supplier_id
-                        inner join (select magasin_id,supplier_id,max(case when date is not null then date else date(now()) end ) as date from product_kks_supplier
-                        group by magasin_id,supplier_id) as t 
-                        on t.magasin_id=pks.magasin_id and t.supplier_id=pks.supplier_id 
-                        and (case when pks.date is not null then pks.date else date(now()) end )=t.date
-                        where rs.name not like 'ARFI'
-                        ) as supplier on supplier.magasin_id=pm.id
-                    left join (select magasin_id,value as qte from product_kks_stock pks 
-                        inner join product_info pi on pi.id=pks.info_id
-                        and pi.name like 'Qté instalée'	) as stock on stock.magasin_id=pm.id
-                    where pkp.appel_commande = 't'
-                    and pm.id not in (select distinct magasin_id from product_kks_supplier pks inner join res_supplier rs on rs.id=pks.supplier_id and rs.name='ARFI')
-                    )
+                        left join product_kks_arret pka on pk.id=pka.kks_id
+                        inner join product_kks_piece pkp on pka.kks_id=pkp.kks_id
+                        left join product_magasin pm on pm.id=pkp.magasin_id
+                        left join product_piece pp on pp.id=pkp.piece_id
+                        left join product_kks_supplier pksp  on pksp.magasin_id=pm.id
+                        left join (select magasin_id,value as qte from product_kks_stock pks 
+                            inner join product_info pi on pi.id=pks.info_id
+                            and pi.name like 'Quantité à commander'	) as stock on stock.magasin_id=pm.id
+                        where pkp.appel_commande = 't'
+                        and pm.id not in (select distinct magasin_id from product_kks_supplier where no_ligne is not null and no_ligne not like '')
+                        group by pksp.no_ligne,pm.code,pm.id,pp.no_piece,pp.name,arret_id,customer_id,stock.qte,pksp.price
+                        order by kks)
                     as t)
-
         """)        

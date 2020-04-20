@@ -678,6 +678,7 @@
 			                            	<tree editable="bottom">
 							                    <field name="magasin_id" invisible="1" options="{'no_create': True,'no_open': True}"/>
 							                    <field name="price"/>
+												<field name="no_ligne"/>
 							                    <field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
 							                    <field name="contact_id" options="{'no_create': True,'no_open': True}"/>
 							                    <field name="adress"/>
@@ -755,6 +756,7 @@
 			                            	<tree editable="bottom">
 							                    <field name="magasin_id" invisible="1" options="{'no_create': True,'no_open': True}"/>
 							                    <field name="price"/>
+							                    <field name="no_ligne"/>
 							                    <field name="supplier_id" options="{'no_create': True,'no_open': True}"/>
 							                    <field name="contact_id" options="{'no_create': True,'no_open': True}"/>
 							                    <field name="adress"/>
