@@ -897,6 +897,12 @@ class product_invoice_recovery(models.Model):
     no_cheque = fields.Char('N° Chèque')
     no_virement = fields.Char('N° Virement')
     montant_ttc = fields.Float(related='invoice_id.montant_ttc', string='Montant Facture', readonly=True, store=True)
+    
+    @api.onchange('invoice_id')
+    def _onchange_invoice_id(self):
+        if self.invoice_id:
+            self.company_id = self.invoice_id.company_id
+            self.customer_id = self.invoice_id.customer_id
 
     def action_add_invoice(self):
         if self.invoice_id:
