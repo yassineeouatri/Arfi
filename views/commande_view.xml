@@ -2,7 +2,7 @@
 <openerp>
     <data>
     	 <!-- Top menu item -->
-    	  <record id="product_order_operation_create_view_form" model="ir.ui.view">
+    	<record id="product_order_operation_create_view_form" model="ir.ui.view">
             <field name="name">product.order.form</field>
             <field name="model">product.order</field>
             <field name="arch" type="xml">
@@ -101,7 +101,7 @@
                 </form>
             </field>
         </record>
-    	  <record id="product_order_observation_create_view_form" model="ir.ui.view">
+    	<record id="product_order_observation_create_view_form" model="ir.ui.view">
             <field name="name">product.order.form</field>
             <field name="model">product.order</field>
             <field name="arch" type="xml">
@@ -156,7 +156,7 @@
                 </form>
             </field>
         </record>
-         <record id="product_order_certificate_create_view_form" model="ir.ui.view">
+        <record id="product_order_certificate_create_view_form" model="ir.ui.view">
             <field name="name">product.order.form</field>
             <field name="model">product.order</field>
             <field name="arch" type="xml">
@@ -176,7 +176,7 @@
                 </form>
             </field>
         </record> 
- 	     <record id="product_order_search_view" model="ir.ui.view">
+ 	    <record id="product_order_search_view" model="ir.ui.view">
             <field name="name">product.order.search</field>
             <field name="model">product.order</field>
             <field name="arch" type="xml">
@@ -241,8 +241,7 @@
 			   </tree>
             </field>
         </record>
-        
-         <record id="product_order_view_form" model="ir.ui.view">
+        <record id="product_order_view_form" model="ir.ui.view">
             <field name="name">product.order.form</field>
             <field name="model">product.order</field>
             <field name="arch" type="xml">
@@ -269,7 +268,7 @@
                             <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
 							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations Appareil :</legend> 
 			  					<group style="width : 100%">
-			  						<field name='appareil_id'  options="{'no_create': True,'no_open': True}" context="{'form_view_ref': 'arfi.product_template_appareil_form_view'}"/>
+			  						<field name='appareil_id'  options="{'no_create': True}" context="{'form_view_ref': 'arfi.product_template_appareil_form_view'}"/>
 	                            </group>
 	                            <group style="width : 50%">
 	                                <field name='maker_id' options="{'no_create': True,'no_open': True}"/>
