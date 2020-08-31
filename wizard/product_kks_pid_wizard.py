@@ -205,39 +205,52 @@ class product_kks_pid_annotation(models.Model):
             directory = result.name
         obj_id = self.search([('title', '=', title)])
         if obj_id:
-            file_name = obj_id.file_id.filename.split('.')[0]
-            extension = obj_id.file_id.filename.split('.')[1]
-            file_data = obj_id.file_id.file
-            path = directory + file_name + str(time.strftime('%H%M%S')) + '.' + extension
-            self.write_file(path, file_data)
-            doc = fitz.open(path)  # open the PDF
-            page = doc[0]  # access page n (0-based)
+            if len(obj_id) == 1:
+                file_name = obj_id.file_id.filename.split('.')[0]
+                extension = obj_id.file_id.filename.split('.')[1]
+                file_data = obj_id.file_id.file
+                path = directory + file_name + str(time.strftime('%H%M%S')) + '.' + extension
+                self.write_file(path, file_data)
+                doc = fitz.open(path)  # open the PDF
+                page = doc[0]  # access page n (0-based)
 
-            annot = page.firstAnnot  # get first annotation
-            i = 0  # counter for file idents
-            # loop through the page's annotations
-            Liste = []
-            while annot:
-                i += 1  # increase counter
-                info = annot.info  # get annot's info dictionary
-                print info
-                if info["title"] == title:
-                    info["content"] = self.content
-                    annot.setInfo(info)
-                    annot.update(text_color=1, fill_color=1)
+                annot = page.firstAnnot  # get first annotation
+                i = 0  # counter for file idents
+                # loop through the page's annotations
+                Liste = []
+                while annot:
+                    i += 1  # increase counter
+                    info = annot.info  # get annot's info dictionary
+                    print info
+                    if info["title"] == title:
+                        info["content"] = self.content
+                        annot.setInfo(info)
+                        annot.update(text_color=1, fill_color=1)
 
-                annot1 = annot
-                annot = annot.next  # get next annot on page
-                if info["title"] != title:
-                    page.deleteAnnot(annot1)
-            path_out = directory + file_name + '_' + str(time.strftime('%H%M%S')) + '.' + extension
-            fichier = file_name + '_' + str(time.strftime('%H%M%S')) + '.' + extension
-            doc.save(path_out, garbage=4, deflate=True, clean=True)
-            url = '/web/static/reporting/' + fichier
-            if url:
-                return {'type': 'ir.actions.act_url', 'target': 'new', 'url': url, 'nodestroy': True}
-            else:
-                return True
+                    annot1 = annot
+                    annot = annot.next  # get next annot on page
+                    if info["title"] != title:
+                        page.deleteAnnot(annot1)
+                path_out = directory + file_name + '_' + str(time.strftime('%H%M%S')) + '.' + extension
+                fichier = file_name + '_' + str(time.strftime('%H%M%S')) + '.' + extension
+                doc.save(path_out, garbage=4, deflate=True, clean=True)
+                url = '/web/static/reporting/' + fichier
+                if url:
+                    return {'type': 'ir.actions.act_url', 'target': 'new', 'url': url, 'nodestroy': True}
+                else:
+                    return True
+            else :
+                return {
+                    'name': _("Annotation"),
+                    'type': 'ir.actions.act_window',
+                    'res_model': 'product.kks.pid.annotation',
+                    'view_mode': 'tree,form',
+                    'view_type': 'form',
+                    'views': [[False, 'tree'], [False, 'form'], ],
+                    'context': {'search_default_title': title},
+                    'target': 'current',
+                }
+
         else :
             raise ValidationError(_("Attention! KKS INCONNU."))
         # return webbrowser.open_new(r'file://' + path_out)
