@@ -413,7 +413,7 @@ class product_piece(models.Model):
     tof_name = fields.Char('Nom du fichier',size=256)
     tof = fields.Binary("Image")
     variant = fields.Boolean('Variant',default=True)
-    has_plan = fields.Boolean('Plan?',default=False)
+    has_plan = fields.Boolean('Plan',default=False)
 
     @api.multi
     def name_get(self):

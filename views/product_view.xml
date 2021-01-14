@@ -656,6 +656,7 @@
 						                    <button class="oe_inline oe_stat_button" name="action_piece_order" type="object"  icon="fa-pencil-square-o" string="Modifier"/>
 								         	<field name="no_piece"/>
 						                    <field name="name"/>
+                                            <field name="has_plan"/>
 						                    <field name="appareil_id"  options="{'no_create': True,'no_open': True}" invisible="1"/>
 						                    <field name="material_id"  options="{'no_create': True,'no_open': True}" />
 						                    <button class="oe_edit_only" name="action_material_readonly" type="object" icon="fa-pencil-square-o" string="Matière"/>
