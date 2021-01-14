@@ -41,7 +41,8 @@
 			  					<group colspan="2">
 			              			<field name="outillage_id" colspan="2"  options="{'no_create': True,'no_open': True}"/>
 	                				<field name="code" colspan="2"/>
-	                			</group>
+									<button string="Chercher" name="print_report_outillage" type="object"/>
+          						</group>
 				            </fieldset>
 	                    </group>	                    
                		 </sheet>

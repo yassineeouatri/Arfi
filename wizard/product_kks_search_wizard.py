@@ -111,6 +111,33 @@ class product_kks_search_wizard(models.Model):
         else :
             raise ValidationError(_('Veuillez sélectionner le réference commercial'))
     
+    def print_report_outillage(self):
+        if self.outillage_id:  
+            name='Recherche par outillage'  
+            if self.customer_id: 
+                return {
+                    'type': 'ir.actions.act_window',
+                    'res_model': 'product.kks.outillage.report',
+                    'view_mode': 'tree',
+                    'view_type': 'form',
+                    'name' : name,
+                    'views': [(self.env.ref('arfi.view_product_kks_outillage_report_tree').id, 'tree')],
+                    'context': {"search_default_customer_id": self.customer_id.id,
+                                "search_default_outillage_id": self.outillage_id.id,}
+                 }
+            else :
+                return {
+                    'type': 'ir.actions.act_window',
+                    'res_model': 'product.kks.outillage.report',
+                    'view_mode': 'tree',
+                    'view_type': 'form',
+                    'name' : name,
+                    'views': [(self.env.ref('arfi.view_product_kks_outillage_report_tree').id, 'tree')],
+                    'context': {"search_default_outillage_id": self.outillage_id.id,}
+                 }
+        else :
+            raise ValidationError(_('Veuillez sélectionner la valeur outillage'))
+
     def action_search(self):
         #raise ValidationError(_(self.type))
         if self.type=='search_magasin':

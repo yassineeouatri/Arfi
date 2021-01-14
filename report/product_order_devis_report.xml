@@ -154,7 +154,7 @@
 				                <tbody class="invoice_tbody">
 				                    <tr t-foreach="template.operation_appareil_ids" t-as="l">
 				                        <td colspan="4"><span t-field="l.operation_id.name"/></td>
-				                        <td class="text-center" colspan="2"><span t-esc="round(l.price,2)"/></td>
+				                        <td class="text-center" colspan="2"><span t-esc="round(l.estimated_cost,2)"/></td>
 				                    </tr>
 				                </tbody>
 				                <tr>
@@ -163,7 +163,7 @@
 				                <tr>
 									 <td class="text-left" colspan="4"> </td>
 									 <td class="text-right" colspan="2">Sous Total : 
-									      <t t-set="subtotal_appareil" t-value="sum(l.price for l in template.operation_appareil_ids)"/>
+									      <t t-set="subtotal_appareil" t-value="sum(l.estimated_cost for l in template.operation_appareil_ids)"/>
 	                                	<strong><span t-esc="subtotal_appareil"/></strong></td>
 								</tr>
 				            </table>
@@ -189,10 +189,10 @@
 									    <tr><td></td></tr>
 									    <t t-foreach="template.operation_piece_ids" t-as="l">
 									        <t t-if="piece.id==l.piece_id.id">
-									        	<t t-set="sub_total" t-value="sub_total+l.price"/>
+									        	<t t-set="sub_total" t-value="sub_total+l.estimated_cost"/>
 									            <tr>
 									            	<td colspan="4"><span t-field="l.operation_id.name"/></td>
-							                        <td class="text-center" colspan="4"><span t-field="l.price"/></td>
+							                        <td class="text-center" colspan="4"><span t-field="l.estimated_cost"/></td>
 						                        </tr>
 									        </t>
 									    </t>
@@ -208,7 +208,7 @@
 				                <tr>
 									 <td class="text-left" colspan="4"> </td>
 									 <td class="text-right" colspan="4">Total Commande : 
-									      <t t-set="total" t-value="sum(l.price for l in template.operation_appareil_ids)+sum(l.price for l in template.operation_piece_ids)"/>
+									      <t t-set="total" t-value="sum(l.estimated_cost for l in template.operation_appareil_ids)+sum(l.estimated_cost for l in template.operation_piece_ids)"/>
 	                                  <strong><span t-esc="total"/></strong></td>
 								</tr>
 				            </table>
@@ -291,9 +291,9 @@
 			                	<t t-set="sub_total" t-value="0"/>
 			                	<t t-set="total" t-value="0"/>
 			                    <tr t-foreach="o.operation_appareil_ids" t-as="l" style="border-bottom: 1px solid black;">
-			                    	<t t-set="sub_total" t-value="sub_total+l.price"/>			                    	
+			                    	<t t-set="sub_total" t-value="sub_total+l.estimated_cost"/>
 			                        <td colspan="4"><span t-field="l.operation_id.name"/></td>
-				                    <td class="text-center" colspan="2"><span t-esc="'%.2f'%(l.price)"/></td>
+				                    <td class="text-center" colspan="2"><span t-esc="'%.2f'%(l.estimated_cost)"/></td>
 			                    </tr>
 			                    <tr> 
 			                	 	<td  style="border-bottom: 1px solid white;" colspan="4"> </td>
@@ -322,10 +322,10 @@
 								    </tr>
 								    <t t-foreach="o.operation_piece_ids.sorted(key=lambda b: b.piece_id.order_)" t-as="l">
 								        <t t-if="piece.id==l.piece_id.id">
-								        	<t t-set="sub_total" t-value="sub_total+l.price"/>
+								        	<t t-set="sub_total" t-value="sub_total+l.estimated_cost"/>
 								            <tr>
 								            	<td  colspan="4"><span t-field="l.operation_id.name"/></td>
-						                        <td class="text-center" colspan="2"><span t-esc="'%.2f'%(l.price)"/></td>
+						                        <td class="text-center" colspan="2"><span t-esc="'%.2f'%(l.estimated_cost)"/></td>
 					                        </tr>
 								        </t>
 								    </t>
@@ -434,6 +434,7 @@
 			                	<t t-set="total" t-value="0"/>
 			                    <tr t-foreach="o.operation_appareil_ids" t-as="l">			                    	
 			                        <td colspan="6"><span t-field="l.operation_id.name"/></td>
+                                    <t t-set="total" t-value="total+l.estimated_cost"/>
 			                    </tr>
 			                </tbody>
 							<tbody class="invoice_tbody">
@@ -450,6 +451,7 @@
 								    <t t-foreach="o.operation_piece_ids.sorted(key=lambda b: b.piece_id.order_)" t-as="l">
 								        <t t-if="piece.id==l.piece_id.id">
 								            <tr><td  colspan="6"><span t-field="l.operation_id.name"/></td></tr>
+                                            <t t-set="total" t-value="total+l.estimated_cost"/>
 								        </t>
 								    </t>								     
 								</t>

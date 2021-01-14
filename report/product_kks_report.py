@@ -318,7 +318,7 @@ class product_kks_pdr_sortir_report(models.Model):
                     group by kp.magasin_id,customer_id,arret_id) as t2 on t1.magasin_id=t2.magasin_id and t1.customer_id=t2.customer_id and t1.arret_id=t2.arret_id
                 order by customer_id,arret_id,magasin,kks) as t
             )
-        """)        
+        """)
 class product_kks_echafaudage_arret(models.Model):
 
     _name = "product.kks.echafaudage.arret"
@@ -341,6 +341,28 @@ class product_kks_echafaudage_arret(models.Model):
                     left join product_kks_echafaudage ke on ke.kks_id=k.id
                     inner join product_echafaudage pe on pe.id=ke.echafaudage_id
                     group by k.customer_id,ka.arret_id,ke.echafaudage_id) as t
+            )
+        """)
+class product_kks_outillage_report(models.Model):
+    _name = "product.kks.outillage.report"
+    _description = "Product KKs Outillage Report"
+    _auto = False
+
+    kks_id = fields.Many2one('product.kks','KKS')
+    appareil_id = fields.Many2one('product.template', 'Appareil', required=False)
+    customer_id = fields.Many2one('res.partner', 'Client', domain=[('customer', '=', True)])
+    outillage_id = fields.Many2one('product.outillage', 'Code Outillage')
+
+    def init(self):
+        tools.drop_view_if_exists(self._cr, 'product_kks_outillage_report')
+        self._cr.execute("""
+           CREATE or REPLACE view product_kks_outillage_report as (
+                  select row_number() OVER () as id,t.*
+                FROM (
+                    select k.id as kks_id,k.appareil_id,customer_id,outillage_id,pao.code from product_kks k
+                    left join product_appareil_outillage pao on pao.appareil_id=k.appareil_id
+                    where outillage_id is not null
+                    ) as t
             )
         """)
 class product_kks_outillage_arret(models.Model):
@@ -413,7 +435,7 @@ class product_kks_facture_arret(models.Model):
     implantation_id = fields.Many2one('product.implantation', 'Implantation')
     type_implantation_id = fields.Many2one('product.type.implantation', 'Type Implantation')
     repere = fields.Float('Métrage(m3)')
-    ligne = fields.Integer('N° Ligne Contrat')
+    ligne = fields.Char('N° Ligne Contrat')
 
     def init(self):
         tools.drop_view_if_exists(self._cr, 'product_kks_facture_arret')
@@ -467,6 +489,7 @@ class product_kks_appel_commande_report(models.Model):
     code = fields.Char('Code')
     item = fields.Integer('Item')
     customer_id = fields.Many2one('res.partner','Client')
+    magasin_id = fields.Many2one('product.magasin','Magasin')
     arret_id = fields.Many2one('product.arret','Code Arrêt')
     qte = fields.Char('Qte')
     price = fields.Float('Prix H.T')
@@ -509,6 +532,7 @@ class product_kks_appel_commande_report(models.Model):
                             inner join product_info pi on pi.id=pks.info_id
                             and pi.name like 'Quantité à commander'	) as stock on stock.magasin_id=pm.id
                         where pkp.appel_commande = 't'
+                        and pksp.supplier_id in (select id from res_supplier where name='ARFI')
                         and pm.id not in (select distinct magasin_id from product_kks_supplier where no_ligne is not null and no_ligne not like '')
                         group by pksp.no_ligne,pm.code,pm.id,pp.no_piece,pp.name,arret_id,customer_id,stock.qte,pksp.price
                         order by kks)

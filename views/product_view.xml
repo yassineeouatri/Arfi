@@ -252,7 +252,7 @@
 				                        	<field name="piece_id"   invisible="1"/>
 				                            <field name="type"   invisible="1"/>
 				                            <field name="operation_id"  options="{'no_create': True,'no_open': True}" domain="[('application','=','piece')]"/>
-				                            <field name="allotted_time" string="Coût" widget="float_time" sum="Temps"/>				                    
+				                            <field name="allotted_time" string="Temps alloué" widget="float_time" sum="Temps"/>
 				                            <field name="estimated_cost" string="Coût" sum="Coût"/>
 			                        	</tree>
 		                    		</field>

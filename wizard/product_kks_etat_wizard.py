@@ -591,7 +591,10 @@ class product_kks_etat_wizard(models.Model):
             feuille.write('D'+str(x),record.code,style1)
             feuille.write('E'+str(x),record.kks,style1)
             feuille.merge_range('F'+str(x) +':G'+str(x),record.designation,style1)
-            feuille.write('H'+str(x),'PIECE',style1)
+            if record.magasin_id.unite_magasin:
+                feuille.write('H'+str(x), record.magasin_id.unite_magasin.upper(), style1)
+            else :
+                feuille.write('H'+str(x), '', style1)
             feuille.write('I'+str(x),record.qte,style1)
             feuille.write('J'+str(x),record.price,style1)
             feuille.write_formula('K'+str(x),'I'+str(x)+'*J'+str(x),style1)
@@ -658,7 +661,10 @@ class product_kks_etat_wizard(models.Model):
             feuille.write('D'+str(x),record.code,style1)
             feuille.write('E'+str(x),record.kks,style1)
             feuille.merge_range('F'+str(x) +':G'+str(x),record.designation,style1)
-            feuille.write('H'+str(x),'PIECE',style1)
+            if record.magasin_id.unite_magasin:
+                feuille.write('H'+str(x), record.magasin_id.unite_magasin.upper(), style1)
+            else :
+                feuille.write('H'+str(x), '', style1)
             feuille.write('I'+str(x),record.qte,style1)
             feuille.write('J'+str(x),record.price,style1)
             feuille.write_formula('K'+str(x),'I'+str(x)+'*J'+str(x),style1)

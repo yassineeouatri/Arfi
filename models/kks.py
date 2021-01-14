@@ -178,8 +178,8 @@ class product_kks(models.Model):
         import sys
         reload(sys)
         sys.setdefaultencoding("utf-8")
-        text1='<p width="100%" style="font-size:13px;">NB: Piéces de rechange à prévoir Pour Révision : </p>'
-        text2='<br/><br/><p width="100%" style="font-size:13px;">NB: Piéces de rechange Changée Pour Révision : </p>'
+        text1='<p width="100%" style="font-size:13px;">NB: Pièces de rechange à prévoir Pour Révision : </p>'
+        text2='<br/><br/><p width="100%" style="font-size:13px;">NB: Pièces de rechange Changée Pour Révision : </p>'
         for record in self.piece_ids:
             magasin=ref_fab=piece=no_piece=stock=''
             if record.magasin_id.code:
@@ -230,8 +230,8 @@ class product_kks(models.Model):
         import sys
         reload(sys)
         sys.setdefaultencoding("utf-8")
-        text1='<table width="100%" style="font-size:13px;margin-top: -30px;"><tr><td colspan="4">NB: Piéces de rechange à prévoir Pour Révision : </td></tr><tr><td colspan="4"></td></tr>'
-        text2='<table width="100%" style="font-size:13px;"><tr><td colspan="4">NB: Piéces de rechange Changée Pour Révision : </td></tr><tr><td colspan="4"></td></tr>'
+        text1='<table width="100%" style="font-size:13px;margin-top: -30px;"><tr><td colspan="4">NB: Pièces de rechange à prévoir Pour Révision : </td></tr><tr><td colspan="4"></td></tr>'
+        text2='<table width="100%" style="font-size:13px;"><tr><td colspan="4">NB: Pièces de rechange Changée Pour Révision : </td></tr><tr><td colspan="4"></td></tr>'
         for record in self.piece_ids:
             magasin=ref_fab=piece=no_piece=''
             if record.magasin_id.code:
@@ -328,7 +328,7 @@ class product_kks_tarif(models.Model):
     montant2 = fields.Float("Prix d'achat")
     choice = fields.Boolean('Choix')
     fact = fields.Selection([('Contrat','Contrat'),('BC','BC')],'Fact')
-    ligne = fields.Integer('N° Ligne Contrat')
+    ligne = fields.Char('N° Ligne Contrat')
     
 class product_kks_echafaudage(models.Model):
 
@@ -450,7 +450,15 @@ class product_kks_stock(models.Model):
     info_id = fields.Many2one('product.info','Info')
     value = fields.Char('Valeur')
     sequence = fields.Integer(related='info_id.sequence', string="Sequence", store=True, readonly=True)
-    
+    unite = fields.Selection([("boite", "Boite(s)"),
+                            ("ensemble", "Ensemble(s)"),
+                            ("feuille", "Feuille(s)"),
+                            ("jeu", "Jeu(x)"),
+                            ("kg", "Kg"),
+                            ("kit", "Kit"),
+                            ("m", "Métre(s)"),
+                            ("piece", "Pièce(s)")], "Unité")
+
 class product_magasin(models.Model):
     _name = 'product.magasin'
     _rec_name = 'code'
@@ -471,7 +479,23 @@ class product_magasin(models.Model):
                 'context' : {'default_magasin_id' : self.id},
                 'target': 'new',
                  }
-        
+    @api.depends("stock_ids")
+    def _get_stock(self):
+        """
+        Compute the total amounts of the SO.
+        """
+        for obj in self:
+            stock = ""
+            unite = ""
+            for line in obj.stock_ids:
+                if line.info_id.name == "Stock":
+                    stock = line.value
+                    unite = line.unite
+            obj.update({
+                'stock_magasin' : stock,
+                'unite_magasin' : unite
+            })
+
     code = fields.Char('Code', required=True)
     photo_name = fields.Char('Nom du fichier',size=256)
     photo = fields.Binary("Image")
@@ -479,7 +503,9 @@ class product_magasin(models.Model):
     stock_ids =  fields.One2many('product.kks.stock','magasin_id',string='Stock', readonly=False)
     purchase_ids =  fields.One2many('product.purchase.line','magasin_id',string='Achats', readonly=True)
     piece_ids =  fields.One2many('product.kks.piece','magasin_id',string='Pieces', readonly=True)
-    
+    stock_magasin = fields.Char(compute='_get_stock', string='Stock', readonly=True, store= True)
+    unite_magasin = fields.Char(compute='_get_stock', string='Unité', readonly=True, store= True)
+
 class product_kks_facture(models.Model):
 
     _name = "product.kks.facture"
@@ -517,7 +543,7 @@ class product_kks_facture(models.Model):
     tva = fields.Float(compute='_amount_all',string='TVA (20%)', readonly=True, store=True)
     montant_ttc = fields.Float(compute='_amount_all',string='Montant TTC', readonly=True, store=True)
     montant_text = fields.Text('Montant', readonly=True)
-    
+
     @api.multi
     def print_facture(self):
         data = {}
@@ -693,7 +719,7 @@ class product_kks_facture_line(models.Model):
     nature_id = fields.Many2one('product.nature','Nature Travaux')
     travaux_id = fields.Many2one('product.travaux','Travaux')
     fact = fields.Selection([('Contrat','Contrat'),('BC','BC')],'Fact')
-    ligne = fields.Integer('N° Ligne Contrat')
+    ligne = fields.Char('N° Ligne Contrat')
 
 class product_kks_pps(models.Model):
     _name = 'product.kks.pps'

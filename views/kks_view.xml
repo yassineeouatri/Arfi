@@ -581,6 +581,7 @@
                 	<field name="magasin_id" options="{'no_create': True,'no_open': True}"/>
                     <field name="info_id" options="{'no_create': True,'no_open': True}"/>
                     <field name="value"/>
+					<field name="unite"/>
                     <field name="sequence"/>
 			   </tree>
             </field>
@@ -645,6 +646,9 @@
             <field name="arch" type="xml">
                 <tree string="magasins">
                     <field name="code"/>
+					<field name="photo"/>
+					<field name="stock_magasin"/>
+					<field name="unite_magasin"/>
                 </tree>
             </field>
         </record>
@@ -700,6 +704,7 @@
 							                    <field name="magasin_id"  invisible="1" options="{'no_create': True,'no_open': True}"/>
 							                    <field name="info_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
 			                   					<field name="value"/>
+												<field name="unite"/>
                                                 <field name="sequence" invisible="1"/>
 			                            	</tree>
 			                    		</field>
@@ -778,6 +783,7 @@
 							                    <field name="magasin_id"  invisible="1" options="{'no_create': True,'no_open': True}"/>
 							                    <field name="info_id" readonly="1" options="{'no_create': True,'no_open': True}"/>
 			                   					<field name="value"/>
+												<field name="unite"/>
                                                 <field name="sequence" invisible="1"/>
 			                            	</tree>
 			                    		</field>

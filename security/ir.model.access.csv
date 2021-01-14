@@ -141,6 +141,7 @@ access_product_kks_search_wizard_arfi_manager,product.kks.search.wizard.arfi.man
 access_product_import_arfi_manager,product.import.arfi.manager,model_product_import,group_arfi_manager,1,1,1,1
 access_product_kks_facture_echafaudage_arret_arfi_manager,product.kks.facture.echafaudage.arret.arfi.manager,model_product_kks_facture_echafaudage_arret,group_arfi_manager,1,1,1,1
 access_product_kks_report_arfi_manager,product.kks.report.arfi.manager,model_product_kks_report,group_arfi_manager,1,1,1,1
+access_product_kks_outillage_report_arfi_manager,product.kks.outillage.report.arfi.manager,model_product_kks_outillage_report,group_arfi_manager,1,1,1,1
 access_product_ref_fab_arfi_manager,product.ref.fab.arfi.manager,model_product_ref_fab,group_arfi_manager,1,1,1,1
 access_product_ref_com_arfi_manager,product.ref.com.arfi.manager,model_product_ref_com,group_arfi_manager,1,1,1,1
 access_product_kks_magasin_report_arfi_manager,product.kks.magasin.report.arfi.manager,model_product_kks_magasin_report,group_arfi_manager,1,1,1,1
@@ -225,6 +226,7 @@ access_product_kks_search_wizard_arfi_employee,product.kks.search.wizard.arfi.em
 access_product_import_arfi_employee,product.import.arfi.employee,model_product_import,group_arfi_employee,1,1,1,1
 access_product_kks_facture_echafaudage_arret_arfi_employee,product.kks.facture.echafaudage.arret.arfi.employee,model_product_kks_facture_echafaudage_arret,group_arfi_employee,1,1,1,1
 access_product_kks_report_arfi_employee,product.kks.report.arfi.employee,model_product_kks_report,group_arfi_employee,1,1,1,1
+access_product_kks_outillage_report_arfi_employee,product.kks.outillage.report.arfi.employee,model_product_kks_outillage_report,group_arfi_employee,1,1,1,1
 access_product_ref_fab_arfi_employee,product.ref.fab.arfi.employee,model_product_ref_fab,group_arfi_employee,1,1,1,1
 access_product_ref_com_arfi_employee,product.ref.com.arfi.employee,model_product_ref_com,group_arfi_employee,1,1,1,1
 access_product_kks_magasin_report_arfi_employee,product.kks.magasin.report.arfi.employee,model_product_kks_magasin_report,group_arfi_employee,1,1,1,1
@@ -307,6 +309,7 @@ access_product_kks_search_wizard_arfi_employee1,product.kks.search.wizard.arfi.e
 access_product_import_arfi_employee1,product.import.arfi.employee1,model_product_import,group_arfi_employee1,1,1,1,1
 access_product_kks_facture_echafaudage_arret_arfi_employee1,product.kks.facture.echafaudage.arret.arfi.employee1,model_product_kks_facture_echafaudage_arret,group_arfi_employee1,1,1,1,1
 access_product_kks_report_arfi_employee1,product.kks.report.arfi.employee1,model_product_kks_report,group_arfi_employee1,1,1,1,1
+access_product_kks_outillage_report_arfi_employee1,product.kks.outillage.report.arfi.employee1,model_product_kks_outillage_report,group_arfi_employee1,1,1,1,1
 access_product_ref_fab_arfi_employee1,product.ref.fab.arfi.employee1,model_product_ref_fab,group_arfi_employee1,1,1,1,1
 access_product_ref_com_arfi_employee1,product.ref.com.arfi.employee1,model_product_ref_com,group_arfi_employee1,1,1,1,1
 access_product_kks_magasin_report_arfi_employee1,product.kks.magasin.report.arfi.employee1,model_product_kks_magasin_report,group_arfi_employee1,1,1,1,1
@@ -389,6 +392,7 @@ access_product_kks_search_wizard_arfi_employee2,product.kks.search.wizard.arfi.e
 access_product_import_arfi_employee2,product.import.arfi.employee2,model_product_import,group_arfi_employee2,1,1,1,1
 access_product_kks_facture_echafaudage_arret_arfi_employee2,product.kks.facture.echafaudage.arret.arfi.employee2,model_product_kks_facture_echafaudage_arret,group_arfi_employee2,1,1,1,1
 access_product_kks_report_arfi_employee2,product.kks.report.arfi.employee2,model_product_kks_report,group_arfi_employee2,1,1,1,1
+access_product_kks_outillage_report_arfi_employee2,product.kks.outillage.report.arfi.employee2,model_product_kks_outillage_report,group_arfi_employee2,1,1,1,1
 access_product_ref_fab_arfi_employee2,product.ref.fab.arfi.employee2,model_product_ref_fab,group_arfi_employee2,1,1,1,1
 access_product_ref_com_arfi_employee2,product.ref.com.arfi.employee2,model_product_ref_com,group_arfi_employee2,1,1,1,1
 access_product_kks_magasin_report_arfi_employee2,product.kks.magasin.report.arfi.employee2,model_product_kks_magasin_report,group_arfi_employee2,1,1,1,1
@@ -471,6 +475,7 @@ access_product_kks_search_wizard_arfi_employee3,product.kks.search.wizard.arfi.e
 access_product_import_arfi_employee3,product.import.arfi.employee3,model_product_import,group_arfi_employee3,1,1,1,1
 access_product_kks_facture_echafaudage_arret_arfi_employee3,product.kks.facture.echafaudage.arret.arfi.employee3,model_product_kks_facture_echafaudage_arret,group_arfi_employee3,1,1,1,1
 access_product_kks_report_arfi_employee3,product.kks.report.arfi.employee3,model_product_kks_report,group_arfi_employee3,1,1,1,1
+access_product_kks_outillage_report_arfi_employee3,product.kks.outillage.report.arfi.employee3,model_product_kks_outillage_report,group_arfi_employee3,1,1,1,1
 access_product_ref_fab_arfi_employee3,product.ref.fab.arfi.employee3,model_product_ref_fab,group_arfi_employee3,1,1,1,1
 access_product_ref_com_arfi_employee3,product.ref.com.arfi.employee3,model_product_ref_com,group_arfi_employee3,1,1,1,1
 access_product_kks_magasin_report_arfi_employee3,product.kks.magasin.report.arfi.employee3,model_product_kks_magasin_report,group_arfi_employee3,1,1,1,1
@@ -553,6 +558,7 @@ access_product_kks_search_wizard_arfi_atelier,product.kks.search.wizard.arfi.ate
 access_product_import_arfi_atelier,product.import.arfi.atelier,model_product_import,group_arfi_atelier,1,0,0,0
 access_product_kks_facture_echafaudage_arret_arfi_atelier,product.kks.facture.echafaudage.arret.arfi.atelier,model_product_kks_facture_echafaudage_arret,group_arfi_atelier,1,0,0,0
 access_product_kks_report_arfi_atelier,product.kks.report.arfi.atelier,model_product_kks_report,group_arfi_atelier,1,0,0,0
+access_product_kks_outillage_report_arfi_atelier,product.kks.outillage.report.arfi.atelier,model_product_kks_outillage_report,group_arfi_atelier,1,0,0,0
 access_product_ref_fab_arfi_atelier,product.ref.fab.arfi.atelier,model_product_ref_fab,group_arfi_atelier,1,0,0,0
 access_product_ref_com_arfi_atelier,product.ref.com.arfi.atelier,model_product_ref_com,group_arfi_atelier,1,0,0,0
 access_product_kks_magasin_report_arfi_atelier,product.kks.magasin.report.arfi.atelier,model_product_kks_magasin_report,group_arfi_atelier,1,0,0,0
