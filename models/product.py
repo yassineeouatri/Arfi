@@ -413,7 +413,8 @@ class product_piece(models.Model):
     tof_name = fields.Char('Nom du fichier',size=256)
     tof = fields.Binary("Image")
     variant = fields.Boolean('Variant',default=True)
-    
+    has_plan = fields.Boolean('Plan?',default=False)
+
     @api.multi
     def name_get(self):
         import sys
@@ -581,16 +582,34 @@ class product_piece(models.Model):
         tools.image_resize_images(vals)
         if vals['no_piece']:
             vals['order_']=self.return_order(vals['no_piece'])
+        self._cr.execute("""update product_piece set has_plan='t'
+                    where id in (
+                    select p.id from ir_attachment ir inner join
+                    product_piece p on res_id=p.id
+                    and res_model='product.piece' and res_field='image');""")
+        self._cr.commit()
         template = super(product_piece, self).create(vals)
         return template
     
     @api.onchange('no_piece') # if these fields are changed, call method
     def check_change(self):
         self.order_ = self.return_order(self.no_piece)
+
+    @api.onchange('image') # if these fields are changed, call method
+    def update_has_plan(self):
+        if self.image:
+            self.has_plan = True
+        else:
+            self.has_plan = False
         
     @api.multi
     def write(self, vals):
-        
+        self._cr.execute("""update product_piece set has_plan='t'
+                    where id in (
+                    select p.id from ir_attachment ir inner join
+                    product_piece p on res_id=p.id
+                    and res_model='product.piece' and res_field='image');""")
+        self._cr.commit()
         tools.image_resize_images(vals)
         res = super(product_piece, self).write(vals)
         return res

@@ -75,6 +75,7 @@
 			                    <tr>
 			                        <th><font color="#fff">N° Pièce</font></th>
 			                        <th><font color="#fff">Nom Pièce</font></th>
+									<th><font color="#fff">Has Plan ?</font></th>
 			                        <th><font color="#fff">Réf Matière</font></th>
 			                        <th><font color="#fff">Déscription matériau</font></th>
 			                    </tr>
@@ -83,6 +84,7 @@
 			                    <tr t-foreach="pieces" t-as="l">
 			                        <td><span t-field="l.no_piece"/></td>
 			                        <td><span t-field="l.name"/></td>
+									<td><span t-field="l.has_plan"/></td>
 			                        <td><span t-field="l.material_id.name"/></td>
 			                        <td><span t-field="l.name"/></td>
 			                    </tr>
@@ -130,8 +132,9 @@
 			                    <tr>
 			                        <th class="text-center" style="width : 10%;border-top: 1px solid black;border-bottom: 1px solid black;">N° Pièce</th>
 			                        <th class="text-center" style="width : 35%;border-top: 1px solid black;border-bottom: 1px solid black;">Nom Pièce</th>
+			                        <th class="text-center" style="width : 10%;border-top: 1px solid black;border-bottom: 1px solid black;">Plan</th>
 			                        <th class="text-center" style="width : 10%;border-top: 1px solid black;border-bottom: 1px solid black;">Réf Matière</th>
-			                        <th class="text-center" style="width : 45%;border-top: 1px solid black;border-bottom: 1px solid black;">Déscription matériau</th>
+			                        <th class="text-center" style="width : 35%;border-top: 1px solid black;border-bottom: 1px solid black;">Déscription matériau</th>
 			                    </tr>
 			                </thead>
 			                <tbody class="invoice_tbody">			                	
@@ -145,8 +148,12 @@
 			                    			</t>
 					                        <td class="text-center" style="width : 10%;border-bottom: 1px solid black;"><span t-field="l.no_piece"/></td>
 					                        <td class="text-left" style="width : 35%;border-bottom: 1px solid black;"><span t-field="l.name"/></td>
+											<td class="text-center" style="width : 10%;border-bottom: 1px solid black;">
+												<t t-if="l.has_plan"><input type="checkbox" checked="True"/></t>
+												<t t-if="not l.has_plan"><input type="checkbox" /></t>
+											</td>
 					                        <td class="text-center" style="width : 10%;border-bottom: 1px solid black;"><span t-field="l.material_id.name"/></td>
-					                        <td class="text-left" style="width : 45%;border-bottom: 1px solid black;"><t t-esc="description"/></td>
+					                        <td class="text-left" style="width : 35%;border-bottom: 1px solid black;"><t t-esc="description"/></td>
 				                        </t>
 				                    </tr>
 			                </tbody>
