@@ -59,6 +59,8 @@ class product_template(models.Model):
     original_ids = fields.One2many('product.plan.original', 'appareil_id', string='Plans Original')
     codification_ids = fields.One2many('product.procedure', 'appareil_id', string='Codification Appareil' ,
                                       domain=[('type_file','=','codif')])
+    specification_ids = fields.One2many('product.procedure', 'appareil_id', string='Spécification Appareil' ,
+                                      domain=[('type_file','=','spec')])
     operation_ids = fields.One2many('product.order.operation', 'appareil_id', string='Opérations' ,domain=[('piece_id','=',None),('order_','=',1)])
     outillage_ids = fields.One2many('product.appareil.outillage', 'appareil_id', string='Outillages')
     outillage_tarage_ids = fields.One2many('product.appareil.outillage.tarage', 'appareil_id', string='Outillages Tarages')

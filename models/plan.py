@@ -71,7 +71,8 @@ class plans(base.DMSModel):
     variant = fields.Boolean('Variant',default=True)
     type_file = fields.Selection([('prev','Plan Prévention'),('ins','Instruction de travail'),
                              ('ope','Mode Opératoire'),('man','Manuel de Maintenance'),
-                             ('orig','Plan Original'),('codif','Codification')
+                             ('orig','Plan Original'),('codif','Codification'),
+                             ('spec', 'Spécification de qualité')
                              ] ,'Type du fichier' , required=True)
     
     
@@ -148,5 +149,7 @@ class plans(base.DMSModel):
             self.directory=self.return_directory_id("Manuel de Maintenance")
         elif self.type_file=="codif":
             self.directory=self.return_directory_id("Codification")
+        elif self.type_file=="spec":
+            self.directory=self.return_directory_id("Specification de qualite")
         else :
             self.directory=None
