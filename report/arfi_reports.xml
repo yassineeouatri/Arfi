@@ -413,5 +413,16 @@
         <record id="report_product_bc_piece_meca" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="arfi.paperformat_meca_invoice"/>
         </record>
+        <report
+            id="action_report_product_kks_poids"   
+            model="report.arfi.action_report_productkkspoids"     
+            string="Poids"    
+            report_type="qweb-pdf" 
+            name="arfi.action_report_productkkspoids"  
+            file="arfi.action_report_productkkspoids"     
+        	menu="False"/> 
+        <record id="action_report_product_kks_poids" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="arfi.paperformat_arfi_landscape"/>
+        </record>
     </data>
 </odoo>

@@ -538,3 +538,35 @@ class product_kks_appel_commande_report(models.Model):
                         order by kks)
                     as t)
         """)        
+class product_kks_poids_report(models.Model):
+
+    _name = "product.kks.poids.report"
+    _description = "Product KKs Poids Report"
+    _auto = False
+
+    customer_id = fields.Many2one('res.partner','Client')
+    arret_id = fields.Many2one('product.arret','Code Arrêt')
+    appareil_id = fields.Many2one('product.template', 'Appareil', required=False)
+    kks_id = fields.Many2one('product.kks','KKS',readonly=True)
+    unite_id = fields.Many2one('product.unite','Code Unité')
+    designation = fields.Char('Désignation')
+    value = fields.Char('Poids')
+
+    
+    def init(self):
+        tools.drop_view_if_exists(self._cr, 'product_kks_poids_report')
+        self._cr.execute("""
+            CREATE or REPLACE view product_kks_poids_report as (
+                SELECT row_number() OVER () as id,t.*
+                FROM ( SELECT t1.*, t2.value FROM (
+                select kks.id as kks_id,arret_id, customer_id,kks.reference as designation,kks.appareil_id,unite_id
+                from product_kks kks
+                inner join product_kks_arret pka on pka.kks_id=kks.id) AS t1
+                LEFT JOIN
+                (select pt.id as appareil_id,
+			        replace(replace(replace(replace(replace(pal.value,' ',''),'Kg',''),'kg',''),'KG',''),'.',',') as value from product_template pt
+                left join product_attribute_line pal on pal.product_tmpl_id=pt.id
+                inner join product_attribute pa on pa.id=pal.attribute_id
+                where pa.name like 'Poids') AS t2 on t1.appareil_id=t2.appareil_id) AS t
+            )
+        """)

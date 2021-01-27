@@ -676,3 +676,72 @@ class product_kks_etat_wizard(models.Model):
         workbook.close()
         return self.get_return(fichier)
     
+    @api.multi
+    def print_poids_report_excel(self):
+        data = {}
+        data['form'] = self.read(['customer_id', 'arret_id'])[0]
+        return self.generer_poids_report_excel(data)          
+    def generer_poids_report_excel(self,data):
+        reload(sys)
+        sys.setdefaultencoding("UTF8")
+        results = self.env['product.image.directory'].search([('type','=','reporting')])
+        for result in results:
+            directory=result.name
+        arret_id=data['form']['arret_id'][0]
+        arret = self.env['product.arret'].search([('id','=',arret_id)])
+        customer_id=data['form']['customer_id'][0]
+        customer = self.env['res.partner'].search([('id','=',customer_id)])
+        fichier="Poids _"+time.strftime('%H%M%S')+".xlsx"
+        workbook = xlsxwriter.Workbook(directory + fichier)
+        style_title = workbook.add_format({'bg_color' : '#003366','color' : 'white','text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter',
+                                                          'top' : 1, 'bottom' : 1,})
+        style_titre = workbook.add_format({'color' : '#003366','text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter',
+                                                          'font_size' : 18, 'font_name' : 'tahoma'})
+        style_titre2 = workbook.add_format({'text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter',
+                                                          'font_size' : 14, 'font_name' : 'tahoma' ,'border' : 2})
+        style = workbook.add_format({'text_wrap' : True,'bold' :1,  'align' : 'center','valign' : 'vcenter','top' : 1, 'bottom' : 1, })
+        style_ = workbook.add_format({'text_wrap' : True,'bold' :1,   'top' : 1, 'bottom' : 1,})
+        style1 = workbook.add_format({  'text_wrap' : True,  'align' : 'center','valign' : 'vcenter','top' : 1, 'bottom' : 1,})
+        style1_ = workbook.add_format({  'text_wrap' : True,  'top' : 1, 'bottom' : 1,})
+        feuille=workbook.add_worksheet('Poids')
+        feuille.set_zoom(85)
+        feuille.freeze_panes(5, 0)
+        feuille.set_tab_color('yellow')
+        feuille.set_column('A:A', 20)
+        feuille.set_column('B:B', 80)
+        feuille.set_column('C:C', 20)
+        feuille.merge_range('A1:C1', 'LISTE POIDS ARRET', style_titre)
+        record = self.env['product.kks.arret'].search([('arret_id', '=', arret_id)],limit=1)
+        titre='Unité : '+record.unite_id.code+'           Arrêt : '+arret.name+'            Client : '+customer.name
+        feuille.merge_range('A3:C3', titre, style_titre2)
+        x=5
+        feuille.write('A'+str(x),'KKS',style_title)
+        feuille.write('B'+str(x),'Désignation',style_title)
+        feuille.write('C'+str(x),'Poids',style_title)
+        
+        records = self.env['product.kks.poids.report'].search([('customer_id', '=', customer_id),
+                                                        ('arret_id', '=', arret_id)])
+        x=x+1
+        for record in records:          
+            feuille.write('A'+str(x),record.kks_id.name,style)
+            feuille.write('B'+str(x),record.appareil_id.name,style)
+            if record.value:
+                feuille.write('C'+str(x),record.value,style)
+            else :
+                feuille.write('C'+str(x),0,style)
+            x=x+1
+        feuille.merge_range('A'+str(x+1)+':B'+str(x+1), 'Total', style_title)
+        feuille.write('C'+str(x+1), '=SUM(C6:C'+str(x-1)+')', style_title)
+
+
+        workbook.close()
+        return self.get_return(fichier)
+    
+    @api.multi
+    def print_poids_report(self):
+        data = {}
+        data['form'] = self.read(['customer_id', 'arret_id'])[0]
+        return self._print_poids_report(data)
+    def _print_poids_report(self, data):
+        data['form'].update(self.read(['customer_id', 'arret_id'])[0])
+        return self.env['report'].get_action(self, 'arfi.action_report_productkkspoids', data=data)

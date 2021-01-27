@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="product_kks_poids_layout">
+		<t t-if="o and 'company_id' in o">
+			<t t-set="company" t-value="o.company_id"></t>
+		</t>
+		<t t-if="not o or not 'company_id' in o">
+			<t t-set="company" t-value="res_company"></t>
+		</t>
+		<t t-call="arfi.product_kks_poids_report_header" />
+		<t t-raw="0" />
+		<t t-call="report.external_layout_footer" />
+	</template>
+
+	<template id="product_kks_poids_report_header">
+		<div class="header">
+			 <div class="row">
+				<div class="col-xs-3">
+					<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 100px;border: 1px solid black;"/>
+				</div>
+				<div class="col-xs-6 text-center" style="padding-top: 40px;">
+					<h2 style="border: solid 1px;width: 500px;margin: 0 auto">Liste POIDS</h2>
+				</div>
+				<div class="col-xs-3 text-right" style="font-size: 10px">Imprimé le : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></div>
+
+			</div>
+			<div class="row zero_min_height" style="padding-top: 5px;">
+				<div class="col-xs-12">
+					<div style="border-bottom: 1px solid black;"></div>
+				</div>
+			</div>
+			<div class="row zero_min_height" >
+				<div class="col-xs-12">
+					<div style="border-bottom: 1px solid black;"></div>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<template id="action_report_productkkspoids">
+		<t t-call="report.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="arfi.product_kks_poids_layout">
+					<div class="page" style="font-size : 10px;margin-top: 10px;">
+						<div class="oe_structure" style="padding-top: 30px;"/> 
+						<div class="row" style="border: solid 1px;width: 600px;margin: 0 auto;">
+							<div class="col-xs-4"  >
+								<p><strong>Unité : </strong><t t-esc="unite"/></p>
+							</div> 
+							<div class="col-xs-4"  >
+								<p><strong>Arrêt : </strong><span t-field="o.arret_id.date"  t-options ='{"format": "dd/MM/Y"}'/></p>
+							</div> 
+							<div class="col-xs-4"  >   
+								<p><strong>Client : </strong><span t-field="o.customer_id.name"/></p>
+							</div> 
+						</div>		
+						<div class="row" style="padding-top:15px;">
+							<table class="table table-bordered">
+								<thead style=" background-color: #3498DB; color : white" >
+									<tr>
+										<td class="text-center" style="width: 20%;"><strong>KKS</strong></td>
+										<td class="text-center" style="width: 60%;"><strong>Désignation</strong></td>
+										<td class="text-center"><strong>Poids</strong></td>
+									</tr>
+								</thead> 
+								<tbody> 								
+									<t t-foreach="records" t-as="o">
+										<tr>
+											<td class="text-left"><strong><span t-field="o.kks_id.name"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.appareil_id.name"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.value"/></strong></td>
+										</tr>	                	
+									</t>
+								</tbody>
+							</table>	
+						</div>
+					</div>
+				</t>   
+			</t>
+		</t>   
+ 	</template>
+
+</odoo>
+

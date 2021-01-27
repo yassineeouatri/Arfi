@@ -12,5 +12,6 @@ import product_kks_facture_report
 import product_kks_outillage_report
 import product_kks_report
 import product_invoice_report
+import product_kks_poids_report
 
 

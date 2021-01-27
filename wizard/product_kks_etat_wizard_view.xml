@@ -61,6 +61,15 @@
 	                        		</group>
 			                    </fieldset>
 	              			</group>
+							<group>
+	                        	<fieldset style="width:99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Poids :</legend> 
+			  						<group>
+			                        	<button string="Apperçu PDF" name="print_poids_report" type="object" class="btn btn-default" icon="fa-file-pdf-o"/>
+			                        	<button string="Apperçu Excel" name="print_poids_report_excel" type="object" class="btn btn-default" icon="fa-file-excel-o"/>
+	              					</group>
+			                    </fieldset>
+			                </group>
 	                    </group>
                     </sheet>
                 </form>

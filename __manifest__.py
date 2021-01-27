@@ -79,6 +79,7 @@ Arfi Management
         'report/product_affaire_report.xml',
         'report/product_purchase_report.xml',
         'report/product_bc_report.xml',
+        'report/product_kks_poids_report.xml',
         'views/arfi_menu.xml',
         'views/arfi_templates.xml',
         
