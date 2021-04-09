@@ -595,7 +595,8 @@
             <field name="name">product.outillage.search</field>
             <field name="model">product.outillage</field>
             <field name="arch" type="xml">
-                <search string="Operation">
+                <search string="Outillage">
+                    <field name="supplier_id"/>
                 	<field name="code"/>
                     <field name="designation"/>
                 	<group expand="0" string="Group By">
@@ -611,6 +612,8 @@
                 <tree string="Outillage">
                     <field name="code"/>
                     <field name="designation"/>
+                    <field name="supplier_id"/>
+                    <field name="price"/>
                     <field name="photo" filename="photo_name"/>
                     <field name="photo_name" select="1" invisible="1"/>
                     <field name="stock"/>
@@ -640,6 +643,8 @@
 							</group>
                              <group string="Informations générales">
                                 <field name="designation"/>
+                                <field name="supplier_id" widget="selection"/>
+                                <field name="price"/>
                                 <field name="stock"/>
                                 <field name="qte_dem"/>
                             </group>

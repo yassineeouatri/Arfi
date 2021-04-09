@@ -312,6 +312,9 @@ class product_outillage(models.Model):
     photo = fields.Binary("Image")
     stock =  fields.Integer('Stock')
     qte_dem =  fields.Integer('Qte Demandée')
+    purchase_id = fields.Many2one('product.purchase', string='Achat')
+    supplier_id = fields.Many2one('res.supplier', string='Fournisseur')
+    price = fields.Float('Prix HT')
     
     _sql_constraints = [
             ('name_uniq', 'unique (code)', "Attention! Enregistrement unique"),

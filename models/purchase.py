@@ -111,6 +111,7 @@ class product_purchase_line(models.Model):
         
     purchase_id = fields.Many2one('product.purchase', 'Commande')
     magasin_id = fields.Many2one('product.magasin', 'Code Magasin')
+    outillage_id = fields.Many2one('product.outillage', 'Outillage')
     supplier_id = fields.Many2one('res.supplier',related='purchase_id.supplier_id', string='Fournisseur',store=True, readonly= False)
     contact_id = fields.Many2one('res.contact',related='purchase_id.contact_id', string='Contact Fournisseur',store=True, readonly= False)
     remise = fields.Float('Remise (%)')
