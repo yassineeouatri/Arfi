@@ -38,7 +38,9 @@ class product_procedure(models.Model):
                              ('ope','Mode Opératoire'),
                              ('man','Manuel de Maintenance'),
                              ('codif','Codification'),
-                             ('spec', 'Spécification Qualité'),] ,'Type du fichier' , required=False)
+                             ('spec', 'Spécification Qualité'), 
+                             ('mos', 'Mode Opératoire de Soudage')
+                             ] ,'Type du fichier' , required=False)
     
     def download_file_(self):
         url="/dms/file/download/"+str(self.file_id.id)
@@ -535,4 +537,4 @@ class product_product_material_search(models.Model):
                             where id="+str(self.piece_id.id))
             self._cr.commit()
         return True
-    reference_ids =  fields.One2many('product.product.material.reference','material_search_id',string='Références', readonly=True)
+    reference_ids =  fields.One2many('product.product.material.reference','material_search_id',string='Références', readonly=True)  

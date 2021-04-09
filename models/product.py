@@ -60,7 +60,9 @@ class product_template(models.Model):
     codification_ids = fields.One2many('product.procedure', 'appareil_id', string='Codification Appareil' ,
                                       domain=[('type_file','=','codif')])
     specification_ids = fields.One2many('product.procedure', 'appareil_id', string='Spécification Appareil' ,
-                                      domain=[('type_file','=','spec')])
+                                      domain=[('type_file','=','spec')]) 
+    soudage_ids = fields.One2many('product.procedure', 'appareil_id', string='Mode Opératoire de Soudage' ,
+                                      domain=[('type_file','=','mos')]) 
     operation_ids = fields.One2many('product.order.operation', 'appareil_id', string='Opérations' ,domain=[('piece_id','=',None),('order_','=',1)])
     outillage_ids = fields.One2many('product.appareil.outillage', 'appareil_id', string='Outillages')
     outillage_tarage_ids = fields.One2many('product.appareil.outillage.tarage', 'appareil_id', string='Outillages Tarages')
@@ -194,7 +196,41 @@ class product_template(models.Model):
                          'default_directory_id' : self.return_directory_id("Codification"),
                          'default_type_file' : 'codif'},
                 'target': 'new',
-                 }  
+                 }   
+    def action_select_procedure_spec(self):
+        self._cr.execute("update muk_dms_file set variant='t'")
+        self._cr.commit()
+        for obj in self.specification_ids:
+            self._cr.execute("update muk_dms_file set variant='f' where id="+str(obj.file_id.id))
+            self._cr.commit()
+        return  {
+                'type': 'ir.actions.act_window',
+                'res_model': 'product.template.procedure',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'views': [(self.env.ref('arfi.view_product_template_procedure_spec_form').id, 'form')],
+                'context' : {'default_appareil_id' : self.id,
+                         'default_directory_id' : self.return_directory_id("Specification de qualite"),
+                         'default_type_file' : 'spec'},
+                'target': 'new',
+                 } 
+    def action_select_procedure_mos(self):
+        self._cr.execute("update muk_dms_file set variant='t'")
+        self._cr.commit()
+        for obj in self.soudage_ids:
+            self._cr.execute("update muk_dms_file set variant='f' where id="+str(obj.file_id.id))
+            self._cr.commit()
+        return  {
+                'type': 'ir.actions.act_window',
+                'res_model': 'product.template.procedure',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'views': [(self.env.ref('arfi.view_product_template_procedure_mos_form').id, 'form')],
+                'context' : {'default_appareil_id' : self.id,
+                         'default_directory_id' : self.return_directory_id("Mode Operatoire de Soudage"),
+                         'default_type_file' : 'mos'},
+                'target': 'new',
+                 } 
     def action_image(self):
         self._cr.execute("select id from ir_attachment where res_id="+str(self.id)+" and res_model='product.template' and res_field='image'")
         for res in self.env.cr.fetchall():

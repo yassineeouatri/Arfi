@@ -72,7 +72,8 @@ class plans(base.DMSModel):
     type_file = fields.Selection([('prev','Plan Prévention'),('ins','Instruction de travail'),
                              ('ope','Mode Opératoire'),('man','Manuel de Maintenance'),
                              ('orig','Plan Original'),('codif','Codification'),
-                             ('spec', 'Spécification de qualité')
+                             ('spec', 'Spécification de Qualité'),
+                             ('mos', 'Mode Opératoire de Soudage')
                              ] ,'Type du fichier' , required=True)
     
     
@@ -151,5 +152,7 @@ class plans(base.DMSModel):
             self.directory=self.return_directory_id("Codification")
         elif self.type_file=="spec":
             self.directory=self.return_directory_id("Specification de qualite")
+        elif self.type_file=="mos":
+            self.directory=self.return_directory_id("Mode Operatoire de Soudage")
         else :
             self.directory=None
