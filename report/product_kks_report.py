@@ -564,7 +564,7 @@ class product_kks_poids_report(models.Model):
                 inner join product_kks_arret pka on pka.kks_id=kks.id) AS t1
                 LEFT JOIN
                 (select pt.id as appareil_id,
-			        replace(replace(replace(replace(replace(pal.value,' ',''),'Kg',''),'kg',''),'KG',''),'.',',') as value from product_template pt
+			        pal.value  as value from product_template pt
                 left join product_attribute_line pal on pal.product_tmpl_id=pt.id
                 inner join product_attribute pa on pa.id=pal.attribute_id
                 where pa.name like 'Poids') AS t2 on t1.appareil_id=t2.appareil_id) AS t
