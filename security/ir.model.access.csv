@@ -625,3 +625,10 @@ access_product_plan_codification_arfi_employee1,product.plan.codification.arfi.e
 access_product_plan_codification_arfi_employee2,product.plan.codification.arfi.employee2,model_product_plan_codification,group_arfi_employee2,1,1,1,1
 access_product_plan_codification_arfi_employee3,product.plan.codification.arfi.employee3,model_product_plan_codification,group_arfi_employee3,1,1,1,1
 access_product_plan_codification_arfi_atelier,product.plan.codification.arfi.atelier,model_product_plan_codification,group_arfi_atelier,1,1,1,1 
+access_product_kks_poids_report_arfi_manager,product.kks.poids.report.arfi.manager,model_product_kks_poids_report,group_arfi_manager,1,1,1,1
+access_product_kks_poids_report_arfi_employee,product.kks.poids.report.arfi.employee,model_product_kks_poids_report,group_arfi_employee,1,1,1,1
+access_product_kks_poids_report_arfi_employee1,product.kks.poids.report.arfi.employee1,model_product_kks_poids_report,group_arfi_employee1,1,1,1,1
+access_product_kks_poids_report_arfi_employee2,product.kks.poids.report.arfi.employee2,model_product_kks_poids_report,group_arfi_employee2,1,1,1,1
+access_product_kks_poids_report_arfi_employee3,product.kks.poids.report.arfi.employee3,model_product_kks_poids_report,group_arfi_employee3,1,1,1,1
+access_product_kks_poids_report_arfi_atelier,product.kks.poids.report.arfi.atelier,model_product_kks_poids_report,group_arfi_atelier,1,1,1,1 
+
