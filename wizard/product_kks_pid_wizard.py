@@ -8,7 +8,7 @@ import base64
 from pyPdf import PdfFileReader, PdfFileWriter
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from odoo import  _
+from odoo import _
 
 # from wand.image import Image
 
@@ -104,7 +104,6 @@ class product_kks_pid_file(models.Model):
         annot = page.firstAnnot  # get first annotation
         i = 0  # counter for file idents
         # loop through the page's annotations
-        Liste = []
         while annot:
             i += 1  # increase counter
             d = annot.info  # get annot's info dictionary
@@ -160,7 +159,6 @@ class product_kks_pid_annotation(models.Model):
         annot = page.firstAnnot  # get first annotation
         i = 0  # counter for file idents
         # loop through the page's annotations
-        Liste = []
         while annot:
             i += 1  # increase counter
             info = annot.info  # get annot's info dictionary
@@ -196,7 +194,6 @@ class product_kks_pid_annotation(models.Model):
         annot = page.firstAnnot  # get first annotation
         i = 0  # counter for file idents
         # loop through the page's annotations
-        Liste = []
         while annot:
             i += 1  # increase counter
             info = annot.info  # get annot's info dictionary
@@ -253,7 +250,6 @@ class product_kks_pid_annotation(models.Model):
                 annot = page.firstAnnot  # get first annotation
                 i = 0  # counter for file idents
                 # loop through the page's annotations
-                Liste = []
                 while annot:
                     i += 1  # increase counter
                     info = annot.info  # get annot's info dictionary
