@@ -129,6 +129,7 @@
 		      	  <div class="row" style="padding-top : 10px">
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
 		      	    	<strong>Consignes particulières :  </strong>
+						<span style="min-height: 31px;width: 100%;float: left;padding: 5px;" t-field="o.note"/>
 		      	    </div>
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
 		      	    	<strong>Matériel spécifique :  </strong>
@@ -286,6 +287,7 @@
 		      	  <div class="row" style="padding-top : 10px">
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
 		      	    	<strong>Consignes particulières :  </strong>
+						<span style="min-height: 31px;width: 100%;float: left;padding: 5px;" t-field="o.note"/>
 		      	    </div>
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
 		      	    	<strong>Matériel spécifique :  </strong>
@@ -416,6 +418,7 @@
 		      	  <div class="row" style="padding-top : 10px">
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
 		      	    	<strong>Consignes particulières :  </strong>
+						<span style="min-height: 31px;width: 100%;float: left;padding: 5px;" t-field="o.note"/>
 		      	    </div>
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
 		      	    	<strong>Matériel spécifique :  </strong>
@@ -558,6 +561,7 @@
 		      	  <div class="row" style="padding-top : 10px">
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
 		      	    	<strong>Consignes particulières :  </strong>
+						<span style="min-height: 31px;width: 100%;float: left;padding: 5px;" t-field="o.note"/>
 		      	    </div>
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
 		      	    	<strong>Matériel spécifique :  </strong>
@@ -693,6 +697,7 @@
 		      	  <div class="row" style="padding-top : 10px">
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;border-right: 2px solid;height: 200px;">
 		      	    	<strong>Consignes particulières :  </strong>
+						<span style="min-height: 31px;width: 100%;float: left;padding: 5px;" t-field="o.note"/>
 		      	    </div>
 		      	    <div class="col-xs-6" style="border-top: 2px solid;border-bottom: 2px solid;height: 200px;">
 		      	    	<strong>Matériel spécifique :  </strong>
