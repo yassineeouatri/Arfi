@@ -344,6 +344,7 @@
             <field name="res_model">product.order</field>
             <field name="view_mode">tree,form,calendar,pivot,graph</field>
             <field name="view_type">form</field>
+            <field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -572,6 +573,7 @@
             <field name="res_model">product.order.service</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+            <field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -598,6 +600,7 @@
             <field name="res_model">product.order.test</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+            <field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -634,6 +637,7 @@
             <field name="res_model">product.order.operation</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+            <field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -668,6 +672,7 @@
             <field name="res_model">operation</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+            <field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -713,6 +718,7 @@
             <field name="res_model">commande</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+            <field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -738,6 +744,7 @@
             <field name="res_model">commande.kks</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+            <field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -763,6 +770,7 @@
             <field name="res_model">commande.appareil</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+            <field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -790,6 +798,7 @@
             <field name="res_model">commande.update</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
+            <field name="limit">500</field>
             <field name="view_id" ref="view_update_order_form"/>
             <field name="target">new</field>
         </record>

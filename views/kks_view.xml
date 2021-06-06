@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-    	 <!-- Top menu item -->
-       
-    	
-        
-    	 <!-- KKS -->
+    	<!-- KKS -->
 		<record id="product_kks_search_view" model="ir.ui.view">
             <field name="name">product.kks.search</field>
             <field name="model">product.kks</field>
@@ -304,6 +300,7 @@
             <field name="res_model">product.kks</field>
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
+			<field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -421,6 +418,7 @@
             <field name="res_model">product.kks.arret</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+			<field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -471,6 +469,7 @@
             <field name="res_model">product.kks.tarif</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+			<field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -497,6 +496,7 @@
             <field name="res_model">product.kks.echafaudage</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+			<field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -531,6 +531,7 @@
             <field name="res_model">product.kks.piece</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+			<field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -565,6 +566,7 @@
             <field name="res_model">product.kks.supplier</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+			<field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -593,6 +595,7 @@
             <field name="res_model">product.kks.stock</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+			<field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -620,6 +623,7 @@
             <field name="res_model">product.kks.pps</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
+			<field name="limit">500</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
@@ -815,6 +819,7 @@
             <field name="res_model">product.magasin</field>
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
+			<field name="limit">500</field>
             <field name="view_id" ref="product_magasin_tree_view"/>
             <field name="context">{}</field>
             <field name="help" type="html">
