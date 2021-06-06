@@ -4,13 +4,12 @@
 import logging
 import time
 import sys
-from odoo import api, fields, models
-from odoo import tools, _
-from odoo.exceptions import ValidationError
-
-_logger = logging.getLogger(__name__)
-from docx import Document
 import xlsxwriter
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from odoo import _
+from docx import Document
+_logger = logging.getLogger(__name__)
 
 
 class product_kks(models.Model):
@@ -49,7 +48,7 @@ class product_kks(models.Model):
     piece_prevoir_ = fields.Boolean("A Prévoir")
     piece_changee_ = fields.Boolean("Changée")
     choice_ = fields.Boolean("Choix")
-    ############# add repere from echafaudage
+    # ############ add repere from echafaudage
     repere = fields.Float("Métrage(m3)")
 
     @api.onchange("piece_prevoir_")
@@ -415,7 +414,7 @@ class product_kks(models.Model):
             "views": [
                 (self.env.ref("arfi.product_kks_risque_create_view_form").id, "form")
             ],
-            #'target': 'new',
+            # 'target': 'new',
             "flags": {"form": {"action_buttons": True}},
         }
 
@@ -537,7 +536,7 @@ class product_kks_piece(models.Model):
     ref_fab = fields.Char("Réf fabriquant")
     ref_com = fields.Char("Réf Commercial")
     datetarif_id = fields.Many2one("product.datetarif", "Date Tarif")
-    ########## Copier et coller
+    # ######### Copier et coller
     piece_prevoir = fields.Boolean("A Prévoir")
     piece_changee = fields.Boolean("Changée")
     appel_commande = fields.Boolean("Appel commande")
@@ -896,22 +895,6 @@ class product_kks_facture(models.Model):
                 "bottom": 1,
             }
         )
-        style1 = workbook.add_format(
-            {
-                "text_wrap": True,
-                "align": "center",
-                "valign": "vcenter",
-                "top": 1,
-                "bottom": 1,
-            }
-        )
-        style1_ = workbook.add_format(
-            {
-                "text_wrap": True,
-                "top": 1,
-                "bottom": 1,
-            }
-        )
         feuille = workbook.add_worksheet("PDR")
         feuille.set_zoom(85)
         feuille.freeze_panes(5, 0)
@@ -1029,22 +1012,6 @@ class product_kks_facture(models.Model):
             {
                 "text_wrap": True,
                 "bold": 1,
-                "top": 1,
-                "bottom": 1,
-            }
-        )
-        style1 = workbook.add_format(
-            {
-                "text_wrap": True,
-                "align": "center",
-                "valign": "vcenter",
-                "top": 1,
-                "bottom": 1,
-            }
-        )
-        style1_ = workbook.add_format(
-            {
-                "text_wrap": True,
                 "top": 1,
                 "bottom": 1,
             }
@@ -1246,7 +1213,7 @@ class product_kks_pps(models.Model):
                 "/usr/lib/python2.7/dist-packages/odoo/addons/web/static/reporting/"
                 + filename
             )
-            ##destination='C:\\Users\\Yassine\\workspace\\arfi_2010\\addons\\web\\static\\reporting\\'+filename
+            # destination='C:\\Users\\Yassine\\workspace\\arfi_2010\\addons\\web\\static\\reporting\\'+filename
             data = base64.decodestring(data)
             self.write_file(data, destination)
 

@@ -22,20 +22,10 @@
 ###################################################################################
 
 import os
-import base64
-import json
-import urllib
-import StringIO
-import cStringIO
-import mimetypes
 import logging
 
-from odoo import _
 from odoo import models, api, fields
-from odoo.exceptions import ValidationError, AccessError
-
 from odoo.addons.muk_dms.models import muk_dms_base as base
-from docx import Document
 
 _logger = logging.getLogger(__name__)
 
@@ -124,30 +114,6 @@ class plans(base.DMSModel):
         destination = directory + filename
         data = base64.decodestring(data)
         self.write_file(data, destination)
-        """if file_extension==".docx": 
-            document = Document(destination)    
-            from docx.shared import Pt
-            style = document.styles['Normal']
-            font = style.font
-            font.name = 'Arial'
-            font.size = Pt(10)                
-            
-            for table in document.tables:
-                for row in table.rows:
-                    for cell in row.cells:
-                        for paragraph in cell.paragraphs:
-                            if 'KKS' in paragraph.text:
-                                paragraph.text=''
-                                run = paragraph.add_run('KKS : '+self.kks_id.name)
-                                run.bold = True
-                                paragraph.style = document.styles['Normal']
-                            if 'Client' in paragraph.text:
-                                paragraph.text=''
-                                run = paragraph.add_run('Client : '+self.kks_id.customer_id.name)
-                                run.bold = True
-                                paragraph.style = document.styles['Normal']
-                            
-            document.save(destination)"""
         url = "/web/static/reporting/" + filename
         return {
             "type": "ir.actions.act_url",

@@ -75,7 +75,7 @@ class product_template(models.Model):
         help="",
     )
     param1 = fields.Char("Param1")
-    #### Var Pieces
+    # Var Pieces
     no_piece = fields.Char("N° Pièce")
     reference_appareil = fields.Char("Référence Appareil")
     code_matiere = fields.Char("Code Matière")
@@ -167,12 +167,12 @@ class product_template(models.Model):
         string="# of Outillages",
         method=True,
     )
-    ###########Calcul SMP
+    # ##########Calcul SMP
     clapet_ext = fields.Float("Clapet Exterieur")
     clapet_int = fields.Float("Clapet Interieur")
     buse_ext = fields.Float("Buse Exterieur")
     buse_int = fields.Float("Buse Interieur")
-    ########### File colmatage
+    # ########## File colmatage
     colmatage_name = fields.Char("Nom du fichier", size=256)
     colmatage_file = fields.Binary("Fichier")
 
@@ -574,8 +574,6 @@ class product_piece(models.Model):
             obj.procedure_count = group_data.get(obj.id, 0)
 
     def compute_order(self):
-        import re
-
         for obj in self:
             if obj.no_piece:
                 no_piece = obj.no_piece.replace("*", "")
@@ -651,8 +649,6 @@ class product_piece(models.Model):
             )
 
     def update_order(self):
-        import re
-
         self._cr.execute("select id,no_piece from product_piece")
         for res in self.env.cr.fetchall():
             no_piece = res[1]
@@ -1127,8 +1123,7 @@ class product_category(models.Model):
 
     @api.multi
     def name_get(self):
-
-        res = super(product_category, self).name_get()
+        super(product_category, self).name_get()
         data = []
         for obj in self:
             display_value = ""
@@ -1259,9 +1254,10 @@ class product_appareil_price(models.Model):
     def _onchange_sale_price(self):
         if self.appareil_id:
             self._cr.execute(
-                """ UPDATE product_kks_tarif a SET montant={0} 
-                              FROM product_template b WHERE a.appareil_id=b.id
-                              AND  b.name='{1}' AND nature_id={2}""".format(
+                """ UPDATE product_kks_tarif a
+                    SET montant={0}
+                    FROM product_template b WHERE a.appareil_id=b.id
+                    AND  b.name='{1}' AND nature_id={2}""".format(
                     self.sale_price, self.appareil_id.name, self.nature_id.id
                 )
             )
@@ -1270,9 +1266,10 @@ class product_appareil_price(models.Model):
     def _onchange_purchase_price(self):
         if self.appareil_id:
             self._cr.execute(
-                """ UPDATE product_kks_tarif a SET montant2={0} 
-                                          FROM product_template b WHERE a.appareil_id=b.id
-                                          AND  b.name='{1}' AND nature_id={2}""".format(
+                """ UPDATE product_kks_tarif a
+                    SET montant2={0}
+                    FROM product_template b WHERE a.appareil_id=b.id
+                    AND  b.name='{1}' AND nature_id={2}""".format(
                     self.purchase_price, self.appareil_id.name, self.nature_id.id
                 )
             )

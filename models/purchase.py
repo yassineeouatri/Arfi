@@ -6,11 +6,10 @@ import time
 import sys
 import xlsxwriter
 from odoo import api, fields, models
-from odoo import tools, _
+from odoo import _
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
-from docx import Document
 
 
 class product_purchase(models.Model):
@@ -598,17 +597,6 @@ class product_bc_piece(models.Model):
                 "valign": "vcenter",
                 "font_size": 18,
                 "font_name": "tahoma",
-            }
-        )
-        style_titre2 = workbook.add_format(
-            {
-                "text_wrap": True,
-                "bold": 1,
-                "align": "center",
-                "valign": "vcenter",
-                "font_size": 14,
-                "font_name": "tahoma",
-                "border": 2,
             }
         )
         style = workbook.add_format(

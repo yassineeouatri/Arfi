@@ -5,9 +5,8 @@ import time
 import sys
 
 from odoo import api, fields, models
-from odoo import tools, _
-from odoo.exceptions import UserError, ValidationError
-from string import upper
+from odoo.exceptions import ValidationError
+from odoo import _
 
 
 class res_partner(models.Model):
@@ -93,7 +92,7 @@ class res_partner(models.Model):
         )
         for result in results:
             directory = result.name
-        customer = self.env["res.partner"].search([("id", "=", self.id)])
+        self.env["res.partner"].search([("id", "=", self.id)])
         fichier = "Contrats _" + self.name + "_" + time.strftime("%H%M%S") + ".xlsx"
         workbook = xlsxwriter.Workbook(directory + fichier)
         style_title = workbook.add_format(
@@ -119,17 +118,6 @@ class res_partner(models.Model):
                 "font_name": "tahoma",
             }
         )
-        style_titre2 = workbook.add_format(
-            {
-                "text_wrap": True,
-                "bold": 1,
-                "align": "center",
-                "valign": "vcenter",
-                "font_size": 14,
-                "font_name": "tahoma",
-                "border": 2,
-            }
-        )
         style = workbook.add_format(
             {
                 "text_wrap": True,
@@ -147,30 +135,6 @@ class res_partner(models.Model):
                 "bold": 1,
                 "align": "center",
                 "valign": "vcenter",
-                "top": 1,
-                "bottom": 1,
-            }
-        )
-        style_ = workbook.add_format(
-            {
-                "text_wrap": True,
-                "bold": 1,
-                "top": 1,
-                "bottom": 1,
-            }
-        )
-        style1 = workbook.add_format(
-            {
-                "text_wrap": True,
-                "align": "center",
-                "valign": "vcenter",
-                "top": 1,
-                "bottom": 1,
-            }
-        )
-        style1_ = workbook.add_format(
-            {
-                "text_wrap": True,
                 "top": 1,
                 "bottom": 1,
             }

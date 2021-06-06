@@ -1110,7 +1110,7 @@ class product_devis(models.Model):
             }
         )
         for obj in self.devis_line_ids:
-            invoice_line_id = self.env["product.invoice.line"].create(
+            self.env["product.invoice.line"].create(
                 {
                     "invoice_id": invoice_id.id,
                     "qte": obj.qte,
@@ -1143,7 +1143,7 @@ class product_devis(models.Model):
 
     @api.multi
     def button_dummy(self):
-        devis_id = self.create(
+        self.create(
             {
                 "customer_id": self.customer_id.id,
                 "company_id": self.company_id.id,
