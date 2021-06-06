@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+import time
 import logging
 from odoo import api, fields, models
 
@@ -40,6 +41,29 @@ class product_affaire(models.Model):
 
         return rslt
 
+    def get_no_intervenant(self):
+        year = time.strftime("%y")
+        number = 1
+        cr = self.env.cr
+        cr.execute(
+            """SELECT MAX(cast(left(no_intervenant,3) as numeric)) + 1
+                FROM product_affaire
+                WHERE length(no_intervenant) = 10 
+                AND left(no_intervenant, 3) ~ '^[0-9\.]+$'
+                AND substring(no_intervenant,5,3)  ~ '^[0-9\.]+$'
+                AND substring(no_intervenant,9,2)  ~ '^[0-9\.]+$'
+                AND substring(no_intervenant,4,1) LIKE '-'
+                AND substring(no_intervenant,8,1) LIKE '-'
+                AND substring(no_intervenant,9,2) = to_char(now(),'YY')
+                """
+        )
+        for res in cr.fetchall():
+            if res[0]:
+                number = int(res[0])
+        number = str(number).zfill(3)
+
+        return str(number)+'-'+str(number)+'-'+str(year)
+
     name = fields.Char("Affaire N°", default=get_name, size=6)
     type = fields.Selection(
         [
@@ -56,6 +80,7 @@ class product_affaire(models.Model):
     customer_id = fields.Many2one(
         "res.partner", "Client", domain=[("customer", "=", True)]
     )
+    no_intervenant = fields.Char("N° intervenant", default=get_no_intervenant, size=10)
     person_id = fields.Many2one("res.partner.person", "Demandeur")
     title_id = fields.Many2one("res.partner.title", "Titre")
     city_id = fields.Many2one("product.city", "Ville")
@@ -69,6 +94,7 @@ class product_affaire(models.Model):
         [("oui", "Oui"), ("non", "Non")], "Travaux planifiés"
     )
     date_prevu = fields.Date("Date prévue de réalisation", default=fields.Date.today)
+    note = fields.Text("Commentaire")
 
     @api.onchange("customer_id")
     def onchange_customer_id(self):
