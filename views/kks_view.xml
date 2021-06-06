@@ -736,6 +736,7 @@
 										 <field name="piece_ids" style="overflow-y: auto;max-height: 200px;" nolabel="1" colspan="2" context="{'default_magasin_id': active_id,}">
 			                            	<tree editable="bottom">
 							                    <field name="magasin_id"  invisible="1" options="{'no_create': True,'no_open': True}"/>
+												<field name="appareil_id"/>
 							                    <field name="piece_id" options="{'no_create': True,'no_open': True}"/>
 			                            	</tree>
 			                    		</field>

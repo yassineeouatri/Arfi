@@ -731,7 +731,7 @@ class product_magasin(models.Model):
         "product.purchase.line", "magasin_id", string="Achats", readonly=True
     )
     piece_ids = fields.One2many(
-        "product.kks.piece", "magasin_id", string="Pieces", readonly=True
+        "product.kks.piece", "magasin_id", string="Pieces", readonly=False
     )
     stock_magasin = fields.Char(
         compute="_get_stock", string="Stock", readonly=True, store=True
