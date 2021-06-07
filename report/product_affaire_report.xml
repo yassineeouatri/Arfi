@@ -142,7 +142,7 @@
 		                </p>
 		      	    	<p class="text-left" style="height : 25px">
 		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">INTERVENTION N° : </strong> 
-		                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;"/>
+		                	<span style="min-height: 31px;display: block;width: 65%;float: left;border: 1px solid;padding: 5px;box-shadow: 2px 2px;" t-field="o.no_intervenant"/>
 		                </p>
 		                <p class="text-left" style="height : 25px">
 		                	<strong style="display: block;width: 35%;float: left;padding: 5px;">REPERES : </strong> 
