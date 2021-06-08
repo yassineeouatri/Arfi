@@ -125,6 +125,7 @@ class product_kks_magasin_report(models.Model):
 
     magasin_id = fields.Many2one("product.magasin", "Code Magasin")
     magasin = fields.Char("Magasin")
+    unite_magasin = fields.Char("Unité Magasin")
     qte_installe = fields.Char("Qté Installée")
     stock = fields.Char("Stock")
     absolue = fields.Char("Absolue")
@@ -140,13 +141,13 @@ class product_kks_magasin_report(models.Model):
         self._cr.execute(
             """
             CREATE or REPLACE view product_kks_magasin_report as (
-                  select row_number() OVER () as id,t.*
+                SELECT row_number() OVER () as id,t.*
                 FROM (
-                    select id as magasin_id,magasin,string_agg(qte_installe,'') as qte_installe,string_agg(stock,'') as stock,string_agg(absolue,'') as absolue,
+                    select id as magasin_id,magasin,unite_magasin,string_agg(qte_installe,'') as qte_installe,string_agg(stock,'') as stock,string_agg(absolue,'') as absolue,
                             string_agg(necessaire,'') as necessaire,string_agg(recommander,'') as recommander,string_agg(securite,'') as securite,
                             string_agg(qte_a_sortir,'') as qte_a_sortir,string_agg(qte_a_commander,'') as qte_a_commander,string_agg(qte_commander,'') as qte_commander
                     from(
-                    select mag.id,a.magasin_id,mag.code as magasin,
+                    select mag.id,a.magasin_id,mag.code as magasin,mag.unite_magasin,
                     (case when info.name like 'Qté instalée' then value else '' end ) as qte_installe,
                     (case when info.name like 'Stock' then value else '' end ) as stock,
                     (case when info.name like 'Absolue' then value else '' end ) as absolue,
@@ -159,7 +160,7 @@ class product_kks_magasin_report(models.Model):
                     from product_magasin mag
                     left join product_kks_stock a on mag.id=a.magasin_id
                     left join product_info info on info.id=a.info_id)as tab
-                    group by id,magasin) as t
+                    group by id,magasin,unite_magasin) as t
             )
         """
         )
@@ -307,6 +308,7 @@ class product_kks_pdr_sortir_report(models.Model):
     maker_id = fields.Many2one("product.template.maker", "Marque")
     unite_id = fields.Many2one("product.unite", "Code Unité")
     customer_id = fields.Many2one("res.partner", "Client")
+    unite_magasin = fields.Char("Unité Magasin")
     arret_id = fields.Many2one("product.arret", "Code Arrêt")
     qte_installe = fields.Char("Qté Installée")
     stock = fields.Char("Stock")
@@ -329,7 +331,7 @@ class product_kks_pdr_sortir_report(models.Model):
                SELECT
                     row_number() OVER () as id,row_number() over (partition by customer_id,arret_id,magasin) as row,t.*
                 FROM (select t1.*,t2.nbr from ( select choice, customer_id,concat('- REP: ',pp.no_piece,' ',pp.name) as designation,item,k.name as kks,reference,kp.magasin_id,maker_id,unite_id,arret_id,
-                    qte_installe,stock,absolue,necessaire,recommander,securite,qte_a_sortir,qte_a_commander,qte_commander ,pkmr.magasin
+                    qte_installe,stock,absolue,necessaire,recommander,securite,qte_a_sortir,qte_a_commander,qte_commander ,pkmr.magasin, pkmr.unite_magasin
                     from product_kks k
                     inner join product_kks_arret ka on k.id=ka.kks_id
                     inner join product_kks_piece kp on k.id=kp.kks_id

@@ -183,7 +183,8 @@
 				        			<td class="text-center" style="width : 10%"><strong>Code Mag</strong></td>
 						            <td class="text-center" style="width : 5%"><strong>Qté demandée</strong></td>
 						            <td class="text-center" style="width : 5%"><strong>Qté Stock</strong></td>
-									<td class="text-center" style="width : 30%"><strong>Désignation</strong></td>
+									<td class="text-center" style="width : 5%"><strong>Unité</strong></td>
+									<td class="text-center" style="width : 25%"><strong>Désignation</strong></td>
 									<td class="text-center" style="width : 5%"><strong>Item</strong></td>   
 									<td class="text-center" style="width : 10%"><strong>KKS</strong></td>
 									<td class="text-center" style="width : 25%"><strong>Référence</strong></td>
@@ -195,9 +196,10 @@
 									<t t-if="o.nbr==o.row"> 
 							       		<tr>
 						                    <td class="text-left" style="width : 10%"><strong><span t-field="o.magasin_id.code"/></strong></td>
-								             <td class="text-center" style="width : 5%"><strong><span t-field="o.qte_a_sortir"/></strong></td>
+								            <td class="text-center" style="width : 5%"><strong><span t-field="o.qte_a_sortir"/></strong></td>
 									        <td class="text-center" style="width : 5%"><strong><span t-field="o.stock"/></strong></td>
-											<td class="text-left" style="width : 30%"><strong><span t-field="o.designation"/></strong></td>
+											<td class="text-center" style="width : 5%"><strong><span t-field="o.unite_magasin"/></strong></td>
+											<td class="text-left" style="width : 25%"><strong><span t-field="o.designation"/></strong></td>
 											<td class="text-center" style="width : 5%"><strong><span t-field="o.item"/></strong></td>
 											<td class="text-left" style="width : 10%"><strong><span t-field="o.kks"/></strong></td>
 											<td class="text-left" style="width : 25%"><strong><span t-field="o.reference"/></strong></td>
@@ -207,9 +209,10 @@
 						            <t t-if="o.nbr!=o.row"> 
 							       		<tr>
 						                    <td class="text-left" style="width : 10%"><span t-field="o.magasin_id.code"/></td>
-								             <td class="text-center" style="width : 5%"></td>
+								            <td class="text-center" style="width : 5%"></td>
 									        <td class="text-center" style="width : 5%"></td>
-											<td class="text-left" style="width : 30%"><span t-field="o.designation"/></td>
+											<td class="text-center" style="width : 5%"></td>
+											<td class="text-left" style="width : 25%"><span t-field="o.designation"/></td>
 											<td class="text-center" style="width : 5%"><span t-field="o.item"/></td>
 											<td class="text-left" style="width : 10%"><span t-field="o.kks"/></td>
 											<td class="text-left" style="width : 25%"><span t-field="o.reference"/></td>

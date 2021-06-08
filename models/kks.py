@@ -9,6 +9,7 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 from odoo import _
 from docx import Document
+
 _logger = logging.getLogger(__name__)
 
 

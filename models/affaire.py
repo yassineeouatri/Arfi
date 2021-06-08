@@ -62,7 +62,7 @@ class product_affaire(models.Model):
                 number = int(res[0])
         number = str(number).zfill(3)
 
-        return str(number)+'-'+str(number)+'-'+str(year)
+        return str(number) + "-" + str(number) + "-" + str(year)
 
     name = fields.Char("Affaire N°", default=get_name, size=6)
     type = fields.Selection(
