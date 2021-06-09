@@ -33,6 +33,7 @@ class product_kks_search_wizard(models.Model):
     ref_com_id = fields.Many2one("product.ref.com", "Réf Commercial")
     outillage_id = fields.Many2one("product.outillage", "Désignation")
     code = fields.Char("Résultat", readonly=True)
+    material_id = fields.Many2one("product.product.material", "Matière")
 
     @api.onchange("outillage_id")
     def _onchange_appareil(self):
@@ -188,6 +189,30 @@ class product_kks_search_wizard(models.Model):
                 }
         else:
             raise ValidationError(_("Veuillez sélectionner la valeur outillage"))
+
+    def print_report_matiere(self):
+        if self.material_id:
+            name = "Recherche par matière"
+            return {
+                "type": "ir.actions.act_window",
+                "res_model": "product.kks.matiere.report",
+                "view_mode": "tree",
+                "view_type": "form",
+                "name": name,
+                "views": [
+                    (
+                        self.env.ref(
+                            "arfi.view_product_kks_matiere_report_tree"
+                        ).id,
+                        "tree",
+                    )
+                ],
+                "context": {
+                    "search_default_material_id": self.material_id.id
+                },
+            }
+        else:
+            raise ValidationError(_("Veuillez sélectionner la valeur matière"))
 
     def action_search(self):
         # raise ValidationError(_(self.type))

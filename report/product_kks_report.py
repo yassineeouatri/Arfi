@@ -643,3 +643,29 @@ class product_kks_poids_report(models.Model):
             )
         """
         )
+
+
+class product_kks_matiere_report(models.Model):
+    _name = "product.kks.matiere.report"
+    _description = "Product KKs matiere Report"
+    _auto = False
+
+    appareil_id = fields.Many2one("product.template", "Appareil", required=False)
+    maker_id = fields.Many2one("product.template.maker", "Fabriquant", required=False)
+    piece_id = fields.Many2one("product.piece", "Pièce", required=False)
+    material_id = fields.Many2one("product.product.material", "Matière")
+    no_piece = fields.Char("N° Pièce")
+
+    def init(self):
+        tools.drop_view_if_exists(self._cr, "product_kks_matiere_report")
+        self._cr.execute(
+            """
+           CREATE or REPLACE view product_kks_matiere_report as (
+                SELECT row_number() OVER () as id,t.*
+                FROM (SELECT appareil.id appareil_id, appareil.maker_id, piece.id as piece_id, piece.material_id, piece.no_piece
+                FROM product_template AS appareil
+                LEFT JOIN product_piece AS piece on piece.appareil_id=appareil.id
+                ) AS t
+            )
+        """
+        )

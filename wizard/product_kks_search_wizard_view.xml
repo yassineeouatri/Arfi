@@ -34,6 +34,13 @@
                     				<button string="Chercher" name="print_report_com" type="object" class="btn-info"/>
                     			</group>
 			                </fieldset>
+							<fieldset style="width:99%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+							   	<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Matière :</legend> 
+		  						<group colspan="2">
+		              				<field name="material_id" options="{'no_create': True,'no_open': True}"/>
+                    				<button string="Chercher" name="print_report_matiere" type="object" class="btn-danger"/>
+          						</group>
+			                </fieldset>
 	          			</group>
 	                    <group colspan="4">
 	                		<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
