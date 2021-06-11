@@ -669,3 +669,30 @@ class product_kks_matiere_report(models.Model):
             )
         """
         )
+
+
+class product_kks_piece_report(models.Model):
+    _name = "product.kks.piece.report"
+    _description = "Product KKs piece Report"
+    _auto = False
+
+    piece_id = fields.Many2one("product.piece", "Désignation", required=True)
+    magasin_id = fields.Many2one("product.magasin", "Code Magasin", readonly=True)
+    photo_name = fields.Char("Nom du fichier", size=256)
+    photo = fields.Binary("Image")
+    stock_magasin = fields.Char(string="Stock", readonly=True)
+    unite_magasin = fields.Char(string="Unité", readonly=True)
+
+    def init(self):
+        tools.drop_view_if_exists(self._cr, "product_kks_piece_report")
+        self._cr.execute(
+            """
+           CREATE or REPLACE view product_kks_piece_report as (
+                SELECT row_number() OVER () as id,t.*
+                FROM (SELECT magasin.id as magasin_id,piece.piece_id, photo_name,photo,stock_magasin, unite_magasin 
+                    FROM product_magasin magasin
+                    LEFT JOIN product_kks_piece piece ON piece.magasin_id=magasin.id
+                ) AS t
+            )
+        """
+        )

@@ -255,15 +255,55 @@
         </field>
     </record>
 	<record id="product_kks_matiere_report_action" model="ir.actions.act_window">
+        <field name="name">KKS Outillage Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.kks.matiere.report</field>
+        <field name="view_mode">tree</field>
+        <field name="view_type">form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créer un nouveau kks matiere
+            </p>
+        </field>
+    </record>
+    <!-- KKS piece Report -->
+    <record id="view_product_kks_piece_report_search" model="ir.ui.view">
+        <field name="name">product.kks.piece.report.search</field>
+        <field name="model">product.kks.piece.report</field>
+        <field name="arch" type="xml">
+            <search string="KKS Report">
+                <field name="magasin_id"/>
+                <field name="piece_id"/>	
+                <group expand="0" string="Grouper Par">
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_product_kks_piece_report_tree" model="ir.ui.view">
+        <field name="name">product.kks.piece.report.tree</field>
+        <field name="model">product.kks.piece.report</field>
+        <field name="arch" type="xml">
+            <tree string="Leaves by Type">
+                <field name="magasin_id"/>
+                <field name="piece_id"/>
+                <field name="photo_name" invisible="1"/>
+                <field name="photo"/>	
+                <field name="stock_magasin"/>
+                <field name="unite_magasin"/>
+            </tree>
+        </field>
+    </record>
+	<record id="product_kks_piece_report_action" model="ir.actions.act_window">
             <field name="name">KKS Outillage Report</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.kks.matiere.report</field>
+            <field name="res_model">product.kks.piece.report</field>
             <field name="view_mode">tree</field>
             <field name="view_type">form</field>
             <field name="context">{}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Créer un nouveau kks matiere
+                    Créer un nouveau kks piece
                 </p>
             </field>
         </record>

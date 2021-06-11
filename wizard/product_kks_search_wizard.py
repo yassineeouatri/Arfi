@@ -34,6 +34,7 @@ class product_kks_search_wizard(models.Model):
     outillage_id = fields.Many2one("product.outillage", "Désignation")
     code = fields.Char("Résultat", readonly=True)
     material_id = fields.Many2one("product.product.material", "Matière")
+    piece_id = fields.Many2one("product.piece", "Pièce")
 
     @api.onchange("outillage_id")
     def _onchange_appareil(self):
@@ -213,6 +214,30 @@ class product_kks_search_wizard(models.Model):
             }
         else:
             raise ValidationError(_("Veuillez sélectionner la valeur matière"))
+
+    def print_report_piece(self):
+        if self.piece_id:
+            name = "Recherche par pièce"
+            return {
+                "type": "ir.actions.act_window",
+                "res_model": "product.kks.piece.report",
+                "view_mode": "tree",
+                "view_type": "form",
+                "name": name,
+                "views": [
+                    (
+                        self.env.ref(
+                            "arfi.view_product_kks_piece_report_tree"
+                        ).id,
+                        "tree",
+                    )
+                ],
+                "context": {
+                    "search_default_piece_id": self.piece_id.id
+                },
+            }
+        else:
+            raise ValidationError(_("Veuillez sélectionner la valeur de la pièce"))
 
     def action_search(self):
         # raise ValidationError(_(self.type))
