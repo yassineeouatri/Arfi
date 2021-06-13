@@ -689,7 +689,7 @@ class product_kks_piece_report(models.Model):
             """
            CREATE or REPLACE view product_kks_piece_report as (
                 SELECT row_number() OVER () as id,t.*
-                FROM (SELECT magasin.id as magasin_id,piece.piece_id, photo_name,photo,stock_magasin, unite_magasin 
+                FROM (SELECT magasin.id as magasin_id,piece.piece_id, photo_name,photo,stock_magasin, unite_magasin
                     FROM product_magasin magasin
                     LEFT JOIN product_kks_piece piece ON piece.magasin_id=magasin.id
                 ) AS t

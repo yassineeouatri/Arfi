@@ -643,3 +643,15 @@ access_product_kks_piece_report_arfi_employee1,product.kks.piece.report.arfi.emp
 access_product_kks_piece_report_arfi_employee2,product.kks.piece.report.arfi.employee2,model_product_kks_piece_report,group_arfi_employee2,1,1,1,1
 access_product_kks_piece_report_arfi_employee3,product.kks.piece.report.arfi.employee3,model_product_kks_piece_report,group_arfi_employee3,1,1,1,1
 access_product_kks_piece_report_arfi_atelier,product.kks.piece.report.arfi.atelier,model_product_kks_piece_report,group_arfi_atelier,1,1,1,1 
+access_hr_employee_document_arfi_manager,hr.employee.document.arfi.manager,model_hr_employee_document,group_arfi_manager,1,1,1,1
+access_hr_employee_document_arfi_employee,hr.employee.document.arfi.employee,model_hr_employee_document,group_arfi_employee,1,1,1,1
+access_hr_employee_document_arfi_employee1,hr.employee.document.arfi.employee1,model_hr_employee_document,group_arfi_employee1,1,0,0,0
+access_hr_employee_document_arfi_employee2,hr.employee.document.arfi.employee2,model_hr_employee_document,group_arfi_employee2,1,0,0,0
+access_hr_employee_document_arfi_employee3,hr.employee.document.arfi.employee3,model_hr_employee_document,group_arfi_employee3,1,0,0,0
+access_hr_employee_document_arfi_atelier,hr.employee.document.arfi.atelier,model_hr_employee_document,group_arfi_atelier,1,0,0,0 
+access_product_arret_planning_arfi_manager,product.arret.planning.arfi.manager,model_product_arret_planning,group_arfi_manager,1,1,1,1
+access_product_arret_planning_arfi_employee,product.arret.planning.arfi.employee,model_product_arret_planning,group_arfi_employee,1,1,1,1
+access_product_arret_planning_arfi_employee1,product.arret.planning.arfi.employee1,model_product_arret_planning,group_arfi_employee1,1,0,0,0
+access_product_arret_planning_arfi_employee2,product.arret.planning.arfi.employee2,model_product_arret_planning,group_arfi_employee2,1,0,0,0
+access_product_arret_planning_arfi_employee3,product.arret.planning.arfi.employee3,model_product_arret_planning,group_arfi_employee3,1,0,0,0
+access_product_arret_planning_arfi_atelier,product.arret.planning.arfi.atelier,model_product_arret_planning,group_arfi_atelier,1,0,0,0 

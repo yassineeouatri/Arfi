@@ -1008,6 +1008,107 @@
 			 </form>
         </field>
     </record>   
-  
-        </data>
+	 <!-- Plannings -->
+ 	     <record id="product_arret_planning_search_view" model="ir.ui.view">
+            <field name="name">product.arret.planning.search</field>
+            <field name="model">product.arret.planning</field>
+            <field name="arch" type="xml">
+                <search string="Planning">
+                	<field name="customer_id"/>
+					<field name="affaire_id"/>
+                	<group expand="0" string="Group By">
+                    </group>
+                </search>
+            </field>
+        </record>
+		<record id="product_arret_planning_calendar_view" model="ir.ui.view">
+            <field name="name">product.arret.planning.calendar</field>
+            <field name="model">product.arret.planning</field>
+            <field name="arch" type="xml">
+                <calendar string="Planning" date_start="date_from" date_stop="date_to">
+                    <field name="customer_id"/>
+					<field name="affaire_id"/>
+                </calendar>
+            </field>
+        </record>
+		<record id="product_arret_planning_tree_view" model="ir.ui.view">
+            <field name="name">product.arret.planning.tree</field>
+            <field name="model">product.arret.planning</field>
+            <field name="arch" type="xml">
+                <tree string="magasins">
+                    <field name="customer_id"/>
+					<field name="affaire_id"/>
+					<field name="date_from"/>
+					<field name="date_to"/>
+                </tree>
+            </field>
+        </record>
+		<record id="product_arret_planning_form_view" model="ir.ui.view">
+			<field name="name">product.arret.planning.form</field>
+			<field name="model">product.arret.planning</field>
+			<field name="arch" type="xml">
+				<form string="Planning">
+					<sheet> 
+						<group>
+							<fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations :</legend> 
+								<group style="width : 50%">	
+									<field name="customer_id" options="{'no_create': True,'no_open': True}"/>
+									<field name="affaire_id" options="{'no_create': True,'no_open': True}"/>
+								</group>
+								<group style="width : 50%"> 
+									<field name="date_from"/>
+									<field name="date_to"/>
+								</group>
+							</fieldset> 	
+						</group>
+						<group colspan="4" col="4">	
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Liste des personnels :</legend> 
+					  			<field name="employee_ids" widget="many2many_kanban">   
+									<kanban quick_create="false" delete="true">      
+										<field name="name"/>      
+										<templates>          
+											<t t-name="kanban-box">              
+												<div class="oe_kanban_global_click" style="position: relative">                  
+													<a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>                  
+													<div class="oe_module_vignette">                      
+													<img t-att-src="kanban_image('res.users', 'image_small', record.id.value)" class="oe_avatar oe_kanban_avatar_smallbox"/>                      
+													<div class="oe_module_desc">                          
+													<field name="name"/>                      
+													</div>                  
+													</div>              
+												</div>          
+											</t>      
+										</templates>  
+									</kanban>
+								</field>
+	                		</fieldset> 			
+	                	</group>
+						<group colspan="4" col="4">	
+	                		 <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+								<legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Actions :</legend> 
+					  			<field name="note" nolabel="1"/>
+	                		</fieldset> 			
+	                	</group>
+					</sheet> 		
+				</form>
+			</field>
+		</record> 
+		<record id="product_arret_planning_action" model="ir.actions.act_window">
+            <field name="name">Planning</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.arret.planning</field>
+            <field name="view_mode">tree,calendar,form</field>
+            <field name="view_type">form</field>
+			<field name="limit">500</field>
+            <field name="view_id" ref="product_arret_planning_tree_view"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau planning
+                </p>
+            </field>
+        </record> 
+    </data>
 </openerp>

@@ -60,15 +60,15 @@
         <menuitem id='menu_product_order_root' name='Commandes' sequence="4"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png"  groups="group_arfi_employee,group_arfi_employee1,group_arfi_employee2,group_arfi_employee3,group_arfi_atelier,group_arfi_manager"/>
         <menuitem name="Commandes" parent="menu_product_order_root" id="menu_product_order" sequence="1" />
         <menuitem name="Commandes" parent="menu_product_order" id="product_order_menu" action="product_order_action" sequence="2"/>
-    	<menuitem name="Conditions de services" parent="menu_product_order" id="product_order_service_menu" action="product_order_service_action" sequence="2" groups="base.group_no_one"/>
-    	<menuitem name="Tests et Contrôles" parent="menu_product_order" id="product_order_test_menu" action="product_order_test_action" sequence="2" groups="base.group_no_one"/>
-    	<menuitem name="Opérations/Commandes" parent="menu_product_order" id="product_order_operation_menu" action="product_order_operation_action" sequence="2" groups="base.group_no_one"/>
-    	<menuitem name="Liste des commandes par client" parent="menu_product_order" id="product_order_customer_wizard_menu" action="action_product_order_customer_wizard" sequence="2"/>
-    	<menuitem name="Import des opérations" parent="menu_product_order" id="operation_menu" action="operation_action" sequence="3" groups="base.group_no_one"/>
-    	<menuitem name="Import des commandes" parent="menu_product_order" id="commande_menu" action="commande_action" sequence="3" groups="base.group_no_one"/>
-    	<menuitem name="Import des commandes/kks" parent="menu_product_order" id="commande_kks_menu" action="commande_kks_action" sequence="3" groups="base.group_no_one"/>
-    	<menuitem name="Import des commandes/appareils" parent="menu_product_order" id="commande_appareil_menu" action="commande_appareil_action" sequence="3" groups="base.group_no_one"/>
-    	<menuitem name="Mis à jour" parent="menu_product_order" id="commande_update_menu" action="action_order_update" sequence="3" groups="base.group_no_one"/>
+    	  <menuitem name="Conditions de services" parent="menu_product_order" id="product_order_service_menu" action="product_order_service_action" sequence="2" groups="base.group_no_one"/>
+    	  <menuitem name="Tests et Contrôles" parent="menu_product_order" id="product_order_test_menu" action="product_order_test_action" sequence="2" groups="base.group_no_one"/>
+    	  <menuitem name="Opérations/Commandes" parent="menu_product_order" id="product_order_operation_menu" action="product_order_operation_action" sequence="2" groups="base.group_no_one"/>
+      	<menuitem name="Liste des commandes par client" parent="menu_product_order" id="product_order_customer_wizard_menu" action="action_product_order_customer_wizard" sequence="2"/>
+    	  <menuitem name="Import des opérations" parent="menu_product_order" id="operation_menu" action="operation_action" sequence="3" groups="base.group_no_one"/>
+    	  <menuitem name="Import des commandes" parent="menu_product_order" id="commande_menu" action="commande_action" sequence="3" groups="base.group_no_one"/>
+    	  <menuitem name="Import des commandes/kks" parent="menu_product_order" id="commande_kks_menu" action="commande_kks_action" sequence="3" groups="base.group_no_one"/>
+    	  <menuitem name="Import des commandes/appareils" parent="menu_product_order" id="commande_appareil_menu" action="commande_appareil_action" sequence="3" groups="base.group_no_one"/>
+    	  <menuitem name="Mis à jour" parent="menu_product_order" id="commande_update_menu" action="action_order_update" sequence="3" groups="base.group_no_one"/>
     	
          <!--  KKS -->
         <menuitem id='menu_product_kks_root' name='KKS' sequence="5"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png"  groups="group_arfi_employee,group_arfi_employee1,group_arfi_employee2,group_arfi_employee3,group_arfi_atelier,group_arfi_manager"/>
@@ -87,13 +87,13 @@
         <menuitem name="KKS" parent="menu_product_kks_report_" id="menu_product_kks_report" action="product_kks_report_action"/>
         <menuitem name="Réf Fabriquants" parent="menu_product_kks_report_" id="menu_product_ref_fab" action="product_ref_fab_action"/>
         <menuitem name="Réf Commercials" parent="menu_product_kks_report_" id="menu_product_ref_com" action="product_ref_com_action"/>
-   		<menuitem name="Factures" parent="menu_product_kks_report_" id="menu_product_kks_facture_arret" action="product_kks_facture_arret_action"/>
-   		<menuitem name="Stock" parent="menu_product_kks_root" id="menu_product_kks_stock_wizard" action="action_product_kks_stock_wizard" sequence="5"  />
+   		  <menuitem name="Factures" parent="menu_product_kks_report_" id="menu_product_kks_facture_arret" action="product_kks_facture_arret_action"/>
+   		  <menuitem name="Stock" parent="menu_product_kks_root" id="menu_product_kks_stock_wizard" action="action_product_kks_stock_wizard" sequence="5"  />
 
         <!--  PID -->
         <menuitem name='PID' id='menu_product_pid_root'  action="action_product_kks_pid_wizard" sequence="9" groups="group_arfi_manager,group_arfi_employee"/>
         <menuitem name='Recherche' id='menu_product_kks_pid_wizard'  parent="menu_product_pid_root" action="action_product_kks_pid_wizard" sequence="1"/>
-   		<menuitem name='Fichiers' id='menu_product_kks_pid_file'  parent="menu_product_pid_root" action="action_product_kks_pid_file" sequence="2"/>
+   		  <menuitem name='Fichiers' id='menu_product_kks_pid_file'  parent="menu_product_pid_root" action="action_product_kks_pid_file" sequence="2"/>
         <menuitem name='Commentaires' id='menu_product_kks_annotation_file'  parent="menu_product_pid_root" action="action_product_kks_annotation_file" sequence="3"/>
 
    			  <!--  Ventes -->
@@ -130,9 +130,8 @@
         <menuitem id='menu_product_affaire_configuration' name='Configuration' sequence="100" parent="menu_product_affaire_root"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png"  groups="group_arfi_affaire"/>
         <menuitem id='menu_product_affaire_city' name='Villes' sequence="2" parent="menu_product_affaire_configuration" action="action_product_city"/>
         <menuitem id='menu_product_affaire_person_title' name='Titres' sequence="4" parent="menu_product_affaire_configuration" action="base.action_partner_title_contact"/>
-                <!--  Achats -->
-
-
+        
+        <!--  Achats -->
        	<menuitem id='menu_product_purchase_root' name='Achats' sequence="7"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png" groups="group_arfi_purchase"/>
         <menuitem id='menu_product_purchase_main' name='Achats' parent="menu_product_purchase_root" sequence="1"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png" groups="group_arfi_purchase"/>
         <menuitem id='menu_product_bc' name='BC' parent="menu_product_purchase_main" action="action_product_bc" sequence="0"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png" groups="group_arfi_purchase"/>
@@ -157,8 +156,8 @@
         <menuitem id='menu_product_contract_appareil' name='Appareils' action="product_contract_appareil_action" parent="menu_product_contract_main" sequence="1"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png" groups="group_arfi_contract"/>
         <menuitem id='menu_product_contract_piece' name='Pièces' action="product_contract_piece_action" parent="menu_product_contract_main" sequence="2"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png" groups="group_arfi_contract"/>
         <menuitem id='menu_product_contract_customer'  name='Clients'  parent="menu_product_contract_root" sequence="2"/>
-   		<menuitem id='menu_product_contract_customer_' name='Clients'  parent="menu_product_contract_customer" action="res_partner_contract_action" sequence="1"/>
-       --> <!-- <menuitem name="Contrats" id="menu_product_contrats"          parent="menu_product_contrat_customer" action="product_kks_tarif_action" sequence="2"  />-->
+   		  <menuitem id='menu_product_contract_customer_' name='Clients'  parent="menu_product_contract_customer" action="res_partner_contract_action" sequence="1"/>
+        --> <!-- <menuitem name="Contrats" id="menu_product_contrats"          parent="menu_product_contrat_customer" action="product_kks_tarif_action" sequence="2"  />-->
 
         <menuitem id="menu_arfi_colmatage" name="Colmatage" sequence="3" groups="group_arfi_employee,group_arfi_employee1,group_arfi_employee2,group_arfi_employee3,group_arfi_atelier,group_arfi_manager"/>
         <menuitem id="menu_arfi_colmatage_appareil" name="Appareils" parent="menu_arfi_colmatage"  action="product_template_colmatage_action" sequence="1"/>
@@ -166,5 +165,9 @@
         <menuitem id="menu_arfi_colmatage_ss_category" name="Sous Types Appareils"  parent="menu_arfi_colmatage"  action="arfi_product_ss_category_action_form" sequence="3"/>
         <menuitem id="menu_arfi_colmatage_colmatage" name="Colmatage" parent="menu_arfi_colmatage"  action="action_product_colmatage" sequence="4"/>
 
+        <!--  Planning -->
+       	<menuitem id='menu_product_planning_root' name='Planning' sequence="10"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png" groups="group_arfi_manager,group_arfi_employee"/>
+        <menuitem id='menu_product_planning_main' name='Planning' parent="menu_product_planning_root" sequence="1" groups="group_arfi_purchase" action="product_arret_planning_action"/>
+        
    </data>
 </openerp>

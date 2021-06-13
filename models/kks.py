@@ -1250,3 +1250,21 @@ class product_kks_pps(models.Model):
             self.directory_id = self.return_directory_id("Plans Preventions")
         else:
             self.directory_id = None
+
+
+class product_arret_planning(models.Model):
+    _name = "product.arret.planning"
+    _description = "Plannings"
+    _order = "date_from"
+    _rec_name = "affaire_id"
+
+    customer_id = fields.Many2one(
+        "res.partner", "Client", domain=[("customer", "=", True)]
+    )
+    affaire_id = fields.Many2one("product.affaire", "N° Affaire")
+    employee_ids = fields.Many2many(
+        "hr.employee", "rel_planning_employee", "employee_id", "planning_id", "Employés"
+    )
+    date_from = fields.Date("Date début")
+    date_to = fields.Date("Date Fin")
+    note = fields.Text("Action")

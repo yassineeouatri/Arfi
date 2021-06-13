@@ -15,12 +15,10 @@ Arfi Management
     'website': 'https://www.odoo.com/page/employees',
     'images': [
     ],
-    'depends': [ 'base','product','muk_dms', 'board'
-    ],
+    'depends': ['base', 'product', 'muk_dms', 'board', 'hr'],
     'data': [
         'security/arfi_security.xml',
         'security/ir.model.access.csv',
-        
         'views/partner_view.xml',
         'views/arfi_view.xml',
         'views/product_view.xml',
@@ -33,6 +31,7 @@ Arfi Management
         'views/contract_view.xml',
         'views/colmatage_view.xml',
         'views/report_invoice.xml',
+        'views/employee_view.xml',
         'wizard/product_import_view.xml',
         'wizard/product_import_image_view.xml',
         'wizard/product_order_customer_view.xml',
@@ -82,7 +81,6 @@ Arfi Management
         'report/product_kks_poids_report.xml',
         'views/arfi_menu.xml',
         'views/arfi_templates.xml',
-        
     ],
     'demo': [],
     'test': [
@@ -90,7 +88,7 @@ Arfi Management
     'installable': True,
     'application': True,
     'auto_install': False,
-    'qweb' : [
+    'qweb': [
         'static/src/xml/templates.xml'
     ],
 }
