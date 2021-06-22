@@ -80,7 +80,7 @@ class product_affaire(models.Model):
     customer_id = fields.Many2one(
         "res.partner", "Client", domain=[("customer", "=", True)]
     )
-    no_intervenant = fields.Char("N° intervenant", default=get_no_intervenant, size=10)
+    no_intervenant = fields.Char("N° intervenant", size=10)
     person_id = fields.Many2one("res.partner.person", "Demandeur")
     title_id = fields.Many2one("res.partner.title", "Titre")
     city_id = fields.Many2one("product.city", "Ville")
