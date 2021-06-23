@@ -720,6 +720,7 @@ class product_magasin(models.Model):
             obj.update({"stock_magasin": stock, "unite_magasin": unite})
 
     code = fields.Char("Code", required=True)
+    designation = fields.Char("Désignation")
     photo_name = fields.Char("Nom du fichier", size=256)
     photo = fields.Binary("Image")
     supplier_ids = fields.One2many(

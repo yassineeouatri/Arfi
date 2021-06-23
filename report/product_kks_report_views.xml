@@ -274,7 +274,7 @@
         <field name="arch" type="xml">
             <search string="KKS Report">
                 <field name="magasin_id"/>
-                <field name="piece_id"/>	
+                <field name="designation"/>	
                 <group expand="0" string="Grouper Par">
                 </group>
             </search>
@@ -287,6 +287,7 @@
             <tree string="Leaves by Type">
                 <field name="magasin_id"/>
                 <field name="piece_id"/>
+                <field name="designation"/>
                 <field name="photo_name" invisible="1"/>
                 <field name="photo"/>	
                 <field name="stock_magasin"/>

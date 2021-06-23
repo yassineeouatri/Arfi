@@ -638,6 +638,7 @@
             <field name="arch" type="xml">
                 <search string="magasins">
                 	<field name="code"/>
+                	<field name="designation"/>
                 	<group expand="0" string="Group By">
                     </group>
                 </search>
@@ -650,6 +651,7 @@
             <field name="arch" type="xml">
                 <tree string="magasins">
                     <field name="code"/>
+					<field name="designation"/>
 					<field name="photo"/>
 					<field name="stock_magasin"/>
 					<field name="unite_magasin"/>
@@ -667,6 +669,7 @@
                     	<div class="oe_title">
                             <h1>
                                 <field name="code" placeholder="Code magasin" style="margin-top: 3%;margin-left: 3%;width: 80%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;"/>
+								<field name="designation" placeholder="Désignation" style="margin-top: 3%;margin-left: 3%;width: 80%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;"/>
                             </h1>
                         </div>
                          <group style="width: 100%">
