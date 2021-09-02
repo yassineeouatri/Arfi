@@ -28,7 +28,7 @@ class product_kks(models.Model):
         "res.partner", "Client", domain=[("customer", "=", True)], required=True
     )
     appareil_id = fields.Many2one(
-        "product.template", "Appareil", domain=[("type", "=", "appareil")]
+        "product.template", "Appareil", domain=[]
     )
     maker_id = fields.Many2one("product.template.maker", "Marque")
     ss_type_appareil_id = fields.Many2one(
@@ -520,7 +520,7 @@ class product_kks_piece(models.Model):
 
     kks_id = fields.Many2one("product.kks", "Code KKS")
     appareil_id = fields.Many2one(
-        "product.template", "Appareil", domain=[("type", "=", "appareil")]
+        "product.template", "Appareil", domain=[]
     )
     choice = fields.Boolean("Choix")
     tarif = fields.Float("Tarif")

@@ -14,7 +14,7 @@ class product_template_information(models.Model):
     _description = "Product Template Information"
 
     appareil_id = fields.Many2one(
-        "product.template", "Appareil", domain=[("type", "=", "appareil")]
+        "product.template", "Appareil", domain=[]
     )
     information_ids = fields.Many2many(
         "product.attribute",

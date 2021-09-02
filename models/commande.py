@@ -135,7 +135,7 @@ class product_order(models.Model):
         help="",
     )
     appareil_id = fields.Many2one(
-        "product.template", "Appareil", domain=[("type", "=", "appareil")]
+        "product.template", "Appareil", domain=[]
     )
     kks_id = fields.Many2one("product.kks", "KKS")
     reference_appareil = fields.Char("Référence")
@@ -654,7 +654,7 @@ class product_order_appareil_image(models.Model):
 
     order_id = fields.Many2one("product.order", "Commande")
     appareil_id = fields.Many2one(
-        "product.template", "Appareil", domain=[("type", "=", "appareil")]
+        "product.template", "Appareil", domain=[]
     )
     photo_name = fields.Char("Nom du fichier", size=256)
     photo = fields.Binary("Image")
@@ -758,7 +758,7 @@ class product_order_operation(models.Model):
     appareil_id = fields.Many2one(
         "product.template",
         "Appareil",
-        domain=[("type", "=", "appareil")],
+        domain=[],
         required=False,
     )
     piece_id = fields.Many2one("product.piece", "Pièce")

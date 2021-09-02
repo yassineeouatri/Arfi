@@ -14,7 +14,7 @@ class product_template_procedure(models.Model):
     _description = "Product Template Procedure"
 
     appareil_id = fields.Many2one(
-        "product.template", "Appareil", domain=[("type", "=", "appareil")]
+        "product.template", "Appareil", domain=[]
     )
     directory_id = fields.Many2one(
         "muk_dms.directory", string="Directory", required=False
