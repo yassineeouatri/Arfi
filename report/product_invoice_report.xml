@@ -200,7 +200,7 @@
 	                </tbody>
            		 </table>
 	            <div class="row" style="padding-top: 5px">
-	            	<div class="col-xs-5 pull-left">
+	            	<div class="col-xs-6 pull-left">
 						<div style="border : 1px solid #ddd;padding-left: 5px;">
 							<p><strong>Arrêté la présente facture à la somme de : </strong></p>
 							<span t-field="o.montant_text"/>
@@ -296,7 +296,7 @@
 	                </tbody>
            		 </table>
 	            <div class="row" style="padding-top: 5px">
-	            	<div class="col-xs-5 pull-left">
+	            	<div class="col-xs-6 pull-left">
 						<div style="border : 1px solid #ddd;padding-left: 5px;">
 							<p><strong>Arrêté la présente facture à la somme de : </strong></p>
 							<span t-field="o.montant_text"/>
@@ -397,7 +397,7 @@
 						</tbody>
 					 </table>
 					<div class="row" style="padding-top: 5px">
-						<div class="col-xs-5 pull-left">
+						<div class="col-xs-6 pull-left">
 							<div style="border : 1px solid #ddd;padding-left: 5px;">
 								<p><strong>Arrêté la présente facture à la somme de : </strong></p>
 								<span t-field="o.montant_text"/>
@@ -486,7 +486,7 @@
 						</tbody>
 					 </table>
 					<div class="row" style="padding-top: 5px">
-						<div class="col-xs-5 pull-left">
+						<div class="col-xs-6 pull-left">
 							<div style="border : 1px solid #ddd;padding-left: 5px;">
 								<p><strong>Arrêté la présente facture à la somme de : </strong></p>
 								<span t-field="o.montant_text"/>
