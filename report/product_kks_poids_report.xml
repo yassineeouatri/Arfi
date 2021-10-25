@@ -58,9 +58,10 @@
 							<table class="table table-bordered">
 								<thead style=" background-color: #3498DB; color : white" >
 									<tr>
-										<td class="text-center" style="width: 20%;"><strong>KKS</strong></td>
-										<td class="text-center" style="width: 60%;"><strong>Désignation</strong></td>
-										<td class="text-center"><strong>Poids</strong></td>
+										<td class="text-center" style="width: 15%;"><strong>KKS</strong></td>
+										<td class="text-center" style="width: 55%;"><strong>Désignation</strong></td>
+										<td class="text-center"><strong>Poids Corps</strong></td>
+										<td class="text-center"><strong>Poids Motorisation</strong></td>
 									</tr>
 								</thead> 
 								<tbody> 								
@@ -69,6 +70,7 @@
 											<td class="text-left"><strong><span t-field="o.kks_id.name"/></strong></td>
 											<td class="text-center"><strong><span t-field="o.appareil_id.name"/></strong></td>
 											<td class="text-center"><strong><span t-field="o.value"/></strong></td>
+											<td class="text-center"><strong><span t-field="o.value2"/></strong></td>
 										</tr>	                	
 									</t>
 								</tbody>

@@ -1226,8 +1226,8 @@ class product_kks_etat_wizard(models.Model):
         feuille.set_tab_color("yellow")
         feuille.set_column("A:A", 20)
         feuille.set_column("B:B", 80)
-        feuille.set_column("C:C", 20)
-        feuille.merge_range("A1:C1", "LISTE POIDS ARRET", style_titre)
+        feuille.set_column("C:D", 20)
+        feuille.merge_range("A1:D1", "LISTE POIDS ARRET", style_titre)
         record = self.env["product.kks.arret"].search(
             [("arret_id", "=", arret_id)], limit=1
         )
@@ -1239,11 +1239,12 @@ class product_kks_etat_wizard(models.Model):
             + "            Client : "
             + customer.name
         )
-        feuille.merge_range("A3:C3", titre, style_titre2)
+        feuille.merge_range("A3:D3", titre, style_titre2)
         x = 5
         feuille.write("A" + str(x), "KKS", style_title)
         feuille.write("B" + str(x), "Désignation", style_title)
-        feuille.write("C" + str(x), "Poids", style_title)
+        feuille.write("C" + str(x), "Poids Corps", style_title)
+        feuille.write("D" + str(x), "Poids Motorisation", style_title)
 
         records = self.env["product.kks.poids.report"].search(
             [("customer_id", "=", customer_id), ("arret_id", "=", arret_id)]
@@ -1256,9 +1257,14 @@ class product_kks_etat_wizard(models.Model):
                 feuille.write("C" + str(x), record.value, style)
             else:
                 feuille.write("C" + str(x), 0, style)
+            if record.value2:
+                feuille.write("D" + str(x), record.value2, style)
+            else:
+                feuille.write("D" + str(x), 0, style)
             x = x + 1
         feuille.merge_range("A" + str(x + 1) + ":B" + str(x + 1), "Total", style_title)
         feuille.write("C" + str(x + 1), "=SUM(C6:C" + str(x - 1) + ")", style_title)
+        feuille.write("D" + str(x + 1), "=SUM(D6:D" + str(x - 1) + ")", style_title)
 
         workbook.close()
         return self.get_return(fichier)

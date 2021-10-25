@@ -623,7 +623,8 @@ class product_kks_poids_report(models.Model):
     kks_id = fields.Many2one("product.kks", "KKS", readonly=True)
     unite_id = fields.Many2one("product.unite", "Code Unité")
     designation = fields.Char("Désignation")
-    value = fields.Char("Poids")
+    value = fields.Char("Poids Corps")
+    value2 = fields.Char("Poids Motorisation")
 
     def init(self):
         tools.drop_view_if_exists(self._cr, "product_kks_poids_report")
@@ -631,7 +632,7 @@ class product_kks_poids_report(models.Model):
             """
             CREATE or REPLACE view product_kks_poids_report as (
                 SELECT row_number() OVER () as id,t.*
-                FROM ( SELECT t1.*, t2.value FROM (
+                FROM ( SELECT t1.*, t2.value, t3.value2 FROM (
                 select kks.id as kks_id,arret_id, customer_id,kks.reference as designation,kks.appareil_id,unite_id
                 from product_kks kks
                 inner join product_kks_arret pka on pka.kks_id=kks.id) AS t1
@@ -639,7 +640,12 @@ class product_kks_poids_report(models.Model):
                 (select pt.id as appareil_id, pal.value  as value from product_template pt
                 left join product_attribute_line pal on pal.product_tmpl_id=pt.id
                 inner join product_attribute pa on pa.id=pal.attribute_id
-                where pa.name like 'Poids') AS t2 on t1.appareil_id=t2.appareil_id) AS t
+                where pa.name like 'Poids Corps' or pa.name like 'Poids') AS t2 on t1.appareil_id=t2.appareil_id
+				LEFT JOIN
+                (select pt.id as appareil_id, pal.value as value2 from product_template pt
+                left join product_attribute_line pal on pal.product_tmpl_id=pt.id
+                inner join product_attribute pa on pa.id=pal.attribute_id
+                where pa.name like 'Poids Motorisation') AS t3 on t1.appareil_id=t3.appareil_id) AS t
             )
         """
         )
