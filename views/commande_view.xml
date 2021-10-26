@@ -261,6 +261,7 @@
 	                            <group style="width : 50%">
 	                                <field name='customer_id'  options="{'no_create': True,'no_open': True}"/>
 	                                <field name='place_id'  options="{'no_create': True,'no_open': True}"/>
+                                    <field name='type'/>
 		                        </group>
 	                        </fieldset>
                         </group>
@@ -339,13 +340,14 @@
             </field>
         </record>
         <record id="product_order_action" model="ir.actions.act_window">
-            <field name="name">Commandes</field>
+            <field name="name">Commandes (REE)</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">product.order</field>
             <field name="view_mode">tree,form,calendar,pivot,graph</field>
             <field name="view_type">form</field>
+            <field name="domain">[('type','=','Remise en etat (REE)')]</field>
             <field name="limit">500</field>
-            <field name="context">{}</field>
+            <field name="context">{"default_type":'Remise en etat (REE)'}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Click to define a new order.
@@ -363,6 +365,33 @@
             <field name="view_mode">form</field>
             <field name="view_id" ref="product_order_view_form"/>
             <field name="act_window_id" ref="product_order_action"/>
+        </record>
+        <record id="product_order_action_colmatage" model="ir.actions.act_window">
+            <field name="name">Commandes (Colmatage)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.order</field>
+            <field name="view_mode">tree,form,calendar,pivot,graph</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('type','=','Colmatage')]</field>
+            <field name="limit">500</field>
+            <field name="context">{"default_type":'Colmatage'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a new order.
+                </p>
+            </field>
+        </record>
+         <record model="ir.actions.act_window.view" id="product_order_action_colmatage_form">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="product_order_tree_view"/>
+            <field name="act_window_id" ref="product_order_action_colmatage"/>
+        </record>
+		<record model="ir.actions.act_window.view" id="product_order_action_colmatage_tree">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_order_view_form"/>
+            <field name="act_window_id" ref="product_order_action_colmatage"/>
         </record>
  <!-- Open Action Opération 
  		<record id="open_order_operation_action" model="ir.actions.server">

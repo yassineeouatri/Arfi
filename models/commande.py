@@ -108,6 +108,13 @@ class product_order(models.Model):
         index=True,
         default=lambda self: _("/"),
     )
+    type = fields.Selection(
+        [
+            ("Colmatage", "Colmatage"),
+            ("Remise en etat (REE)", "Remise en état (REE)"),
+        ],
+        "Type",
+    )
     code_order = fields.Char("Code commande")
     no_order = fields.Char("N° commande", required=True)
     date_order = fields.Date("Date commande", required=False)
