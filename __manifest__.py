@@ -32,6 +32,7 @@ Arfi Management
         'views/colmatage_view.xml',
         'views/report_invoice.xml',
         'views/employee_view.xml',
+        'views/joint_view.xml',
         'wizard/product_import_view.xml',
         'wizard/product_import_image_view.xml',
         'wizard/product_order_customer_view.xml',

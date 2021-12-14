@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <!-- Calcul torque -->
+ 	     <record id="product_joint_torque_search_view" model="ir.ui.view">
+            <field name="name">product.joint.torque.search</field>
+            <field name="model">product.joint.torque</field>
+            <field name="arch" type="xml">
+                <search string="Torque">
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_torque_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.torque.tree</field>
+            <field name="model">product.joint.torque</field>
+            <field name="arch" type="xml">
+                <tree string="Torque">
+                </tree>
+            </field>
+        </record>
+        <record id="product_joint_torque_form_view" model="ir.ui.view">
+            <field name="name">product.joint.torque.form</field>
+            <field name="model">product.joint.torque</field>
+            <field name="arch" type="xml">
+                <form string="Torque" style="background-color: #80827B;">
+                    <group style="background-color: #FFFFFF;padding:5px" col="4">
+                        <group>
+	                		<button class="btn btn-default" style="margin : 5px" string="Apperçu Excel" name="print_joint_excel" type="object" icon="fa-file-excel-o"/>
+		                </group>
+                        <group colspan="4">
+                            <field name="joint_id" widget="selection"/>
+                            <field name="joint" invisible="1"/>
+                        </group>
+                        <group colspan="4" attrs="{'invisible' : [('joint','not in',('ss_anneau','avec_anneau_int','avec_anneau_int_ext'))]}"> 
+                            <field name="ss_anneau" attrs="{'invisible' : [('joint','!=','ss_anneau')]}"/>
+                            <field name="avec_anneau_int" attrs="{'invisible' : [('joint','!=','avec_anneau_int')]}"/>
+                            <field name="avec_anneau_int_ext" attrs="{'invisible' : [('joint','!=','avec_anneau_int_ext')]}"/>
+                        </group>
+                        <group colspan="4" attrs="{'invisible' : [('joint','not in',('plat','ss_anneau','avec_anneau_int','avec_anneau_int_ext'))]}">
+                            <group>
+                                <field name="norme_id"  options="{'no_create': True,'no_open': True}" attrs="{'invisible' : [('joint','!=','plat')]}"/>
+                                <field name="type_id"  options="{'no_create': True,'no_open': True}" attrs="{'invisible' : [('joint','!=','plat')]}"/>
+                                <field name="dn_id"  options="{'no_create': True,'no_open': True}"  attrs="{'invisible' : [('joint','not in',('plat', 'avec_anneau_int_ext'))]}"/>
+                                <field name="emboitement_line_id"  options="{'no_create': True,'no_open': True}"  attrs="{'invisible' : [('joint','not in',('ss_anneau','avec_anneau_int'))]}"/>
+                            </group>
+                            <group>
+                                <field name="fluide_id"  options="{'no_create': True,'no_open': True}" attrs="{'invisible' : [('joint','!=','plat')]}"/>
+                                <field name="quality_id"  options="{'no_create': True,'no_open': True}" attrs="{'invisible' : [('joint','!=','plat')]}"/>
+                                <field name="pn_id"  options="{'no_create': True,'no_open': True}"  attrs="{'invisible' : [('joint','not in',('plat','ss_anneau','avec_anneau_int','avec_anneau_int_ext')),('avec_anneau_int_ext','in',('type1','type3'))]}"/>
+                                <field name="classe_id"  options="{'no_create': True,'no_open': True}"  attrs="{'invisible' : [('avec_anneau_int_ext','not in',('type1','type3'))]}"/>
+                            </group>
+                        </group>
+                        <field name="comptabilite" nolabel="1" style="font-weight: bold; font-color: red;"/>
+                        <field name="contrainte" nolabel="1" style="font-weight: bold; font-color: red;"/>
+                    </group>
+                    <table border="0" cellpadding="0" cellspacing="0" id="sheet0" style="width: 100%">
+                        <tbody>
+                            <tr style="border: 1px solid;">
+                                <td colspan="12" style="background: yellow;text-align: center;">REMPLIR <span style="font-weight:bold; text-decoration:underline; color:#000000; font-family:'Arial'; font-size:14pt">UNIQUEMENT</span><span style="font-weight:bold; color:#000000; font-family:'Arial'; font-size:10pt"> LES CASES ORANGE</span></td>
+                            </tr>
+                            <tr style="border: 1px solid;">
+                                <td colspan="12" style="background: yellow;text-align: center;">Parametres de fonctionnment</td>
+                            </tr>
+                            <tr class="row4">
+                                <td colspan="6" style="border: 1px solid;background: white;text-align: center;">Pression de design Pd ( bar )</td>
+                                <td colspan="4" style="border: 1px solid;background: orange;text-align: center;"><field name="pression" nolabel="1"/></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"></td>
+                            </tr>
+                            <tr class="row5">
+                                <td colspan="6" style="border: 1px solid;background: white;text-align: center;">Temperature fuide  Tw (<span style="color:#000000; font-family:'宋体'; font-size:10pt">℃)</span></td>
+                                <td colspan="4" style="border: 1px solid;background: orange;text-align: center;"><field name="temperature" nolabel="1"/></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"></td>
+                            </tr>
+                            <tr class="row7">
+                                <td colspan="6" style="border: 1px solid;background: yellow;text-align: center;">Joint :</td>
+                                <td colspan="6" style="border: 1px solid;background: yellow;text-align: center;">Bolts</td>
+                            </tr>
+                            <tr class="row8">
+                                <td colspan="3" style="border: 1px solid;background: yellow;text-align: center;">diamètres intérieur :</td>
+                                <td colspan="3" style="border: 1px solid;background: yellow;text-align: center;">diamètres extérieur :</td>
+                                <td colspan="4" style="border: 1px solid;background: yellow;text-align: center;">Qty of Bolt n</td>
+                                <td colspan="2" style="border: 1px solid;background: orange;text-align: center;"><field name="nb_boulon" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row9">
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;">Diamètre de contact (mm) :</td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="d_int_contact" nolabel="1"/></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;">Diamètre de contact (mm) :</td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="d_ext_contact" nolabel="1"/></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">De (mm)</td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="d2_boulon" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row10">
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;">diamètre de découpe (mm) :</td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="d_int_decoupe" nolabel="1"/></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;">diamètre de découpe (mm) :</td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="d_ext_decoupe" nolabel="1"/></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">Outer Dianmenter of Bolt d (mm)</td>
+                                <td colspan="2" style="border: 1px solid;background: orange;text-align: center;"><field name="d_boulon" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"></td>
+                            </tr>
+                            <tr class="row11">
+                                <td colspan="6" style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">pas p (mm)</td>
+                                <td colspan="2" style="border: 1px solid;background: orange;text-align: center;"><field name="pas" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row12">
+                                <td colspan="5" style="border: 1px solid;background: white;text-align: center;"> Epaisseur du joint (mm) :</td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="epaisseur" nolabel="1"/></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">Friction Coefficient with lubrication <span style="color:#000000; font-family:'宋体'; font-size:10pt">μ</span></td>
+                                <td colspan="2" style="border: 1px solid;background: orange;text-align: center;"><field name="friction" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row13">
+                                <td colspan="5" style="border: 1px solid;background: white;text-align: center;">Q   (MPa ) :</td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="q" nolabel="1"/></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">Option pleins trous : diamètre des trous</td>
+                                <td colspan="2" style="border: 1px solid;background: orange;text-align: center;"><field name="d_trou" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row14">
+                                <td colspan="6" style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">incertitude de serrage (1,2 pour clé dynamométrique/1,5 pour clé à main) :</td>
+                                <td colspan="2" style="border: 1px solid;background: orange;text-align: center;"><field name="coef_serrage" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row15">
+                                <td colspan="12" style="border: 1px solid;background: black;text-align: center;"></td>
+                            </tr>
+                            <tr class="row16">
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;">assise mini : (MPa)</td>
+                                <td colspan="2" style="border: 1px solid;background: yellow;text-align: center;"><field name="assise" nolabel="1"/></td>
+                                <td colspan="7" style="border: 1px solid;background: white;text-align: center;"></td>
+                            </tr>
+                            <tr class="row17">
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;">Surface Area of Sealing Face S=<span style="color:#000000; font-family:'宋体'; font-size:10pt">π</span><span style="color:#000000; font-family:'Arial'; font-size:10pt">/4(</span><span style="color:#000000; font-family:'宋体'; font-size:10pt">Φ</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>1</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>2</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">-</span><span style="color:#000000; font-family:'宋体'; font-size:10pt">Φ</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>2</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>2</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">) (mm</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>2</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"> )</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="surface_n" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">Inner diameter of nut D<span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>1</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">=d-1.0825d (mm)</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="d1_n" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row18">
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;">F<span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>j</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">= Q x S</span><span style="color:#000000; font-family:'Arial'; font-size:10pt">  (N)</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="fj_n" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">d<span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>2</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">= d-0.6495p (mm)</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="d2_n" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row19">
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;">F<span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>f</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">=P</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>d</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">(</span><span style="color:#000000; font-family:'宋体'; font-size:10pt">π</span><span style="color:#000000; font-family:'Arial'; font-size:10pt">/4)</span><span style="color:#000000; font-family:'宋体'; font-size:10pt">Φ</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>m</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>2 (</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">N)</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="ff_n" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">d<span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>3 </sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">=d-1.2268p</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub> </sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"> (mm)</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="d3_n" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row20">
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;">( F<span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>t</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">=F</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>j</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">+F</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>f</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">)  x incertitude serrage   (N)</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="ft_n" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">Section Area of Bolt s= (<span style="color:#000000; font-family:'宋体'; font-size:10pt">π</span><span style="color:#000000; font-family:'Arial'; font-size:10pt">/4)d</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>3</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>2  (</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">mm</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>2</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"> )</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="section_bolt" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row21">
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;">F<span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>b</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">=F</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>t</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">/n</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub> </sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"> (N)</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="fb_n" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td colspan="4" style="border: 1px solid;background: white;text-align: center;">rm= (1/3)(D<span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>e</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>3</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">-D</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>1</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>3</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">)/(D</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>e</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>2</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">-D</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>1</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sup>2</sup></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">) (mm)</span></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: center;"><field name="rm_bolt" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row22">
+                                <td colspan="12" style="border: 1px solid;background: black;text-align: center;"></td>
+                            </tr>
+                            <tr class="row23">
+                                <td colspan="2" style="border: 1px solid;background: yellow;text-align: center;">M<span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>n</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt"> =F</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>b</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">[0.16xp+</span><span style="color:#000000; font-family:'宋体'; font-size:10pt">μ</span><span style="color:#000000; font-family:'Arial'; font-size:10pt">(0.583d</span><span style="color:#000000; font-family:'Arial'; font-size:10pt"><sub>2</sub></span><span style="color:#000000; font-family:'Arial'; font-size:10pt">+rm)]  (N.m)</span></td>
+                                <td style="border: 1px solid;background: yellow;text-align: center;"><field name="mn" nolabel="1"/></td>
+                                <td colspan="9" style="border: 1px solid;background: yellow;text-align: center;">N.m</td>
+                            </tr>
+                            <tr class="row24">
+                                <td colspan="2" style="border: 1px solid;text-align: center;">Mn : sans coefficient de serrage </td>
+                                <td style="border: 1px solid;text-align: center;"><field name="mn2" nolabel="1"/></td>
+                                <td colspan="9" style="border: 1px solid;text-align: center;">N.m</td>
+                            </tr>
+                            <tr class="row25">
+                                <td colspan="6" style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td style="border: 1px solid;background: white;text-align: center;">max boulon</td>
+                                <td style="border: 1px solid;background: white;text-align: center;"><field name="class_boulon" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: white;text-align: center;"><field name="max_boulon" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td style="border: 1px solid;background: white;text-align: center;">E (MPa) :</td>
+                                <td colspan="2" style="border: 1px solid;background: orange;text-align: center;"><field name="e" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row26">
+                                <td colspan="2" style="border: 1px solid;background: orange;text-align: center;">contrainte sur le joint au montage :</td>
+                                <td style="border: 1px solid;background: yellow;text-align: center;"><field name="contrainte_joint" nolabel="1"/></td>
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td colspan="2" style="border: 1px solid;background: yellow;text-align: center;">contrainte boulon calculée :</td>
+                                <td style="border: 1px solid;background: yellow;text-align: center;"><field name="contrainte_boulon" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td style="border: 1px solid;background: white;text-align: center;">L (mm) :</td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="l" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row27">
+                                <td colspan="2" style="border: 1px solid;background: orange;text-align: center;">Contrainte maxi admissible sur le joint (MPa) :</td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="contrainte_joint2" nolabel="1"/></td>
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td colspan="2" style="border: 1px solid;background: white;text-align: right;">soit :</td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="pourcentage_boulon" nolabel="1"/></td>
+                                <td style="border: 1px solid;background: white;text-align: center;"></td>
+                                <td style="border: 1px solid;background: white;text-align: center;">deltaL (<span style="color:#000000; font-family:'Symbol'; font-size:10pt">m</span><span style="color:#000000; font-family:'Arial'; font-size:10pt">m) : </span></td>
+                                <td style="border: 1px solid;background: orange;text-align: center;"><field name="delta" nolabel="1"/></td>
+                            </tr>
+                            <tr class="row28">
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;">** uniquement pour joint LATTYgraf EFMC@, LATTYgraf EFMC-BS</td>
+                                <td colspan="9" style="border: 1px solid;background: white;text-align: center;"></td>
+                            </tr>
+                            <tr class="row29">
+                                <td colspan="3" style="border: 1px solid;background: white;text-align: center;">Document ERD 8039 E version 11/2015</td>
+                                <td colspan="9" style="border: 1px solid;background: white;text-align: center;"></td>
+                            </tr>
+                            <tr class="row30">
+                                <td colspan="12" style="border: 1px solid;background: white;text-align: center;"></td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </form>
+            </field>
+        </record>
+    
+        <record id="action_product_joint_torque" model="ir.actions.act_window">
+            <field name="name">Calcul torque</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.torque</field>
+            <field name="view_mode">form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Emboitement -->
+ 	     <record id="product_joint_emboitement_search_view" model="ir.ui.view">
+            <field name="name">product.joint.emboitement.search</field>
+            <field name="model">product.joint.emboitement</field>
+            <field name="arch" type="xml">
+                <search string="Emboitement">
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_emboitement_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.emboitement.tree</field>
+            <field name="model">product.joint.emboitement</field>
+            <field name="arch" type="xml">
+                <tree string="Emboitement">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_joint_emboitement_form_view" model="ir.ui.view">
+            <field name="name">product.joint.emboitement.form</field>
+            <field name="model">product.joint.emboitement</field>
+            <field name="arch" type="xml">
+                <form string="Emboitement">
+                	<sheet>
+                        <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" placeholder="Emboitement" /></h1>
+                        </div>
+                        <group>
+                            <field name="pn_ids" widget="many2many_tags"  placeholder="PN"/>
+                        </group>
+                        <group>
+                            <fieldset style="border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
+                                <legend style="color: #7c7bad;width:inherit;padding:0 2px; border-bottom:none;font-weight: bold ! important;font-size: 14px ! important;margin-bottom: 0px ! important;" >Informations :</legend> 
+                                <field name="emboitement_line_ids" style="overflow-y: auto;max-height: 200px;" colspan="4" nolabel="1" mode="tree"  context="{'default_emboitement_id': active_id}">	
+                                    <tree string="Informations" editable="bottom">
+                                        <field name="emboitement_id" invisible="1"/>
+                                        <field name="dn_id" widget="selection"/>
+                                        <field name="nps"/>
+                                        <field name="d"/>
+                                        <field name="a1"/>
+                                        <field name="a2"/>	
+                                        <field name="epaisseur"/>		                    
+                                    </tree>
+                                </field>
+                            </fieldset>
+                        </group>
+                    </sheet>	
+                </form>
+            </field>
+        </record>
+    
+        <record id="action_product_joint_emboitement" model="ir.actions.act_window">
+            <field name="name">Emboitement</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.emboitement</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Emboitement lines-->
+ 	     <record id="product_joint_emboitement_line_search_view" model="ir.ui.view">
+            <field name="name">product.joint.emboitement.line.search</field>
+            <field name="model">product.joint.emboitement.line</field>
+            <field name="arch" type="xml">
+                <search string="Emboitement line">
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_emboitement_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.emboitement.line.tree</field>
+            <field name="model">product.joint.emboitement.line</field>
+            <field name="arch" type="xml">
+                <tree string="Emboitement line" editable="top">
+                    <field name="name"/>
+                    <field name="emboitement_id" widget="selection"/>
+                    <field name="dn_id" widget="selection"/>
+                    <field name="nps"/>
+                    <field name="d"/>
+                    <field name="a1"/>
+                    <field name="a2"/>	
+                    <field name="epaisseur"/>
+                </tree>
+            </field>
+        </record>    
+        <record id="action_product_joint_emboitement_line" model="ir.actions.act_window">
+            <field name="name">Emboitement Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.emboitement.line</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Joints spiralisés avec anneaux ext ou int+ext -->
+ 	     <record id="product_joint_spiralise3_search_view" model="ir.ui.view">
+            <field name="name">product.joint.spiralise3.search</field>
+            <field name="model">product.joint.spiralise3</field>
+            <field name="arch" type="xml">
+                <search string="Joints">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Type" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Classe" domain="[]" context="{'group_by':'classe_id'}"/>
+                        <filter string="DN" domain="[]" context="{'group_by':'dn_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_spiralise3_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.spiralise3.tree</field>
+            <field name="model">product.joint.spiralise3</field>
+            <field name="arch" type="xml">
+                <tree string="Joints" editable="top">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="classe_id" widget="selection"/>
+                    <field name="pn_id" widget="selection"/>
+                    <field name="dn_id" widget="selection"/>
+                    <field name="nps"/>
+                    <field name="d1"/>
+                    <field name="a1"/>
+                    <field name="a2"/>	
+                    <field name="d2"/>
+                </tree>
+            </field>
+        </record>    
+        <record id="action_product_joint_spiralise3" model="ir.actions.act_window">
+            <field name="name">Joints spiralisés avec anneaux ext ou int+ext</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.spiralise3</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Dimensions -->
+ 	     <record id="product_joint_dimension_search_view" model="ir.ui.view">
+            <field name="name">product.joint.dimension.search</field>
+            <field name="model">product.joint.dimension</field>
+            <field name="arch" type="xml">
+                <search string="dimension">
+                	<field name="norme_id"/>
+                    <field name="type_id"/>
+                    <field name="dn_id"/>
+                    <field name="pn_id"/>
+                	<group expand="0" string="Group By">
+                        <filter string="Norme" domain="[]" context="{'group_by':'norme_id'}"/>
+                        <filter string="Type" domain="[]" context="{'group_by':'type_id'}"/>
+                        <filter string="DN" domain="[]" context="{'group_by':'dn_id'}"/>
+                        <filter string="PN" domain="[]" context="{'group_by':'pn_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="product_joint_dimension_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.dimension.tree</field>
+            <field name="model">product.joint.dimension</field>
+            <field name="arch" type="xml">
+                <tree string="dimension" editable="top">
+                    <field name="norme_id" widget="selection"/>
+                    <field name="type_id" widget="selection"/>
+                    <field name="dn_id" widget="selection"/>
+                    <field name="pn_id" widget="selection"/>
+                    <field name="d1"/>
+                    <field name="d2"/>
+                    <field name="d"/>
+                    <field name="nb_boulon"/>
+                    <field name="d_boulon"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_dimension" model="ir.actions.act_window">
+            <field name="name">Dimensions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.dimension</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Bolt -->
+ 	     <record id="product_joint_bolt_search_view" model="ir.ui.view">
+            <field name="name">product.joint.bolt.search</field>
+            <field name="model">product.joint.bolt</field>
+            <field name="arch" type="xml">
+                <search string="bolt">
+                    <field name="classe_id"/>
+                    <field name="dn_id"/>
+                    <field name="pn_id"/>
+                	<group expand="0" string="Group By">
+                        <filter string="Classe" domain="[]" context="{'group_by':'classe_id'}"/>
+                        <filter string="DN" domain="[]" context="{'group_by':'dn_id'}"/>
+                        <filter string="PN" domain="[]" context="{'group_by':'pn_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="product_joint_bolt_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.bolt.tree</field>
+            <field name="model">product.joint.bolt</field>
+            <field name="arch" type="xml">
+                <tree string="bolt" editable="top">
+                    <field name="dn_id" widget="selection"/>
+                    <field name="classe_id" widget="selection"/>
+                    <field name="pn_id" widget="selection"/>
+                    <field name="nps"/>
+                    <field name="unc"/>
+                    <field name="nb_boulon"/>
+                    <field name="d_boulon"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_bolt" model="ir.actions.act_window">
+            <field name="name">Boulons</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.bolt</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- contrainte -->
+ 	     <record id="product_joint_contrainte_search_view" model="ir.ui.view">
+            <field name="name">product.joint.contrainte.search</field>
+            <field name="model">product.joint.contrainte</field>
+            <field name="arch" type="xml">
+                <search string="contrainte">
+                    <field name="quality_id"/>
+                	<group expand="0" string="Group By">
+                        <filter string="Qualité" domain="[]" context="{'group_by':'quality_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="product_joint_contrainte_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.contrainte.tree</field>
+            <field name="model">product.joint.contrainte</field>
+            <field name="arch" type="xml">
+                <tree string="contrainte" editable="top">
+                    <field name="quality_id" widget="selection"/>
+                    <field name="epaisseur"/>
+                    <field name="t"/>
+                    <field name="f"/>
+                    <field name="p"/>
+                    <field name="controle"/>
+                    <field name="limelastic"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_contrainte" model="ir.actions.act_window">
+            <field name="name">Contraintes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.contrainte</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Quality -->
+ 	     <record id="product_joint_quality_search_view" model="ir.ui.view">
+            <field name="name">product.joint.quality.search</field>
+            <field name="model">product.joint.quality</field>
+            <field name="arch" type="xml">
+                <search string="Quality">
+                	<field name="name"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+        <record id="product_joint_quality_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.quality.tree</field>
+            <field name="model">product.joint.quality</field>
+            <field name="arch" type="xml">
+                <tree string="Quality">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_joint_quality_form_view" model="ir.ui.view">
+            <field name="name">product.joint.quality.form</field>
+            <field name="model">product.joint.quality</field>
+            <field name="arch" type="xml">
+                <form string="Quality">
+                	<sheet> 
+                    </sheet>	
+                </form>
+            </field>
+        </record>
+        <record id="action_product_joint_quality" model="ir.actions.act_window">
+            <field name="name">Qualités</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.quality</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Norme -->
+ 	     <record id="product_joint_norme_search_view" model="ir.ui.view">
+            <field name="name">product.joint.norme.search</field>
+            <field name="model">product.joint.norme</field>
+            <field name="arch" type="xml">
+                <search string="Norme">
+                	<field name="name"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_norme_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.norme.tree</field>
+            <field name="model">product.joint.norme</field>
+            <field name="arch" type="xml">
+                <tree string="Norme" >
+                    <field name="name" editable="top"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_norme" model="ir.actions.act_window">
+            <field name="name">Normes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.norme</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Type -->
+ 	     <record id="product_joint_type_search_view" model="ir.ui.view">
+            <field name="name">product.joint.type.search</field>
+            <field name="model">product.joint.type</field>
+            <field name="arch" type="xml">
+                <search string="Type">
+                	<field name="name"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_type_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.type.tree</field>
+            <field name="model">product.joint.type</field>
+            <field name="arch" type="xml">
+                <tree string="Type" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_type" model="ir.actions.act_window">
+            <field name="name">Types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.type</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Fluides -->
+ 	     <record id="product_joint_fluide_search_view" model="ir.ui.view">
+            <field name="name">product.joint.fluide.search</field>
+            <field name="model">product.joint.fluide</field>
+            <field name="arch" type="xml">
+                <search string="Dégat">
+                	<field name="name"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_fluide_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.fluide.tree</field>
+            <field name="model">product.joint.fluide</field>
+            <field name="arch" type="xml">
+                <tree string="Fluide">
+                    <field name="name"/>
+                    <field name="concentration"/>
+                </tree>
+            </field>
+        </record>
+        <record id="product_joint_fluide_form_view" model="ir.ui.view">
+            <field name="name">product.joint.fluide.form</field>
+            <field name="model">product.joint.fluide</field>
+            <field name="arch" type="xml">
+                <form string="Fluide">
+                	<sheet> 
+                        <div style="width: 100%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;">
+                            <h1><field name="name" placeholder="Fluide" /></h1>
+                        </div>
+                        <group col="4">
+                            <field name="concentration"/>
+                        </group>
+                        <group col="4">
+	                        <field name="quality_ids" widget="many2many_tags" placeholder="Qualités"/>
+	                    </group>
+                    </sheet>	
+                </form>
+            </field>
+        </record>
+    
+        <record id="action_product_joint_fluide" model="ir.actions.act_window">
+            <field name="name">Fluides</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.fluide</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Face -->
+ 	     <record id="product_joint_face_search_view" model="ir.ui.view">
+            <field name="name">product.joint.face.search</field>
+            <field name="model">product.joint.face</field>
+            <field name="arch" type="xml">
+                <search string="Type">
+                	<field name="name"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_face_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.face.tree</field>
+            <field name="model">product.joint.face</field>
+            <field name="arch" type="xml">
+                <tree string="Type" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_face" model="ir.actions.act_window">
+            <field name="name">Faces</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.face</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- Joints -->
+ 	     <record id="product_joint_joint_search_view" model="ir.ui.view">
+            <field name="name">product.joint.joint.search</field>
+            <field name="model">product.joint.joint</field>
+            <field name="arch" type="xml">
+                <search string="Type">
+                	<field name="name"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_joint_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.joint.tree</field>
+            <field name="model">product.joint.joint</field>
+            <field name="arch" type="xml">
+                <tree string="Type" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_joint" model="ir.actions.act_window">
+            <field name="name">Joints</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.joint</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    <!-- DN -->
+ 	     <record id="product_joint_dn_search_view" model="ir.ui.view">
+            <field name="name">product.joint.dn.search</field>
+            <field name="model">product.joint.dn</field>
+            <field name="arch" type="xml">
+                <search string="Type">
+                	<field name="name"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_dn_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.dn.tree</field>
+            <field name="model">product.joint.dn</field>
+            <field name="arch" type="xml">
+                <tree string="Type" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_dn" model="ir.actions.act_window">
+            <field name="name">DN</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.dn</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+        <!-- PN -->
+ 	     <record id="product_joint_pn_search_view" model="ir.ui.view">
+            <field name="name">product.joint.pn.search</field>
+            <field name="model">product.joint.pn</field>
+            <field name="arch" type="xml">
+                <search string="Type">
+                	<field name="name"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+        <record id="product_joint_pn_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.pn.tree</field>
+            <field name="model">product.joint.pn</field>
+            <field name="arch" type="xml">
+                <tree string="Type" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_pn" model="ir.actions.act_window">
+            <field name="name">PN</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.pn</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+        <!-- Classe -->
+ 	     <record id="product_joint_classe_search_view" model="ir.ui.view">
+            <field name="name">product.joint.classe.search</field>
+            <field name="model">product.joint.classe</field>
+            <field name="arch" type="xml">
+                <search string="Classe">
+                	<field name="name"/>
+                	<group expand="0" string="Group By"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="product_joint_classe_tree_view" model="ir.ui.view">
+            <field name="name">product.joint.classe.tree</field>
+            <field name="model">product.joint.classe</field>
+            <field name="arch" type="xml">
+                <tree string="Classe" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_joint_classe" model="ir.actions.act_window">
+            <field name="name">Classes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.joint.classe</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="context">{}</field>
+            <field name="limit">500</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer une nouveau enregistrement
+                </p>
+            </field>
+        </record> 
+    </data>
+</openerp>

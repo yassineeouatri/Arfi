@@ -171,5 +171,27 @@
        	<menuitem id='menu_product_planning_root' name='Planning' sequence="10"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png" groups="group_arfi_manager,group_arfi_employee"/>
         <menuitem id='menu_product_planning_main' name='Planning' parent="menu_product_planning_root" sequence="1" groups="group_arfi_purchase" action="product_arret_planning_action"/>
         
+
+        <!--  Joints -->
+       	<menuitem id='menu_product_joint_root' name='Joints' sequence="11"  icon="fa-cutlery" web_icon="lunch,static/description/icon.png" groups="group_arfi_manager,group_arfi_employee"/>
+        <menuitem id='menu_product_joint_main' name='Joints' parent="menu_product_joint_root" sequence="1" />
+        <menuitem id='menu_product_joint_torque' name='Calcul Torque' parent="menu_product_joint_main" action="action_product_joint_torque" sequence="1" />
+        <menuitem id='menu_product_joint_info' name='Joints' parent="menu_product_joint_root" sequence="2" />
+        <menuitem id='menu_product_joint_dimension' name='Dimensions' parent="menu_product_joint_info" action="action_product_joint_dimension" sequence="1" />
+        <menuitem id='menu_product_joint_contrainte' name='Contraintes' parent="menu_product_joint_info" action="action_product_joint_contrainte" sequence="1" />
+        <menuitem id='menu_product_joint_emboitement' name='Emboitement' parent="menu_product_joint_info" action="action_product_joint_emboitement" sequence="1" />
+        <menuitem id='menu_product_joint_emboitement_ligne' name='Lignes Emboitement' parent="menu_product_joint_info" action="action_product_joint_emboitement_line" sequence="1" groups="base.group_no_one"/>
+        <menuitem id='menu_product_joint_spiralise3' name='Joints Int+Ext' parent="menu_product_joint_info" action="action_product_joint_spiralise3" sequence="1" />
+        <menuitem id='menu_product_joint_bolt' name='Boulons' parent="menu_product_joint_info" action="action_product_joint_bolt" sequence="1" />
+        <menuitem id='menu_product_joint_configuration' name='Configuration' parent="menu_product_joint_root" sequence="3" />
+        <menuitem id='menu_product_joint_joint' name='Joints' parent="menu_product_joint_configuration" action="action_product_joint_joint" sequence="1" />
+        <menuitem id='menu_product_joint_type' name='Types' parent="menu_product_joint_configuration" action="action_product_joint_type" sequence="1" />
+        <menuitem id='menu_product_joint_norme' name='Normes' parent="menu_product_joint_configuration" action="action_product_joint_norme" sequence="1" />
+        <menuitem id='menu_product_joint_quality' name='Qualités' parent="menu_product_joint_configuration" action="action_product_joint_quality" sequence="1" />
+        <menuitem id='menu_product_joint_fluide' name='Fluides' parent="menu_product_joint_configuration" action="action_product_joint_fluide" sequence="2" />
+        <menuitem id='menu_product_joint_classe' name='Classe' parent="menu_product_joint_configuration" action="action_product_joint_classe" sequence="2" />
+        <menuitem id='menu_product_joint_dn' name='DN' parent="menu_product_joint_configuration" action="action_product_joint_dn" sequence="3" />
+        <menuitem id='menu_product_joint_pn' name='PN' parent="menu_product_joint_configuration" action="action_product_joint_pn" sequence="4" />
+
    </data>
 </openerp>
