@@ -1346,7 +1346,8 @@ class product_magasin_notification(models.Model):
         feuille.set_zoom(85)
         feuille.freeze_panes(1, 0)
         feuille.set_tab_color("yellow")
-        feuille.set_column("A:B", 30)
+        feuille.set_column("A:A", 30)
+        feuille.set_column("B:B", 80)
         feuille.set_column("C:D", 15)
         x = 1
         feuille.write("A" + str(x), "Code Magasin", style_title)
