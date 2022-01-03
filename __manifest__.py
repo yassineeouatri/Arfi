@@ -59,6 +59,7 @@ Arfi Management
         'data/muk_dms_data_root.xml',
         'data/muk_dms_data_file.xml',
         'data/ir_sequence_data.xml',
+        'data/notification_data.xml',
         'report/report_paperformat.xml',
         'report/arfi_reports.xml',
         'report/product_order_operation_report.xml',

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-    	<!-- KKS -->
+    <!-- KKS -->
 		<record id="product_kks_search_view" model="ir.ui.view">
             <field name="name">product.kks.search</field>
             <field name="model">product.kks</field>
@@ -320,7 +320,7 @@
             <field name="view_id" ref="product_kks_view_form"/>
             <field name="act_window_id" ref="product_kks_action"/>
         </record>
-   <!-- Open Action Analyse des risques 
+    <!-- Open Action Analyse des risques 
  		<record id="open_kks_risque_action" model="ir.actions.server">
 		        <field name="name">Analyse des risques</field>
 		        <field name="model_id" ref="model_product_kks"/>
@@ -346,7 +346,7 @@
             <field name="key2">client_action_multi</field>
             <field name="model">product.kks</field>
         </record>        -->
- <!-- Open Action Echafaudage 
+    <!-- Open Action Echafaudage 
  		<record id="open_kks_echafaudage_action" model="ir.actions.server">
 		        <field name="name">Echafaudage</field>
 		        <field name="model_id" ref="model_product_kks"/>
@@ -372,7 +372,7 @@
             <field name="key2">client_action_multi</field>
             <field name="model">product.kks</field>
         </record>  -->
-  <!-- Open Action Echafaudage 
+    <!-- Open Action Echafaudage 
  		<record id="open_kks_pdr_action" model="ir.actions.server">
 		        <field name="name">PDR</field>
 		        <field name="model_id" ref="model_product_kks"/>
@@ -398,7 +398,7 @@
             <field name="key2">client_action_multi</field>
             <field name="model">product.kks</field>
         </record>     -->
- <!-- KKS Arrêts-->
+    <!-- KKS Arrêts-->
 	 	<record id="product_kks_arret_tree_view" model="ir.ui.view">
             <field name="name">product.kks.arret.tree</field>
             <field name="model">product.kks.arret</field>
@@ -427,7 +427,7 @@
                 </p>
             </field>
         </record>
-<!-- KKS Tarif-->
+    <!-- KKS Tarif-->
 		<record id="product_kks_tarif_search_view" model="ir.ui.view">
             <field name="name">product.kks.tarif.search</field>
             <field name="model">product.kks.tarif</field>
@@ -477,7 +477,7 @@
                 </p>
             </field>
         </record>  
-<!-- KKS Echafaudage-->
+    <!-- KKS Echafaudage-->
 	 	<record id="product_kks_echafaudage_tree_view" model="ir.ui.view">
             <field name="name">product.kks.echafaudage.tree</field>
             <field name="model">product.kks.echafaudage</field>
@@ -505,7 +505,7 @@
             </field>
         </record>      
         
-  <!-- KKS Piece-->
+    <!-- KKS Piece-->
 	 	<record id="product_kks_piece_tree_view" model="ir.ui.view">
             <field name="name">product.kks.piece.tree</field>
             <field name="model">product.kks.piece</field>
@@ -672,6 +672,11 @@
 								<field name="designation" placeholder="Désignation" style="margin-top: 3%;margin-left: 3%;width: 80%;text-align: center;background: #F0EEEE;border-radius: 4px;border: solid 1px #dddddd;"/>
                             </h1>
                         </div>
+						<group>
+							<group>
+								<field name="notification" />
+							</group>
+						</group>
                          <group style="width: 100%">
                         	<group>
 		                    	<fieldset style="min-height: 370px;width: 98%;border: 1px solid #ddd !important;padding: 0 0.5em 0em 0.5em !important;margin: 0 0 1em 0 !important;">
@@ -1112,6 +1117,71 @@
                     Créer un nouveau planning
                 </p>
             </field>
+        </record>
+	<!-- Notification des magasins-->
+		<record id="product_magasin_notification_search_view" model="ir.ui.view">
+            <field name="name">product.magasin.notification.search</field>
+            <field name="model">product.magasin.notification</field>
+            <field name="arch" type="xml">
+                <search string="Notification">
+					<field name="magasin_id"/>
+					<field name="designation"/>
+                	<filter name="with_notification" string="Avec Notification" domain="[('notification','=',True)]"/>
+                    <filter name="no_notification" string="Sans Notification" domain="[('notification','=',False)]"/>
+                </search>
+            </field>
+        </record>
+	 	<record id="product_magasin_notification_tree_view" model="ir.ui.view">
+            <field name="name">product.magasin.notification.tree</field>
+            <field name="model">product.magasin.notification</field>
+            <field name="arch" type="xml">
+                <tree string="Notification">
+                    <field name="magasin_id"/>
+					<field name="designation"/>
+                    <field name="security"/>
+                    <field name="stock"/>
+                    <field name="notification"/>
+			   </tree>
+            </field>
+        </record>
+        
+        <record id="product_magasin_notification_action" model="ir.actions.act_window">
+            <field name="name">Notification</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.magasin.notification</field>
+            <field name="view_mode">tree</field>
+            <field name="view_type">form</field>
+			<field name="limit">500</field>
+			<field name="context">{'search_default_with_notification':1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Créer un nouveau kks pièce
+                </p>
+            </field>
         </record> 
+		<!-- Magasin Emails-->
+		<record id="product_magasin_email_view_tree" model="ir.ui.view">
+            <field name="name">product.magasin.email.tree</field>
+            <field name="model">product.magasin.email</field>
+            <field name="arch" type="xml">
+                <tree string="Emails" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_magasin_email_action" model="ir.actions.act_window">
+            <field name="name">Emails</field>
+            <field name="res_model">product.magasin.email</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a new email.
+                </p>
+            </field>
+        </record>
+
+        
     </data>
 </openerp>

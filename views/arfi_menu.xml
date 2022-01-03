@@ -89,13 +89,16 @@
         <menuitem name="KKS" parent="menu_product_kks_report_" id="menu_product_kks_report" action="product_kks_report_action"/>
         <menuitem name="Réf Fabriquants" parent="menu_product_kks_report_" id="menu_product_ref_fab" action="product_ref_fab_action"/>
         <menuitem name="Réf Commercials" parent="menu_product_kks_report_" id="menu_product_ref_com" action="product_ref_com_action"/>
-   		<menuitem name="Factures" parent="menu_product_kks_report_" id="menu_product_kks_facture_arret" action="product_kks_facture_arret_action"/>
-   		<menuitem name="Stock" parent="menu_product_kks_root" id="menu_product_kks_stock_wizard" action="action_product_kks_stock_wizard" sequence="5"  />
+        <menuitem name="Factures" parent="menu_product_kks_report_" id="menu_product_kks_facture_arret" action="product_kks_facture_arret_action"/>
+        <menuitem name="Stock" parent="menu_product_kks_root" id="menu_product_kks_stock_wizard" action="action_product_kks_stock_wizard" sequence="5"  />
+        <menuitem name="Notification des magasins" parent="menu_product_kks_root" id="menu_product_magasin_notification" action="product_magasin_notification_action" sequence="10"  />
+        <menuitem name="Configuration" parent="menu_product_kks_root" id="menu_product_kks_configuration" sequence="99"  />
+        <menuitem name="Emails" parent="menu_product_kks_configuration" id="menu_product_magasin_email" action="product_magasin_email_action" sequence="1"  />
 
         <!--  PID -->
         <menuitem name='PID' id='menu_product_pid_root'  action="action_product_kks_pid_wizard" sequence="9" groups="group_arfi_manager,group_arfi_employee"/>
         <menuitem name='Recherche' id='menu_product_kks_pid_wizard'  parent="menu_product_pid_root" action="action_product_kks_pid_wizard" sequence="1"/>
-   		<menuitem name='Fichiers' id='menu_product_kks_pid_file'  parent="menu_product_pid_root" action="action_product_kks_pid_file" sequence="2"/>
+   		  <menuitem name='Fichiers' id='menu_product_kks_pid_file'  parent="menu_product_pid_root" action="action_product_kks_pid_file" sequence="2"/>
         <menuitem name='Commentaires' id='menu_product_kks_annotation_file'  parent="menu_product_pid_root" action="action_product_kks_annotation_file" sequence="3"/>
 
    			  <!--  Ventes -->

@@ -4,8 +4,9 @@
 import logging
 import time
 import sys
+import base64
 import xlsxwriter
-from odoo import api, fields, models
+from odoo import api, fields, models, tools
 from odoo.exceptions import ValidationError
 from odoo import _
 from docx import Document
@@ -721,6 +722,7 @@ class product_magasin(models.Model):
 
     code = fields.Char("Code", required=True)
     designation = fields.Char("Désignation")
+    notification = fields.Boolean("Notification")
     photo_name = fields.Char("Nom du fichier", size=256)
     photo = fields.Binary("Image")
     supplier_ids = fields.One2many(
@@ -1269,3 +1271,158 @@ class product_arret_planning(models.Model):
     date_from = fields.Date("Date début")
     date_to = fields.Date("Date Fin")
     note = fields.Text("Action")
+
+
+class product_magasin_notification(models.Model):
+    _name = "product.magasin.notification"
+    _description = "Notification des magasin"
+    _auto = False
+
+    magasin_id = fields.Many2one("product.magasin", "Code Magasin")
+    designation = fields.Char('Désignation')
+    notification = fields.Boolean("Notification")
+    security = fields.Integer('Sécurité')
+    stock = fields.Integer('Stock')
+
+    def init(self):
+        tools.drop_view_if_exists(self._cr, "product_magasin_notification")
+        self._cr.execute(
+            """
+           CREATE or REPLACE view product_magasin_notification as (
+                select id,id as magasin_id,designation,code,notification,
+                cast(case when security is null then '0' else security end as numeric) as security,
+                cast(case when stock is null then '0' else stock end as numeric) as stock
+                from product_magasin pm
+                left join(
+                select magasin_id,pks.value as security from product_kks_stock pks
+                left join product_info pi on pi.id=pks.info_id
+                where pi.name like 'Sécurité'
+                and pks.value  ~ '^[0-9\.]+$'
+                ) as table1 on table1.magasin_id=pm.id
+                left join(
+                select magasin_id,pks.value as stock from product_kks_stock pks
+                left join product_info pi on pi.id=pks.info_id
+                where pi.name like 'Stock'
+                and pks.value  ~ '^[0-9\.]+$'
+                ) as table2 on table2.magasin_id=pm.id
+                where stock<=security
+            )
+        """
+        )
+
+    def create_attachment(self):
+        reload(sys)
+        sys.setdefaultencoding("UTF8")
+        results = self.env["product.image.directory"].search(
+            [("type", "=", "reporting")]
+        )
+        for result in results:
+            directory = result.name
+        fichier = "Code Magasins _" + time.strftime("%H%M%S") + ".xlsx"
+        workbook = xlsxwriter.Workbook(directory + fichier)
+        style_title = workbook.add_format(
+            {
+                "bg_color": "#003366",
+                "color": "white",
+                "text_wrap": True,
+                "bold": 1,
+                "align": "center",
+                "valign": "vcenter",
+                "top": 1,
+                "bottom": 1,
+            }
+        )
+        style = workbook.add_format(
+            {
+                "text_wrap": True,
+                "align": "center",
+                "valign": "vcenter",
+                "top": 1,
+                "bottom": 1,
+            }
+        )
+
+        feuille = workbook.add_worksheet("Code Magasins")
+        feuille.set_zoom(85)
+        feuille.freeze_panes(1, 0)
+        feuille.set_tab_color("yellow")
+        feuille.set_column("A:B", 30)
+        feuille.set_column("C:D", 15)
+        x = 1
+        feuille.write("A" + str(x), "Code Magasin", style_title)
+        feuille.write("B" + str(x), "Description", style_title)
+        feuille.write("C" + str(x), "Stock", style_title)
+        feuille.write("D" + str(x), "Sécurité", style_title)
+
+        records = self.env["product.magasin.notification"].search([('notification', '=', True)])
+        x = x + 1
+        for record in records:
+            feuille.write("A" + str(x), record.magasin_id.code, style)
+            if record.designation:
+                feuille.write("B" + str(x), record.designation, style)
+            else :
+                feuille.write("B" + str(x), '', style)
+            feuille.write("C" + str(x), record.stock, style)
+            feuille.write("D" + str(x), record.security, style)
+            x = x + 1
+        workbook.close()
+        return self.get_return(directory, fichier)
+
+    def get_return(self, path, fichier):
+        with open(path + fichier, "rb") as xlxfile:
+            byte_data = xlxfile.read()
+        file_base64 = base64.encodestring(byte_data)
+        attachment = {
+            'name': fichier,
+            'type': 'binary',
+            'datas': file_base64,
+            'datas_fname': fichier,
+            'store_fname': fichier,
+            'create_uid': self.env.uid,
+            'res_model': self._name,
+            'res_id': self.id,
+            'res_model': 'product.magasin.notification',
+            'url': "/web/static/reporting/" + fichier
+        }
+        attachment_id = self.env['ir.attachment'].create(attachment)
+        return attachment_id
+
+    @api.model
+    def scheduler_product_magasin_notification(self):
+        attachment_id = self.create_attachment()
+        # This method is called by a cron task
+        # It manages the state of a contract, possibly by posting a message on the vehicle concerned and updating its status
+        date_today = fields.Date.from_string(fields.Date.context_today(self))
+
+        recipients = []
+        for record in self.env['product.magasin.email'].search([]):
+            recipients.append(record.name)
+
+        message_body = "<p>Bonjour,</p>" \
+                        "<p>Merci de trouver ci-joint les codes magasins.</p>" \
+                        "<p>Cordialement,</p>"
+        template_obj = self.env['mail.mail']
+        template_data = {
+            'subject': 'Notification des codes magasins',
+            'body_html': message_body,
+            'email_from': "noreply@eroom.ma",
+            'email_to': ", ".join(recipients),
+            'attachment_ids': [(4, attachment_id.id)]
+        }
+        template_id = template_obj.create(template_data)
+        template_obj.send(template_id)
+
+        #self.search([('name', operator, name)] + args, limit=limit)
+        return  True
+
+    @api.model
+    def run_scheduler(self):
+        self.scheduler_product_magasin_notification()
+
+
+class product_magasin_email(models.Model):
+    _name = 'product.magasin.email'
+
+    name = fields.Char(required=True, translate=True)
+
+    _sql_constraints = [('name_uniq', 'unique (name)', "Email already exists !")]
