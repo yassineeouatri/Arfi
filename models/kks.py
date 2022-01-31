@@ -1289,6 +1289,7 @@ class product_magasin_notification(models.Model):
         self._cr.execute(
             """
            CREATE or REPLACE view product_magasin_notification as (
+               select * from(
                 select id,id as magasin_id,designation,code,notification,
                 cast(case when security is null then '0' else security end as numeric) as security,
                 cast(case when stock is null then '0' else stock end as numeric) as stock
@@ -1304,8 +1305,9 @@ class product_magasin_notification(models.Model):
                 left join product_info pi on pi.id=pks.info_id
                 where pi.name like 'Stock'
                 and pks.value  ~ '^[0-9\.]+$'
-                ) as table2 on table2.magasin_id=pm.id
-                where stock<=security
+                ) as table2 on table2.magasin_id=pm.id) as t
+				where stock<=security
+				order by stock desc
             )
         """
         )
